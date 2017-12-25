@@ -117,6 +117,9 @@ void StartDefaultTask(void const * argument)
 {
 
   /* USER CODE BEGIN StartDefaultTask */
+	osDelay(100);
+	MC_SixStep_SetSpeed(1000);//RPM
+	MC_SixStep_StartMotor();
   /* Infinite loop */
   for(;;)
   {

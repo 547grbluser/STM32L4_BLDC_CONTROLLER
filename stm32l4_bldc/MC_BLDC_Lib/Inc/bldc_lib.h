@@ -14,12 +14,13 @@
 #define HALL_TIM                htim2
 #define SPEED_TIM								htim4	
 
-#define HALL_TIM_FREQ						10000 //Hz
+#define HALL_TIM_FREQ						20000 //Hz
 
 
 typedef enum 
 {
-    SIXSTEP_STATUS_INIT=0,                                                          
+    SIXSTEP_STATUS_IDLE=0,
+		SIXSTEP_STATUS_INIT,                                                          
     SIXSTEP_STATUS_RUN,
 	  SIXSTEP_STATUS_BREAK, 
 	  SIXSTEP_STATUS_STOP, 
@@ -50,15 +51,15 @@ typedef enum
 typedef struct
 {
 	enSIXSTEP_SystStatus status;      			/*!< Status variable for SixStep algorithm*/ 
-	enSIXSTEP_SystStatus statusPrev; 
+//	enSIXSTEP_SystStatus statusPrev; 
 	enSIXSTEP_Error			 error;							/*!< Error variable for SixStep algorithm*/ 
-	uint8_t 						 hallEventFlag;
+//	uint8_t 						 hallEventFlag;
 	
 	/*BLDC read params*/
 	int16_t 	speedFdbk;
-	int16_t 	speedPrev;
+//	int16_t 	speedPrev;
 	uint8_t  	flagIsSpeedNotZero;
-	int16_t 	accelFdbk;
+//	int16_t 	accelFdbk;
 	uint16_t 	currentFdbk;
 	uint16_t 	voltageFdbk;
 	uint8_t 	positionFdbk;
@@ -69,11 +70,11 @@ typedef struct
 	uint8_t		positionStep;
 	uint16_t 	PWM_Value;
 	
-	/*Ramp write params*/
-	int16_t  accelRamp;
-	int16_t  speedTargetRamp;
+//	/*Ramp write params*/
+//	int16_t  accelRamp;
+//	int16_t  speedTargetRamp;
 	
-	uint32_t timeCounter;
+//	uint32_t timeCounter;
 		
 
 	int32_t 	integralTermSum;             /*!< Global Integral part for PI*/  
@@ -100,7 +101,6 @@ typedef struct
 
 
 void MC_SixStep_Init(void);
-void MC_SixStep_Reset(void);
 void MC_SixStep_StartMotor(void);
 void MC_SixStep_StopMotor(void);
 void MC_SixStep_SetSpeed(uint16_t);

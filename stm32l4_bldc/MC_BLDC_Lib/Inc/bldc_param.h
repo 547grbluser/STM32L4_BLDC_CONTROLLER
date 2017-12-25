@@ -11,7 +11,7 @@
 #define IS_BLDC_VOLTAGE(__VOLTAGE__) (((__VOLTAGE__) >=BLDC_VOLTAGE_MIN) && ((__VOLTAGE__) <= BLDC_VOLTAGE_MAX))
 
 
-#define BLDC_RPM_MIN														0					//RPM
+#define BLDC_RPM_MIN														1					//RPM
 #define BLDC_RPM_MAX														5000			//RPM
 #define IS_BLDC_RPM(__RPM__) (((__RPM__) >=BLDC_RPM_MIN) && ((__RPM__) <= BLDC_RPM_MAX))
 
@@ -22,13 +22,13 @@
 
 
 
-#define KP_GAIN		                          100     /*!< Kp parameter for PI regulator */
-#define KI_GAIN		                           30     /*!< Ki parameter for PI regulator */   
+#define KP_GAIN		                          1//100     /*!< Kp parameter for PI regulator */
+#define KI_GAIN		                           0//30     /*!< Ki parameter for PI regulator */   
 #define KP_DIV  	                         8192     /*!< Kp parameter divider for PI regulator */
 #define KI_DIV	                           8192     /*!< Ki parameter divider for PI regulator */   
 #define LOWER_OUT_LIMIT		                 		1     /*!< Low Out value of PI regulator */      
 #define UPPER_OUT_LIMIT		                 	 63     /*!< High Out value of PI regulator */   
-#define DUTY_CYCLE_INIT_VALUE               199     /*!< Initial duty cycle value during startup */          
+#define DUTY_CYCLE_INIT_VALUE                 1     /*!< Initial duty cycle value during startup */          
 
 #define TRUE                                 1      /*!< Define TRUE */  
 #define FALSE                                0      /*!< Define FALSE */

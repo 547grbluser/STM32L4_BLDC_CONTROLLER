@@ -23,6 +23,10 @@ void			MC_SixStep_Reset(void);
 uint8_t   MC_SixStep_GetCurrentPosition(void);
 
 
+static uint8_t hallSensorPulse=FALSE;
+static uint16_t timerOneSecCnt=0;
+
+
 /** @defgroup MC_SixStep_TABLE    MC_SixStep_TABLE
   *  @{
     * @brief Set the peripherals (TIMx, GPIO etc.) for each step
@@ -177,9 +181,15 @@ void MC_SixStep_NextStep(void)
     * @retval None
   */
 
-void MC_SixStep_Reset(void)
+void MC_SixStep_Reset(void) //Останов и сброс 
 {   
-	 MC_SixStep_Set_PI_Param(&PI_Parameters); 
+		TIM_OC_InitTypeDef commConfigOC;
+
+		commConfigOC.OCMode = TIM_OCMODE_INACTIVE;
+		HAL_TIM_OC_ConfigChannel(&htim1, &commConfigOC, TIM_CHANNEL_1); 
+		HAL_TIM_OC_ConfigChannel(&htim1, &commConfigOC, TIM_CHANNEL_2);
+		HAL_TIM_OC_ConfigChannel(&htim1, &commConfigOC, TIM_CHANNEL_3);
+		MC_SixStep_Set_PI_Param(&PI_Parameters); 
 }
 
 
@@ -273,12 +283,16 @@ int16_t MC_PI_Controller(stSIXSTEP_PI_Param *PI_Param, int16_t speedFdbk)
 }
 
 
-void MC_SixStep_SetSpeed(uint16_t speed_value)
+void MC_SixStep_SetSpeed(uint16_t speed_value)//Установка целевой скорости вращения
 {
-   if(speed_value != 0)
+   if(IS_BLDC_RPM(speed_value))
 	 {
 			PI_Parameters.Reference = speed_value;
 	 } 
+	 else
+	 {
+			//print error
+	 }
 }
 
 void MC_SixStep_StartMotor(void)
@@ -289,27 +303,25 @@ void MC_SixStep_StartMotor(void)
 
 void MC_SixStep_StopMotor(void)
 {     
-		//SIXSTEP_parameters.status = SIXSTEP_STATUS_STOP;
-		TIM_OC_InitTypeDef commConfigOC;
-	
-		commConfigOC.OCMode = TIM_OCMODE_INACTIVE;
-		HAL_TIM_OC_ConfigChannel(&htim1, &commConfigOC, TIM_CHANNEL_1); 
-		HAL_TIM_OC_ConfigChannel(&htim1, &commConfigOC, TIM_CHANNEL_2);
-		HAL_TIM_OC_ConfigChannel(&htim1, &commConfigOC, TIM_CHANNEL_3);
-		MC_SixStep_Reset();
+		SIXSTEP_parameters.status = SIXSTEP_STATUS_STOP;
 }
 
 
-int32_t MC_SixStep_GetElSpeedHz(void)
+int32_t MC_SixStep_GetElSpeedHz(void) //Частота импульсов с датчиков Холла
 {   
 
 	//код определения частоты вращения двигателя
 	
 	 int32_t freq;
 	
+	 if(SIXSTEP_parameters.flagIsSpeedNotZero==FALSE)
+	 {
+			return 0;
+	 }
+	
 	 if(HALL_TIM.Instance->CCR1==0)
 	 {
-			freq=0;
+			return 0;
 	 }
 	 else
 	 {
@@ -318,7 +330,6 @@ int32_t MC_SixStep_GetElSpeedHz(void)
 	 
    if(PI_Parameters.Reference<0)
 	 {
-			
 			return (-freq);
 	 }
    else 
@@ -328,14 +339,14 @@ int32_t MC_SixStep_GetElSpeedHz(void)
 }
 
 
-int32_t MC_SixStep_GetMechSpeedRPM(void)
+int32_t MC_SixStep_GetMechSpeedRPM(void) //Частота вращения ротора двигателя в RPM
 {  	
 		SIXSTEP_parameters.speedFdbk=(int32_t)(MC_SixStep_GetElSpeedHz() *  60 / NUM_POLE_PAIRS);
 		return SIXSTEP_parameters.speedFdbk;
 }
 
 
-uint8_t   MC_SixStep_GetCurrentPosition(void)
+uint8_t   MC_SixStep_GetCurrentPosition(void) //Текущее положение ротора
 {
 		uint8_t HALL_1=0;
 		uint8_t HALL_2=0;
@@ -415,7 +426,7 @@ uint8_t   MC_SixStep_GetCurrentPosition(void)
 		return position;
 }
 
-uint16_t MC_SixStep_GetGurrent(void)
+uint16_t MC_SixStep_GetGurrent(void) 
 {
 		SIXSTEP_parameters.currentFdbk=500;//реализовать
 			
@@ -437,7 +448,7 @@ void MC_SixStep_InitMainData(void)
   SIXSTEP_parameters.direction = DIRECTION;
 	SIXSTEP_parameters.speedFdbk = 0;
 	SIXSTEP_parameters.error = SIXSTEP_ERR_OK;
-	SIXSTEP_parameters.status = SIXSTEP_STATUS_INIT;
+	//SIXSTEP_parameters.status = SIXSTEP_STATUS_STOP;
 	
 	MC_SixStep_GetCurrentPosition();//Определяем текущее положение ротора
 }
@@ -484,16 +495,23 @@ enSIXSTEP_Error MC_SixStep_GetParameters(void)
 
 void 			MC_SixStep_Handler(void)
 {
-
-	MC_SixStep_GetParameters();
 	
-	if(SIXSTEP_parameters.error!=SIXSTEP_ERR_OK)
-	{
-			SIXSTEP_parameters.status=SIXSTEP_STATUS_FAULT;
-	}
+//	MC_SixStep_GetParameters();
+//	
+//	if(SIXSTEP_parameters.error!=SIXSTEP_ERR_OK)
+//	{
+//			SIXSTEP_parameters.status=SIXSTEP_STATUS_FAULT;
+//	}
 	
 	switch(SIXSTEP_parameters.status)
 	{
+		
+			case SIXSTEP_STATUS_STOP: //
+			{
+					
+			}
+			break;	
+			
 			case SIXSTEP_STATUS_INIT: //Нахождение нач. положения ротора
 			{						
 					MC_SixStep_InitMainData();
@@ -503,26 +521,22 @@ void 			MC_SixStep_Handler(void)
 					}
 					else
 					{
-							SIXSTEP_parameters.status=SIXSTEP_STATUS_STOP;
+							SIXSTEP_parameters.status=SIXSTEP_STATUS_RUN;
 					}	
 			}
 			break;	
 
-			case SIXSTEP_STATUS_STOP: //
-			{
-					
-			}
-			break;			
+		
 						
 			case SIXSTEP_STATUS_RUN:
 			{
-					SIXSTEP_parameters.PWM_Value=MC_PI_Controller(&PI_Parameters, SIXSTEP_parameters.speedFdbk);
+					SIXSTEP_parameters.PWM_Value=60;//MC_PI_Controller(&PI_Parameters, SIXSTEP_parameters.speedFdbk);
 			}
 			break;
 			
 			case SIXSTEP_STATUS_BREAK:
 			{								
-					MC_SixStep_StopMotor();
+					MC_SixStep_Reset();
 					SIXSTEP_parameters.status=SIXSTEP_STATUS_STOP;
 			}
 			break;
@@ -531,34 +545,53 @@ void 			MC_SixStep_Handler(void)
 			{
 				//error message
 				
-				 SIXSTEP_parameters.status=SIXSTEP_STATUS_BREAK;
+				  SIXSTEP_parameters.status=SIXSTEP_STATUS_BREAK;
 			}
 			break;			
 			
 			default:
 			{
+					SIXSTEP_parameters.status=SIXSTEP_STATUS_BREAK;
 			}
 			break;
 	}
-
+	
+	/*
+		Определим нулевую частоту оборотов двигателя
+	*/
+	
+	timerOneSecCnt++;
+	if(timerOneSecCnt>=100)
+	{
+			timerOneSecCnt=0;
+			if(hallSensorPulse == FALSE)
+			{
+					SIXSTEP_parameters.flagIsSpeedNotZero=FALSE;	
+			}
+			
+			hallSensorPulse = FALSE;
+	}
+	
 }
 
-
+/*
+  
+*/
 
 void HAL_TIMEx_CommutationCallback(TIM_HandleTypeDef *htim)
 {
 	if(htim->Instance == TIM1)
 	{			
 			MC_SixStep_NextStep();
-			SIXSTEP_parameters.flagIsSpeedNotZero=TRUE;		
+			SIXSTEP_parameters.flagIsSpeedNotZero = TRUE;
+			hallSensorPulse = TRUE;	
 	}
 }
 
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 {
 		if(htim->Instance == TIM2)
-		{
-				
+		{				
 			 if(htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1)
 			 {
 					htim1.Instance->EGR|=TIM_EGR_COMG;

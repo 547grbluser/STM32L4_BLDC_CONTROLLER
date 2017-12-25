@@ -153,6 +153,11 @@
           <WinNumber>1</WinNumber>
           <ItemText>SIXSTEP_parameters.PWM_Value</ItemText>
         </Ww>
+        <Ww>
+          <count>1</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>SIXSTEP_parameters</ItemText>
+        </Ww>
       </WatchWindow1>
       <Tracepoint>
         <THDelay>0</THDelay>
