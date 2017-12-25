@@ -14,14 +14,15 @@
 #define HALL_TIM                htim2
 #define SPEED_TIM								htim4	
 
+#define HALL_TIM_FREQ						10000 //Hz
+
 
 typedef enum 
 {
-    SIXSTEP_STATUS_INIT=0,              
-    SIXSTEP_STATUS_STARTUP,                                
-    SIXSTEP_STATUS_RAMP,               
+    SIXSTEP_STATUS_INIT=0,                                                          
     SIXSTEP_STATUS_RUN,
-	  SIXSTEP_STATUS_STOPPED, 
+	  SIXSTEP_STATUS_BREAK, 
+	  SIXSTEP_STATUS_STOP, 
 		SIXSTEP_STATUS_FAULT, 	
 		
 } enSIXSTEP_SystStatus;

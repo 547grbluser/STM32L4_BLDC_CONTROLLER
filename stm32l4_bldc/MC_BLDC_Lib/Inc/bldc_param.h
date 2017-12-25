@@ -26,8 +26,8 @@
 #define KI_GAIN		                           30     /*!< Ki parameter for PI regulator */   
 #define KP_DIV  	                         8192     /*!< Kp parameter divider for PI regulator */
 #define KI_DIV	                           8192     /*!< Ki parameter divider for PI regulator */   
-#define LOWER_OUT_LIMIT		                 	400     /*!< Low Out value of PI regulator */      
-#define UPPER_OUT_LIMIT		                 1799     /*!< High Out value of PI regulator */   
+#define LOWER_OUT_LIMIT		                 		1     /*!< Low Out value of PI regulator */      
+#define UPPER_OUT_LIMIT		                 	 63     /*!< High Out value of PI regulator */   
 #define DUTY_CYCLE_INIT_VALUE               199     /*!< Initial duty cycle value during startup */          
 
 #define TRUE                                 1      /*!< Define TRUE */  
