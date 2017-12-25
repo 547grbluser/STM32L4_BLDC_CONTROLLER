@@ -11,7 +11,7 @@
 #define IS_BLDC_VOLTAGE(__VOLTAGE__) (((__VOLTAGE__) >=BLDC_VOLTAGE_MIN) && ((__VOLTAGE__) <= BLDC_VOLTAGE_MAX))
 
 
-#define BLDC_RPM_MIN														1					//RPM
+#define BLDC_RPM_MIN													  1					//RPM
 #define BLDC_RPM_MAX														5000			//RPM
 #define IS_BLDC_RPM(__RPM__) (((__RPM__) >=BLDC_RPM_MIN) && ((__RPM__) <= BLDC_RPM_MAX))
 
