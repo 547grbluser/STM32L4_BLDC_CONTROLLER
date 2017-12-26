@@ -38,3 +38,4 @@ stm32l4_bldc\adc.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h
 stm32l4_bldc\adc.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h
 stm32l4_bldc\adc.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h
 stm32l4_bldc\adc.o: ../Inc/gpio.h
+stm32l4_bldc\adc.o: ../Inc/dma.h

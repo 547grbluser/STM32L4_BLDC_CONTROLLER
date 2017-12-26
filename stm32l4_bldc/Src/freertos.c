@@ -53,6 +53,7 @@
 
 /* USER CODE BEGIN Includes */     
 #include "bldc_lib.h"
+#include "adc_int.h"
 /* USER CODE END Includes */
 
 /* Variables -----------------------------------------------------------------*/
@@ -117,6 +118,9 @@ void StartDefaultTask(void const * argument)
 {
 
   /* USER CODE BEGIN StartDefaultTask */
+	
+//	adcIntInit();
+	
 	osDelay(100);
 	MC_SixStep_SetSpeed(1000);//RPM
 	MC_SixStep_StartMotor();

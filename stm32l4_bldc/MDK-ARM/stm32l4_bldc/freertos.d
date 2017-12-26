@@ -55,3 +55,5 @@ stm32l4_bldc\freertos.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.
 stm32l4_bldc\freertos.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h
 stm32l4_bldc\freertos.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
 stm32l4_bldc\freertos.o: ..\MC_BLDC_Lib\Inc\bldc_param.h
+stm32l4_bldc\freertos.o: ../Inc/adc_int.h
+stm32l4_bldc\freertos.o: ../Inc/calibr.h

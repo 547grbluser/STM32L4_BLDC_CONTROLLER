@@ -195,6 +195,7 @@ void MC_SixStep_Reset(void) //Останов и сброс
 	
 		SIXSTEP_parameters.speedFdbk 	= 0;
 		SIXSTEP_parameters.error 			= SIXSTEP_ERR_OK;
+		SIXSTEP_parameters.PWM_Value	= 0;
 	
 		MC_SixStep_Set_PI_Param(&SIXSTEP_parameters.PI_Param); 
 }
@@ -472,11 +473,11 @@ void 			MC_SixStep_Handler(void)
 //			SIXSTEP_parameters.status=SIXSTEP_STATUS_FAULT;
 //	}
 	
-	if(MC_SixStep_GetFault()==0)
-	{
-			SIXSTEP_parameters.status=SIXSTEP_STATUS_FAULT;
-			SIXSTEP_parameters.error=SIXSTEP_ERR_OVERCURRENT;
-	}
+//	if(MC_SixStep_GetFault()==0)
+//	{
+//			SIXSTEP_parameters.status=SIXSTEP_STATUS_FAULT;
+//			SIXSTEP_parameters.error=SIXSTEP_ERR_OVERCURRENT;
+//	}
 	
 	switch(SIXSTEP_parameters.status)
 	{
@@ -490,12 +491,16 @@ void 			MC_SixStep_Handler(void)
 			case SIXSTEP_STATUS_INIT: //Нахождение нач. положения ротора
 			{						
 					MC_SixStep_ClearFault();
+					MC_SixStep_GetCurrentPosition();
 					if(SIXSTEP_parameters.error==SIXSTEP_ERR_POSFBKERROR)
 					{							
 							SIXSTEP_parameters.status=SIXSTEP_STATUS_FAULT;
 					}
 					else
 					{
+							SIXSTEP_parameters.PWM_Value=25;
+							MC_SixStep_Table(SIXSTEP_parameters.positionStep);
+							htim1.Instance->EGR|=TIM_EGR_COMG;
 							SIXSTEP_parameters.status=SIXSTEP_STATUS_RUN;
 					}	
 			}
@@ -505,7 +510,7 @@ void 			MC_SixStep_Handler(void)
 						
 			case SIXSTEP_STATUS_RUN:
 			{
-					SIXSTEP_parameters.PWM_Value=60;//MC_PI_Controller(&PI_Parameters, SIXSTEP_parameters.speedFdbk);
+					//SIXSTEP_parameters.PWM_Value=5;//MC_PI_Controller(&PI_Parameters, SIXSTEP_parameters.speedFdbk);
 			}
 			break;
 			

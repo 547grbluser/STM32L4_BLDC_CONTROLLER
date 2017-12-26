@@ -11,13 +11,13 @@
 #define IS_BLDC_VOLTAGE(__VOLTAGE__) (((__VOLTAGE__) >=BLDC_VOLTAGE_MIN) && ((__VOLTAGE__) <= BLDC_VOLTAGE_MAX))
 
 
-#define BLDC_RPM_MIN													  1					//RPM
+#define BLDC_RPM_MIN													  0					//RPM
 #define BLDC_RPM_MAX														5000			//RPM
 #define IS_BLDC_RPM(__RPM__) (((__RPM__) >=BLDC_RPM_MIN) && ((__RPM__) <= BLDC_RPM_MAX))
 
-#define BLDC_ACCEL_MIN														0					//RPM/M
-#define BLDC_ACCEL_MAX														500				//RPM/M
-#define IS_BLDC_ACCEL(__ACCEL__) (((__ACCEL__) >=BLDC_ACCEL_MIN) && ((__ACCEL__) <= BLDC_ACCEL_MAX))
+//#define BLDC_ACCEL_MIN														0					//RPM/M
+//#define BLDC_ACCEL_MAX														500				//RPM/M
+//#define IS_BLDC_ACCEL(__ACCEL__) (((__ACCEL__) >=BLDC_ACCEL_MIN) && ((__ACCEL__) <= BLDC_ACCEL_MAX))
 
 
 

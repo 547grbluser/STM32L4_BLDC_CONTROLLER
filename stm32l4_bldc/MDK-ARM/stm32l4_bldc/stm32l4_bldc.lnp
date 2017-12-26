@@ -38,7 +38,11 @@
 "stm32l4_bldc\usart.o"
 "stm32l4_bldc\gpio.o"
 "stm32l4_bldc\tim.o"
+"stm32l4_bldc\dma.o"
+"stm32l4_bldc\adc_int.o"
+"stm32l4_bldc\cmd_iface.o"
 "stm32l4_bldc\bldc_lib.o"
+"stm32l4_bldc\microrl.o"
 --library_type=microlib --strict --scatter "stm32l4_bldc\stm32l4_bldc.sct"
 --diag_suppress=L6329 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

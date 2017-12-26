@@ -52,6 +52,7 @@ stm32l4_bldc\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
 stm32l4_bldc\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 stm32l4_bldc\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
 stm32l4_bldc\main.o: ../Inc/adc.h
+stm32l4_bldc\main.o: ../Inc/dma.h
 stm32l4_bldc\main.o: ../Inc/tim.h
 stm32l4_bldc\main.o: ../Inc/usart.h
 stm32l4_bldc\main.o: ../Inc/gpio.h
