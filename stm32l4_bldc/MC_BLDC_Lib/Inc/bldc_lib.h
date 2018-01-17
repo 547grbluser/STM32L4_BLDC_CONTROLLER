@@ -20,7 +20,8 @@
 typedef enum 
 {
     SIXSTEP_STATUS_IDLE=0,
-		SIXSTEP_STATUS_INIT,                                                          
+		SIXSTEP_STATUS_INIT,
+		SIXSTEP_STATUS_RAMP,	
     SIXSTEP_STATUS_RUN,
 	  SIXSTEP_STATUS_BREAK, 
 	  SIXSTEP_STATUS_STOP, 
