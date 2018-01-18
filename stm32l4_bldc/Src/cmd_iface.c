@@ -10,6 +10,7 @@
 #include "task.h"
 #include "queue.h"
 #include "semphr.h"
+#include "fifo.h"
 
 // definition commands word
 #define _CMD_HELP   "help"
@@ -31,6 +32,7 @@
 	#define _ACMD_TEST_MODE_OFF "off"
 	
 
+
 //#define _NUM_OF_CMD 9
 //#define _NUM_OF_SETCLEAR_SCMD 2
 
@@ -48,6 +50,8 @@ microrl_t rl;
 microrl_t * prl = &rl;
 extern UART_HandleTypeDef huart1;
 xSemaphoreHandle xUARTSemaphore;
+#define UART_FIFO_SIZE	256
+FIFO(UART_FIFO_SIZE) uart1_rx_fifo;
 
 static void Cmd_Iface_Task(void *pvParameters);
 
@@ -77,34 +81,40 @@ void Cmd_Iface_Init(void)
 
 static void Cmd_Iface_Task(void *pvParameters)
 {
+	uint8_t chr;
 	while(1)
-	{
-		microrl_insert_char (prl, get_char());
+	{		
 		
+		if(!FIFO_IS_EMPTY( uart1_rx_fifo ))
+		{
+				chr = FIFO_FRONT( uart1_rx_fifo );
+				FIFO_POP( uart1_rx_fifo );
+		}
+//		chr = get_char();
+		
+		microrl_insert_char (prl, chr);	
 	}
+}
+
+{
+		if( !FIFO_IS_FULL( usb_cdc0_tx_fifo ) ) 
+		{
+			FIFO_PUSH( usb_cdc0_tx_fifo, ch );
+		}
 }
 
 
 //*****************************************************************************
 void print (const char * str)
 {
-//	HAL_UART_Transmit(&huart1,(uint8_t *)str,strlen(str),10);
-	uint16_t i=0;
-	
-	for(i=0;i<strlen(str);i++)
-	{
-			while(!__HAL_UART_GET_FLAG(&huart1,UART_FLAG_TC));
-			huart1.Instance->TDR=str[i];
-	}
+	HAL_UART_Transmit(&huart1,(uint8_t *)str,strlen(str),100);
 }
 
 //*****************************************************************************
 char get_char (void) 
 {
 	uint8_t chr;
-	//while(	HAL_UART_Receive(&huart1,(uint8_t *)&chr,1,0)!=HAL_OK);
-	while(!__HAL_UART_GET_FLAG(&huart1,UART_FLAG_RXNE));
-	chr=huart1.Instance->RDR;
+	HAL_UART_Receive(&huart1,(uint8_t *)&chr,1,0xFFFFFFFF);
 	return chr;
 }
 
@@ -120,14 +130,16 @@ void print_help (void)
 int execute (int argc, const char * const * argv)
 {
 	int i = 0;
+	char print_str[100];
 	// just iterate through argv word and compare it with your commands
 	while (i < argc) {
 		if (strcmp (argv[i], _CMD_HELP) == 0) 
 		{
-				print ("microrl v");
-				print (MICRORL_LIB_VER);
-				print("\n\r");
-				print_help ();        // print help
+				strcpy(print_str, "microrl v\n\r");
+				print (print_str);
+//				print (MICRORL_LIB_VER);
+//				print("\n\r");
+////				print_help ();        // print help
 		} 
 		else if (strcmp (argv[i], _CMD_CLEAR) == 0) 
 		{

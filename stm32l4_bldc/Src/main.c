@@ -57,7 +57,7 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
-
+#include "cmd_iface.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -112,7 +112,7 @@ int main(void)
   MX_USART1_UART_Init();
 
   /* USER CODE BEGIN 2 */
-
+	Cmd_Iface_Init();
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */

@@ -13,6 +13,7 @@ stSIXSTEP_Base SIXSTEP_parameters;            /*!< Main SixStep structure*/
 
 /* 6Step Not-Exported functions ----------------------------------------------*/
 uint16_t 	MC_SixStep_PI_Controller(stSIXSTEP_PI_Param *, uint16_t);
+void 			MC_SixStep_GetParameters(void);
 uint32_t	MC_SixStep_GetElSpeedHz(void);
 uint32_t 	MC_SixStep_GetMechSpeedRPM(void);
 void		 	MC_SixStep_NextStep(void);
@@ -21,9 +22,16 @@ void 			MC_SixStep_Set_PI_Param(stSIXSTEP_PI_Param *);
 void			MC_SixStep_Init(void);
 void			MC_SixStep_Reset(void);
 uint8_t   MC_SixStep_GetCurrentPosition(void);
-uint8_t   MC_SixStep_GetFault(void);
-void 			MC_SixStep_ClearFault(void);
+uint8_t   MC_SixStep_GetDriverFault(void);
+void 			MC_SixStep_ClearDriverFault(void);
 void 			MC_SixStep_ShutDown(void);
+
+/*
+	Обработка ошибок
+*/
+
+void 			MC_SixStep_ClearErrors(void);
+void 			MC_SixStep_SetErrorFlag(enSIXSTEP_Error err);
 
 
 static uint8_t hallSensorPulse=FALSE;
@@ -223,9 +231,9 @@ void MC_SixStep_Reset(void) //Останов и сброс
 		HAL_TIM_OC_ConfigChannel(&htim1, &commConfigOC, TIM_CHANNEL_3);
 	
 		SIXSTEP_parameters.speedFdbk 	= 0;
-		SIXSTEP_parameters.error 			= SIXSTEP_ERR_OK;
+//		SIXSTEP_parameters.error 			= SIXSTEP_ERR_OK;
 		SIXSTEP_parameters.PWM_Value	= 0;
-		SIXSTEP_parameters.direction  = SIXSTEP_DIR_FORWARD;
+//		SIXSTEP_parameters.direction  = SIXSTEP_DIR_FORWARD;
 	
 		MC_SixStep_Set_PI_Param(&SIXSTEP_parameters.PI_Param); 
 }
@@ -387,14 +395,14 @@ uint8_t   MC_SixStep_GetCurrentPosition(void) //Текущее положение ротора
 		uint8_t hallPos = 0;
 		uint8_t stepPos = 0;
 	
-		SIXSTEP_parameters.error=SIXSTEP_ERR_OK;
+		
 	
 		HALL_1=HAL_GPIO_ReadPin(HALL_1_GPIO_Port, HALL_1_Pin);
 		HALL_2=HAL_GPIO_ReadPin(HALL_2_GPIO_Port, HALL_2_Pin);
 		HALL_3=HAL_GPIO_ReadPin(HALL_3_GPIO_Port, HALL_3_Pin);
 	
 		hallPos=((HALL_1<<2)|(HALL_2<<1)|(HALL_3));
-
+	
 	
 		stepPos = hallPosTable[hallPos];
 		
@@ -402,12 +410,80 @@ uint8_t   MC_SixStep_GetCurrentPosition(void) //Текущее положение ротора
 		{
 				SIXSTEP_parameters.positionStep=stepPos;
 		}
-		else
+		else //Недопустимый сигнал датчиков (все 0 или 1)
 		{
-				SIXSTEP_parameters.error=SIXSTEP_ERR_POSFBKERROR;
+				MC_SixStep_SetErrorFlag(SIXSTEP_ERR_POSFBKERROR);
+				return 0;
 		}
 		
+
+		
+
+		
 		return stepPos;
+}
+
+void	MC_SixStep_HallFdbkVerify(void)
+{
+		
+     static uint8_t stepPosPrev = 0xFF;
+	
+		 uint8_t stepPos = MC_SixStep_GetCurrentPosition();
+	
+		/*
+			Проверим пропуски положения ротора
+		*/
+	
+		 if(stepPosPrev == 0xFF)//пропустим проверку
+		 {
+				stepPosPrev = stepPos;
+				return ;
+		 }
+	
+		 if(SIXSTEP_parameters.direction == SIXSTEP_DIR_FORWARD)
+		 {	
+				if(stepPos!= 1)
+				{
+						if(stepPos!= (stepPosPrev + 1))
+						{
+								MC_SixStep_SetErrorFlag(SIXSTEP_ERR_POSFBKERROR);
+								stepPosPrev = 0xFF;
+								return;
+						}
+				}
+				else
+				{
+						if(stepPosPrev!= 6)
+						{
+								MC_SixStep_SetErrorFlag(SIXSTEP_ERR_POSFBKERROR);
+								stepPosPrev = 0xFF;
+								return;
+						}
+				}
+		 }
+		 else
+		 {
+				if(stepPos != 6)
+				{
+						if(stepPos != (stepPosPrev - 1))
+						{
+								MC_SixStep_SetErrorFlag(SIXSTEP_ERR_POSFBKERROR);
+								stepPosPrev = 0xFF;
+								return;
+						}
+				}
+				else
+				{
+						if(stepPosPrev!= 1)
+						{
+								MC_SixStep_SetErrorFlag(SIXSTEP_ERR_POSFBKERROR);
+								stepPosPrev = 0xFF;
+								return;
+						}
+				}		 
+		 }
+		 
+		 stepPosPrev = stepPos;
 }
 
 uint16_t MC_SixStep_GetGurrent(void) 
@@ -436,54 +512,52 @@ void MC_SixStep_Init(void)
 /*
 	Получаем параметры и сравниваем их с корректными
 */
-enSIXSTEP_Error MC_SixStep_GetParameters(void)
+void MC_SixStep_GetParameters(void)
 {
-		SIXSTEP_parameters.error=SIXSTEP_ERR_OK;
-	
 		MC_SixStep_GetGurrent();
 		if(!IS_BLDC_CURRENT(SIXSTEP_parameters.currentFdbk))
 		{
-				SIXSTEP_parameters.error=SIXSTEP_ERR_OVERCURRENT;
-				return SIXSTEP_parameters.error;
+				MC_SixStep_SetErrorFlag(SIXSTEP_ERR_OVERCURRENT);
 		}
 		
 		MC_SixStep_GetVoltage();		
 		if(!IS_BLDC_VOLTAGE(SIXSTEP_parameters.voltageFdbk))
 		{
-				SIXSTEP_parameters.error=SIXSTEP_ERR_OVERVOLTAGE;
-				return SIXSTEP_parameters.error;
+				MC_SixStep_SetErrorFlag(SIXSTEP_ERR_OVERVOLTAGE);
 		}
 		
 		MC_SixStep_GetMechSpeedRPM();
 		if(!IS_BLDC_RPM(SIXSTEP_parameters.speedFdbk))
 		{
-				SIXSTEP_parameters.error=SIXSTEP_ERR_SPEEDFBKERROR;
-				return SIXSTEP_parameters.error;
+				MC_SixStep_SetErrorFlag(SIXSTEP_ERR_SPEEDFBKERROR);
 		}
-				
-		return SIXSTEP_parameters.error;
 }
 
 
 /*
 *****************FSM контроллера двигателя*******************
 */
+
 void 			MC_SixStep_Handler(void)
 {
 	
 //	MC_SixStep_GetParameters();
 //	
-//	if(SIXSTEP_parameters.error!=SIXSTEP_ERR_OK)
-//	{
-//			SIXSTEP_parameters.status=SIXSTEP_STATUS_FAULT;
-//	}
+	if(SIXSTEP_parameters.error!=SIXSTEP_ERR_OK &&
+		((SIXSTEP_parameters.status !=SIXSTEP_STATUS_FAULT) && 
+		 (SIXSTEP_parameters.status !=SIXSTEP_STATUS_BREAK) &&
+		 (SIXSTEP_parameters.status !=SIXSTEP_STATUS_STOP))
+	  )
+	{
+			SIXSTEP_parameters.status = SIXSTEP_STATUS_FAULT;
+	}
 	
-//	if(MC_SixStep_GetFault()==0)
+//	if(MC_SixStep_GetDriverFault() == TRUE)
 //	{
-//			SIXSTEP_parameters.status=SIXSTEP_STATUS_FAULT;
-//			SIXSTEP_parameters.error=SIXSTEP_ERR_OVERCURRENT;
+//			SIXSTEP_parameters.status = SIXSTEP_STATUS_FAULT;
+//			MC_SixStep_SetErrorFlag(SIXSTEP_ERR_OVERCURRENT);
 //	}
-	
+//	
 	switch(SIXSTEP_parameters.status)
 	{
 		
@@ -495,20 +569,18 @@ void 			MC_SixStep_Handler(void)
 			
 			case SIXSTEP_STATUS_INIT: //Нахождение нач. положения ротора
 			{						
-					MC_SixStep_ClearFault();
+					MC_SixStep_ClearDriverFault();
+					MC_SixStep_ClearErrors();
 					MC_SixStep_GetCurrentPosition();
-					if(SIXSTEP_parameters.error==SIXSTEP_ERR_POSFBKERROR)
+				
+					if(SIXSTEP_parameters.error!=SIXSTEP_ERR_OK)
 					{							
 							SIXSTEP_parameters.status=SIXSTEP_STATUS_FAULT;
 					}
 					else
 					{
-							SIXSTEP_parameters.PWM_Value=60;
-						
-
-						
-							MC_SixStep_Table(/*SIXSTEP_parameters.positionStep*/1);
-							//MC_SixStep_NextStep();
+							SIXSTEP_parameters.PWM_Value = BLDC_PWM_START;	
+							MC_SixStep_Table(SIXSTEP_parameters.positionStep);
 							htim1.Instance->EGR|=TIM_EGR_COMG; //генерим событие коммутации
 							SIXSTEP_parameters.status=SIXSTEP_STATUS_RAMP;
 					}	
@@ -517,10 +589,13 @@ void 			MC_SixStep_Handler(void)
 
 			
 			case SIXSTEP_STATUS_RAMP://Плавное увеличение тока двигателя при старте
-			{
-					
+			{					
 					MC_SixStep_StartRamp();
 					SIXSTEP_parameters.status=SIXSTEP_STATUS_RUN;
+				
+					/*
+						Обработать ошибку запуска
+					*/
 			}
 			break;
 			
@@ -528,6 +603,11 @@ void 			MC_SixStep_Handler(void)
 			case SIXSTEP_STATUS_RUN:
 			{
 					//SIXSTEP_parameters.PWM_Value=5;//MC_PI_Controller(&PI_Parameters, SIXSTEP_parameters.speedFdbk);
+//					if(SIXSTEP_parameters.flagIsSpeedNotZero == FALSE)//неожиданная остановка двигателя
+//					{
+//							SIXSTEP_parameters.status=SIXSTEP_STATUS_FAULT;
+//							MC_SixStep_SetErrorFlag(SIXSTEP_ERR_UNEXPECTED_STOP);
+//					}
 			}
 			break;
 			
@@ -574,16 +654,16 @@ void 			MC_SixStep_Handler(void)
 /*
 **********************IR2133 signals***************************
 */
-uint8_t   MC_SixStep_GetFault(void) //Overcurrent or undervoltage
+uint8_t   MC_SixStep_GetDriverFault(void) //Overcurrent or undervoltage
 {
-		return HAL_GPIO_ReadPin(FAULT_GPIO_Port, FAULT_Pin);
+		return !HAL_GPIO_ReadPin(FAULT_GPIO_Port, FAULT_Pin);
 }
 
-void 			MC_SixStep_ClearFault(void)//
+void 			MC_SixStep_ClearDriverFault(void)//
 {
 		HAL_GPIO_WritePin(SD_GPIO_Port, SD_Pin, GPIO_PIN_RESET);
 		HAL_GPIO_WritePin(F_CLR_GPIO_Port, F_CLR_Pin, GPIO_PIN_RESET);
-		osDelay(1);
+		osDelay(100);
 		HAL_GPIO_WritePin(F_CLR_GPIO_Port, F_CLR_Pin, GPIO_PIN_SET);		
 }
 
@@ -594,12 +674,24 @@ void 			MC_SixStep_ShutDown(void)
 /*
 ****************************************************************  
 */
+void 			MC_SixStep_ClearErrors(void)
+{
+		SIXSTEP_parameters.error=SIXSTEP_ERR_OK;
+}
+
+void 			MC_SixStep_SetErrorFlag(enSIXSTEP_Error err)
+{
+		SIXSTEP_parameters.error |= err;
+}
+/*
+****************************************************************
+*/
 
 void HAL_TIMEx_CommutationCallback(TIM_HandleTypeDef *htim) //
 {
 	if(htim->Instance == TIM1)
 	{		
-			MC_SixStep_GetCurrentPosition();
+			MC_SixStep_HallFdbkVerify();
 			MC_SixStep_NextStep();
 			SIXSTEP_parameters.flagIsSpeedNotZero = TRUE;
 			hallSensorPulse = TRUE;	

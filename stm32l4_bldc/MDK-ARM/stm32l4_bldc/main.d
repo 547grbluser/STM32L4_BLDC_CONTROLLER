@@ -56,3 +56,4 @@ stm32l4_bldc\main.o: ../Inc/dma.h
 stm32l4_bldc\main.o: ../Inc/tim.h
 stm32l4_bldc\main.o: ../Inc/usart.h
 stm32l4_bldc\main.o: ../Inc/gpio.h
+stm32l4_bldc\main.o: ../Inc/cmd_iface.h
