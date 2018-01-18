@@ -9,6 +9,8 @@ BUGS and TODO:
 #include <ctype.h>
 #include <stdlib.h>
 #include "microrl.h"
+#include "bldc_lib.h"
+
 #ifdef _USE_LIBC_STDIO
 #include <stdio.h>
 #endif

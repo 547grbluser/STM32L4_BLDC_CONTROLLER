@@ -40,6 +40,10 @@ stm32l4_bldc\cmd_iface.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart
 stm32l4_bldc\cmd_iface.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\string.h
 stm32l4_bldc\cmd_iface.o: ..\microrl\src\microrl.h
 stm32l4_bldc\cmd_iface.o: ..\microrl\src\config.h
+stm32l4_bldc\cmd_iface.o: ..\MC_BLDC_Lib\Inc\bldc_lib.h
+stm32l4_bldc\cmd_iface.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\math.h
+stm32l4_bldc\cmd_iface.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
+stm32l4_bldc\cmd_iface.o: ..\MC_BLDC_Lib\Inc\bldc_param.h
 stm32l4_bldc\cmd_iface.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
 stm32l4_bldc\cmd_iface.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\stddef.h
 stm32l4_bldc\cmd_iface.o: ../Inc/FreeRTOSConfig.h

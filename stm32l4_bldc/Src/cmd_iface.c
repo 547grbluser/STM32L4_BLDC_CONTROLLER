@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "microrl.h"
+#include "bldc_lib.h"
 
 
 #include "FreeRTOS.h"
@@ -20,7 +21,7 @@
 
 #define _CMD_BLDC_START_FWD "start_fwd"
 #define _CMD_BLDC_START_BWD "start_bwd"
-#define _CMD_BLDC_START_STOP "stop"
+#define _CMD_BLDC_STOP 			"stop"
 
 #define _CMD_BLDC_GET_ERR "get_err"
 #define _CMD_BLDC_GET_CURRENT "get_current"
@@ -161,6 +162,22 @@ int execute (int argc, const char * const * argv)
 				print ("\033[2J");    // ESC seq for clear entire screen
 				print ("\033[H");     // ESC seq for move cursor at left-top corner
 		}
+		else if (strcmp (argv[i], _CMD_BLDC_START_FWD) == 0) 
+		{
+				print("Start motor forward\r\n");
+				MC_SixStep_StartMotor(SIXSTEP_DIR_FORWARD);
+		}
+		else if (strcmp (argv[i], _CMD_BLDC_START_BWD) == 0) 
+		{
+				print("Start motor backrward\r\n");
+				MC_SixStep_StartMotor(SIXSTEP_DIR_BACKWARD);
+		}	
+		else if (strcmp (argv[i], _CMD_BLDC_STOP) == 0) 
+		{
+				print("Stop motor\r\n");
+				MC_SixStep_StopMotor();
+		}		
+		
 //		else if ((strcmp (argv[i], _CMD_SET) == 0) || 
 //							(strcmp (argv[i], _CMD_CLR) == 0)) 
 //		{
@@ -207,47 +224,7 @@ int execute (int argc, const char * const * argv)
 	return 0;
 }
 
-//#ifdef _USE_COMPLETE
-////*****************************************************************************
-//// completion callback for microrl library
-//char ** complet (int argc, const char * const * argv)
-//{
-//	int j = 0;
 
-//	compl_word [0] = NULL;
-
-//	// if there is token in cmdline
-//	if (argc == 1) {
-//		// get last entered token
-//		char * bit = (char*)argv [argc-1];
-//		// iterate through our available token and match it
-//		for (int i = 0; i < _NUM_OF_CMD; i++) {
-//			// if token is matched (text is part of our token starting from 0 char)
-//			if (strstr(keywords [i], bit) == keywords [i]) {
-//				// add it to completion set
-//				compl_word [j++] = keywords [i];
-//			}
-//		}
-//	}	else if ((argc > 1) && ((strcmp (argv[0], _CMD_SET)==0) || 
-//													 (strcmp (argv[0], _CMD_CLR)==0))) { // if command needs subcommands
-//		// iterate through subcommand
-//		for (int i = 0; i < _NUM_OF_SETCLEAR_SCMD; i++) {
-//			if (strstr (set_clear_key [i], argv [argc-1]) == set_clear_key [i]) {
-//				compl_word [j++] = set_clear_key [i];
-//			}
-//		}
-//	} else { // if there is no token in cmdline, just print all available token
-//		for (; j < _NUM_OF_CMD; j++) {
-//			compl_word[j] = keywords [j];
-//		}
-//	}
-
-//	// note! last ptr in array always must be NULL!!!
-//	compl_word [j] = NULL;
-//	// return set of variants
-//	return compl_word;
-//}
-//#endif
 
 //*****************************************************************************
 void sigint (void)

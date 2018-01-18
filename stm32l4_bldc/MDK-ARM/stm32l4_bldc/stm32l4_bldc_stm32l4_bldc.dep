@@ -1065,7 +1065,7 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h)(0x5A3CBB6C)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h)(0x5A3CBB6C)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h)(0x5A3CBB6C)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h)(0x5A3CBB6C)
-F (../Src/freertos.c)(0x5A608599)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Drivers/CMSIS/Include -I ..\MC_BLDC_Lib\Inc -I ..\microrl\src --C99-I.\RTE\_stm32l4_bldc-I"C:\Program Files\Keil\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include"-I"C:\Program Files\Keil\ARM\PACK\Keil\STM32L4xx_DFP\1.4.0\Device\Include"-D__UVISION_VERSION="524" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o stm32l4_bldc\freertos.o --omf_browse stm32l4_bldc\freertos.crf --depend stm32l4_bldc\freertos.d)
+F (../Src/freertos.c)(0x5A609D7C)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Drivers/CMSIS/Include -I ..\MC_BLDC_Lib\Inc -I ..\microrl\src --C99-I.\RTE\_stm32l4_bldc-I"C:\Program Files\Keil\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include"-I"C:\Program Files\Keil\ARM\PACK\Keil\STM32L4xx_DFP\1.4.0\Device\Include"-D__UVISION_VERSION="524" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o stm32l4_bldc\freertos.o --omf_browse stm32l4_bldc\freertos.crf --depend stm32l4_bldc\freertos.d)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h)(0x5A3CBB6E)
 I (C:\Program Files\Keil\ARM\ARMCC\include\stddef.h)(0x588BC994)
 I (C:\Program Files\Keil\ARM\ARMCC\include\stdint.h)(0x588BC994)
@@ -1083,7 +1083,7 @@ I (../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h)(0x5A3CBB6E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h)(0x5A3CBB6E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h)(0x5A3CBB6E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h)(0x5A3CBB6E)
-I (..\MC_BLDC_Lib\Inc\bldc_lib.h)(0x5A6059DE)
+I (..\MC_BLDC_Lib\Inc\bldc_lib.h)(0x5A6099B6)
 I (C:\Program Files\Keil\ARM\ARMCC\include\math.h)(0x588BC994)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5A3CBB6C)
 I (../Inc/stm32l4xx_hal_conf.h)(0x5A608599)
@@ -1366,7 +1366,7 @@ I (../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h)(0x5A3CBB6E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/task.h)(0x5A3CBB6E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/list.h)(0x5A3CBB6E)
-F (..\Src\cmd_iface.c)(0x5A609258)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Drivers/CMSIS/Include -I ..\MC_BLDC_Lib\Inc -I ..\microrl\src --C99-I.\RTE\_stm32l4_bldc-I"C:\Program Files\Keil\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include"-I"C:\Program Files\Keil\ARM\PACK\Keil\STM32L4xx_DFP\1.4.0\Device\Include"-D__UVISION_VERSION="524" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o stm32l4_bldc\cmd_iface.o --omf_browse stm32l4_bldc\cmd_iface.crf --depend stm32l4_bldc\cmd_iface.d)
+F (..\Src\cmd_iface.c)(0x5A609A43)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Drivers/CMSIS/Include -I ..\MC_BLDC_Lib\Inc -I ..\microrl\src --C99-I.\RTE\_stm32l4_bldc-I"C:\Program Files\Keil\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include"-I"C:\Program Files\Keil\ARM\PACK\Keil\STM32L4xx_DFP\1.4.0\Device\Include"-D__UVISION_VERSION="524" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o stm32l4_bldc\cmd_iface.o --omf_browse stm32l4_bldc\cmd_iface.crf --depend stm32l4_bldc\cmd_iface.d)
 I (../Inc/cmd_iface.h)(0x5A608AAD)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5A3CBB6B)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l452xx.h)(0x5A3CBB6B)
@@ -1407,6 +1407,10 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h)(0x5A3CBB6C)
 I (C:\Program Files\Keil\ARM\ARMCC\include\string.h)(0x588BC994)
 I (..\microrl\src\microrl.h)(0x59134A04)
 I (..\microrl\src\config.h)(0x5A609203)
+I (..\MC_BLDC_Lib\Inc\bldc_lib.h)(0x5A6099B6)
+I (C:\Program Files\Keil\ARM\ARMCC\include\math.h)(0x588BC994)
+I (C:\Program Files\Keil\ARM\ARMCC\include\stdlib.h)(0x588BC994)
+I (..\MC_BLDC_Lib\Inc\bldc_param.h)(0x5A605CCA)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h)(0x5A3CBB6E)
 I (C:\Program Files\Keil\ARM\ARMCC\include\stddef.h)(0x588BC994)
 I (../Inc/FreeRTOSConfig.h)(0x5A608598)
@@ -1420,8 +1424,8 @@ I (../Middlewares/Third_Party/FreeRTOS/Source/include/list.h)(0x5A3CBB6E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h)(0x5A3CBB6E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h)(0x5A3CBB6E)
 I (../Inc/fifo.h)(0x5A26A697)
-F (..\MC_BLDC_Lib\Src\bldc_lib.c)(0x5A608D46)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Drivers/CMSIS/Include -I ..\MC_BLDC_Lib\Inc -I ..\microrl\src --C99-I.\RTE\_stm32l4_bldc-I"C:\Program Files\Keil\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include"-I"C:\Program Files\Keil\ARM\PACK\Keil\STM32L4xx_DFP\1.4.0\Device\Include"-D__UVISION_VERSION="524" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o stm32l4_bldc\bldc_lib.o --omf_browse stm32l4_bldc\bldc_lib.crf --depend stm32l4_bldc\bldc_lib.d)
-I (..\MC_BLDC_Lib\Inc\bldc_lib.h)(0x5A6059DE)
+F (..\MC_BLDC_Lib\Src\bldc_lib.c)(0x5A60B933)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Drivers/CMSIS/Include -I ..\MC_BLDC_Lib\Inc -I ..\microrl\src --C99-I.\RTE\_stm32l4_bldc-I"C:\Program Files\Keil\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include"-I"C:\Program Files\Keil\ARM\PACK\Keil\STM32L4xx_DFP\1.4.0\Device\Include"-D__UVISION_VERSION="524" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o stm32l4_bldc\bldc_lib.o --omf_browse stm32l4_bldc\bldc_lib.crf --depend stm32l4_bldc\bldc_lib.d)
+I (..\MC_BLDC_Lib\Inc\bldc_lib.h)(0x5A6099B6)
 I (C:\Program Files\Keil\ARM\ARMCC\include\math.h)(0x588BC994)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5A3CBB6C)
 I (../Inc/stm32l4xx_hal_conf.h)(0x5A608599)
@@ -1478,10 +1482,48 @@ I (../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h)(0x5A3CBB6E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h)(0x5A3CBB6E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h)(0x5A3CBB6E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h)(0x5A3CBB6E)
-F (..\microrl\src\microrl.c)(0x5A6094C7)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Drivers/CMSIS/Include -I ..\MC_BLDC_Lib\Inc -I ..\microrl\src --C99-I.\RTE\_stm32l4_bldc-I"C:\Program Files\Keil\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include"-I"C:\Program Files\Keil\ARM\PACK\Keil\STM32L4xx_DFP\1.4.0\Device\Include"-D__UVISION_VERSION="524" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o stm32l4_bldc\microrl.o --omf_browse stm32l4_bldc\microrl.crf --depend stm32l4_bldc\microrl.d)
+F (..\microrl\src\microrl.c)(0x5A6098C2)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Drivers/CMSIS/Include -I ..\MC_BLDC_Lib\Inc -I ..\microrl\src --C99-I.\RTE\_stm32l4_bldc-I"C:\Program Files\Keil\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include"-I"C:\Program Files\Keil\ARM\PACK\Keil\STM32L4xx_DFP\1.4.0\Device\Include"-D__UVISION_VERSION="524" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o stm32l4_bldc\microrl.o --omf_browse stm32l4_bldc\microrl.crf --depend stm32l4_bldc\microrl.d)
 I (C:\Program Files\Keil\ARM\ARMCC\include\string.h)(0x588BC994)
 I (C:\Program Files\Keil\ARM\ARMCC\include\ctype.h)(0x588BC994)
 I (C:\Program Files\Keil\ARM\ARMCC\include\stdlib.h)(0x588BC994)
 I (..\microrl\src\microrl.h)(0x59134A04)
 I (..\microrl\src\config.h)(0x5A609203)
+I (..\MC_BLDC_Lib\Inc\bldc_lib.h)(0x5A6099B6)
+I (C:\Program Files\Keil\ARM\ARMCC\include\math.h)(0x588BC994)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5A3CBB6C)
+I (../Inc/stm32l4xx_hal_conf.h)(0x5A608599)
+I (../Inc/main.h)(0x5A608599)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5A3CBB6C)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5A3CBB6C)
+I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5A3CBB6B)
+I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l452xx.h)(0x5A3CBB6B)
+I (../Drivers/CMSIS/Include/core_cm4.h)(0x5A3CBB6B)
+I (C:\Program Files\Keil\ARM\ARMCC\include\stdint.h)(0x588BC994)
+I (../Drivers/CMSIS/Include/core_cmInstr.h)(0x5A3CBB6B)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x5A3CBB6B)
+I (../Drivers/CMSIS/Include/core_cmFunc.h)(0x5A3CBB6B)
+I (../Drivers/CMSIS/Include/core_cmSimd.h)(0x5A3CBB6B)
+I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h)(0x5A3CBB6B)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x5A3CBB6C)
 I (C:\Program Files\Keil\ARM\ARMCC\include\stdio.h)(0x588BC994)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc_ex.h)(0x5A3CBB6C)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h)(0x5A3CBB6C)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio_ex.h)(0x5A3CBB6C)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h)(0x5A3CBB6C)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma_ex.h)(0x5A3CBB6C)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_cortex.h)(0x5A3CBB6C)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_adc.h)(0x5A3CBB6C)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_adc.h)(0x5A3CBB6C)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_adc_ex.h)(0x5A3CBB6C)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash.h)(0x5A3CBB6C)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash_ex.h)(0x5A3CBB6C)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash_ramfunc.h)(0x5A3CBB6C)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h)(0x5A3CBB6C)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c_ex.h)(0x5A3CBB6C)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr.h)(0x5A3CBB6C)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h)(0x5A3CBB6C)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h)(0x5A3CBB6C)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h)(0x5A3CBB6C)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h)(0x5A3CBB6C)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h)(0x5A3CBB6C)
+I (..\MC_BLDC_Lib\Inc\bldc_param.h)(0x5A605CCA)

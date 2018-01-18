@@ -95,7 +95,7 @@ typedef struct
 
 
 void MC_SixStep_Init(void);
-void MC_SixStep_StartMotor(void);
+void MC_SixStep_StartMotor(enSIXSTEP_Direction dir);
 void MC_SixStep_StopMotor(void);
 void MC_SixStep_SetSpeed(uint16_t);
 void MC_SixStep_Handler(void); 

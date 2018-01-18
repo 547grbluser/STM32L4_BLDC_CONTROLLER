@@ -197,23 +197,43 @@ void MC_SixStep_NextStep(void)
 		
 		int8_t nextStep;
 		
-		 if(SIXSTEP_parameters.direction == SIXSTEP_DIR_FORWARD)
-		 { 
-				nextStep = (int8_t)SIXSTEP_parameters.positionStep + 1;
+//		 if(SIXSTEP_parameters.direction == SIXSTEP_DIR_FORWARD)
+//		 { 
+//				nextStep = (int8_t)SIXSTEP_parameters.positionStep + 1;
+//						
+//				if(nextStep>6)
+//				{ 
+//						nextStep = 1;
+//				}
+//		 }
+//		 else
+//		 {
+//				nextStep = (int8_t)SIXSTEP_parameters.positionStep - 1;  
+//				
+//				if(nextStep < 1)
+//				{ 
+//						nextStep = 6; 
+//				} 
+//		 }
+		 
+		 nextStep = (int8_t)SIXSTEP_parameters.positionStep + 1;
 						
-				if(nextStep>6)
-				{ 
-						nextStep = 1;
-				}
+		 if(nextStep>6)
+		 { 
+				nextStep = 1;
 		 }
-		 else
+		
+			/*
+		 Сместим фазу для реверса
+		 */
+		 if(SIXSTEP_parameters.direction == SIXSTEP_DIR_BACKWARD)
 		 {
-				nextStep = (int8_t)SIXSTEP_parameters.positionStep - 1;  
-				
-				if(nextStep < 1)
-				{ 
-						nextStep = 6; 
-				} 
+				//nextStep += 1;
+				nextStep += 5;
+				if(nextStep>6)
+				{
+						nextStep -= 6;
+				}
 		 }
 		 
 		MC_SixStep_Table(nextStep);
@@ -226,14 +246,22 @@ void MC_SixStep_Reset(void) //Останов и сброс
 		TIM_OC_InitTypeDef commConfigOC;
 
 		commConfigOC.OCMode = TIM_OCMODE_INACTIVE;
+		commConfigOC.OCNPolarity = TIM_OCNPOLARITY_LOW;
 		HAL_TIM_OC_ConfigChannel(&htim1, &commConfigOC, TIM_CHANNEL_1); 
 		HAL_TIM_OC_ConfigChannel(&htim1, &commConfigOC, TIM_CHANNEL_2);
 		HAL_TIM_OC_ConfigChannel(&htim1, &commConfigOC, TIM_CHANNEL_3);
+		HAL_TIM_OC_Start(&htim1, TIM_CHANNEL_1); 
+		HAL_TIMEx_OCN_Start(&htim1, TIM_CHANNEL_1);
+		HAL_TIM_OC_Start(&htim1, TIM_CHANNEL_2); 
+		HAL_TIMEx_OCN_Start(&htim1, TIM_CHANNEL_2); 
+		HAL_TIM_OC_Start(&htim1, TIM_CHANNEL_3); 
+		HAL_TIMEx_OCN_Start(&htim1, TIM_CHANNEL_3); 		
 	
 		SIXSTEP_parameters.speedFdbk 	= 0;
 //		SIXSTEP_parameters.error 			= SIXSTEP_ERR_OK;
 		SIXSTEP_parameters.PWM_Value	= 0;
 //		SIXSTEP_parameters.direction  = SIXSTEP_DIR_FORWARD;
+		SIXSTEP_parameters.status = SIXSTEP_STATUS_STOP;
 	
 		MC_SixStep_Set_PI_Param(&SIXSTEP_parameters.PI_Param); 
 }
@@ -326,26 +354,33 @@ void MC_SixStep_SetSpeed(uint16_t speed_value)//Установка целевой скорости враще
 *******************************************************************
 */
 
-void MC_SixStep_StartMotor(void)
+void MC_SixStep_StartMotor(enSIXSTEP_Direction dir)
 { 
-		SIXSTEP_parameters.status = SIXSTEP_STATUS_INIT;
+		if(SIXSTEP_parameters.status == SIXSTEP_STATUS_STOP)
+		{
+			MC_SixStep_ClearDriverFault();
+			MC_SixStep_ClearErrors();
+			SIXSTEP_parameters.direction = dir;
+			SIXSTEP_parameters.status = SIXSTEP_STATUS_INIT;
+		}
 }
 
 
 void MC_SixStep_StopMotor(void)
 {     
-		SIXSTEP_parameters.status = SIXSTEP_STATUS_STOP;
+		SIXSTEP_parameters.status = SIXSTEP_STATUS_BREAK;
 }
 
 #define RAMP_STEPS_NUM		10
-#define RAMP_PWM_STEP			0xF
+#define RAMP_PWM_STEP			0x5
 void MC_SixStep_StartRamp(void)
 {
 		uint8_t rampSteps = 0;
-	
+		SIXSTEP_parameters.PWM_Value = 0;
 		for(rampSteps = 0; rampSteps < RAMP_STEPS_NUM; rampSteps++)
 		{
-				
+				SIXSTEP_parameters.PWM_Value += RAMP_PWM_STEP;
+				vTaskDelay(1);
 		}
 }
 
@@ -433,6 +468,10 @@ void	MC_SixStep_HallFdbkVerify(void)
 		/*
 			Проверим пропуски положения ротора
 		*/
+		 if(SIXSTEP_parameters.status==SIXSTEP_STATUS_RAMP)
+		 {
+				stepPosPrev = 0xFF;
+		 }
 	
 		 if(stepPosPrev == 0xFF)//пропустим проверку
 		 {
@@ -569,8 +608,6 @@ void 			MC_SixStep_Handler(void)
 			
 			case SIXSTEP_STATUS_INIT: //Нахождение нач. положения ротора
 			{						
-					MC_SixStep_ClearDriverFault();
-					MC_SixStep_ClearErrors();
 					MC_SixStep_GetCurrentPosition();
 				
 					if(SIXSTEP_parameters.error!=SIXSTEP_ERR_OK)
@@ -581,8 +618,10 @@ void 			MC_SixStep_Handler(void)
 					{
 							SIXSTEP_parameters.PWM_Value = BLDC_PWM_START;	
 							MC_SixStep_Table(SIXSTEP_parameters.positionStep);
-							htim1.Instance->EGR|=TIM_EGR_COMG; //генерим событие коммутации
+//							MC_SixStep_NextStep();
 							SIXSTEP_parameters.status=SIXSTEP_STATUS_RAMP;
+							htim1.Instance->EGR|=TIM_EGR_COMG; //генерим событие коммутации
+							
 					}	
 			}
 			break;	

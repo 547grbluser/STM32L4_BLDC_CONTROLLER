@@ -101,7 +101,7 @@ void MX_FREERTOS_Init(void) {
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* definition and creation of MC_Task */
-  osThreadDef(MC_Task, Start_MC_Task, osPriorityIdle, 0, 256);
+  osThreadDef(MC_Task, Start_MC_Task, osPriorityAboveNormal, 0, 256);
   MC_TaskHandle = osThreadCreate(osThread(MC_Task), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
@@ -122,8 +122,8 @@ void StartDefaultTask(void const * argument)
 //	adcIntInit();
 	
 	osDelay(100);
-	MC_SixStep_SetSpeed(1000);//RPM
-	MC_SixStep_StartMotor();
+//	MC_SixStep_SetSpeed(1000);//RPM
+//	MC_SixStep_StartMotor();
   /* Infinite loop */
   for(;;)
   {
