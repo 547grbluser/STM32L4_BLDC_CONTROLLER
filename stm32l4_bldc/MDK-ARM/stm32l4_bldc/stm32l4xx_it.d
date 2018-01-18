@@ -52,3 +52,4 @@ stm32l4_bldc\stm32l4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/
 stm32l4_bldc\stm32l4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
 stm32l4_bldc\stm32l4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 stm32l4_bldc\stm32l4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
+stm32l4_bldc\stm32l4xx_it.o: ../Inc/cmd_iface.h

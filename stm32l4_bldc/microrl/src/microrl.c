@@ -332,7 +332,7 @@ void microrl_init (microrl_t * pThis, void (*print) (const char *))
 #ifdef _USE_CTLR_C
 	pThis->sigint = NULL;
 #endif
-	pThis->prompt_str = prompt_default;
+	pThis->prompt_str = NULL;//prompt_default;
 	pThis->print = print;
 #ifdef _ENABLE_INIT_PROMPT
 	print_prompt (pThis);
@@ -675,9 +675,14 @@ void microrl_insert_char (microrl_t * pThis, int ch)
 			default:
 			if (((ch == ' ') && (pThis->cmdlen == 0)) || IS_CONTROL_CHAR(ch))
 				break;
-			if (microrl_insert_text (pThis, (char*)&ch, 1))
-				terminal_print_line (pThis, pThis->cursor-1, pThis->cursor);
-			
+				if (microrl_insert_text (pThis, (char*)&ch, 1))
+				{
+					//terminal_print_line (pThis, pThis->cursor-1, pThis->cursor);
+					char str[2];
+					str[0] = ch;
+					str[1] = 0;
+					pThis->print (str);
+				}
 			break;
 		}
 #ifdef _USE_ESC_SEQ

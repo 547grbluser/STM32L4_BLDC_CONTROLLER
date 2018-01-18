@@ -1,10 +1,5 @@
 stm32l4_bldc\cmd_iface.o: ..\Src\cmd_iface.c
 stm32l4_bldc\cmd_iface.o: ../Inc/cmd_iface.h
-stm32l4_bldc\cmd_iface.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h
-stm32l4_bldc\cmd_iface.o: ../Inc/stm32l4xx_hal_conf.h
-stm32l4_bldc\cmd_iface.o: ../Inc/main.h
-stm32l4_bldc\cmd_iface.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h
-stm32l4_bldc\cmd_iface.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h
 stm32l4_bldc\cmd_iface.o: ../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h
 stm32l4_bldc\cmd_iface.o: ../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l452xx.h
 stm32l4_bldc\cmd_iface.o: ../Drivers/CMSIS/Include/core_cm4.h
@@ -15,6 +10,11 @@ stm32l4_bldc\cmd_iface.o: ../Drivers/CMSIS/Include/core_cmFunc.h
 stm32l4_bldc\cmd_iface.o: ../Drivers/CMSIS/Include/core_cmSimd.h
 stm32l4_bldc\cmd_iface.o: ../Drivers/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h
 stm32l4_bldc\cmd_iface.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h
+stm32l4_bldc\cmd_iface.o: ../Inc/stm32l4xx_hal_conf.h
+stm32l4_bldc\cmd_iface.o: ../Inc/main.h
+stm32l4_bldc\cmd_iface.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h
+stm32l4_bldc\cmd_iface.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h
+stm32l4_bldc\cmd_iface.o: ../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h
 stm32l4_bldc\cmd_iface.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
 stm32l4_bldc\cmd_iface.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\stdio.h
 stm32l4_bldc\cmd_iface.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc_ex.h
@@ -52,3 +52,4 @@ stm32l4_bldc\cmd_iface.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/tas
 stm32l4_bldc\cmd_iface.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
 stm32l4_bldc\cmd_iface.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
 stm32l4_bldc\cmd_iface.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
+stm32l4_bldc\cmd_iface.o: ../Inc/fifo.h

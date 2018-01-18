@@ -15,21 +15,30 @@
 // definition commands word
 #define _CMD_HELP   "help"
 #define _CMD_CLEAR  "clear"
-#define _CMD_CLR    "clear_port"
-#define _CMD_SET    "set_port"
+//#define _CMD_CLR    "clear_port"
+//#define _CMD_SET    "set_port"
 
-#define _CMD_TEST_MODE 	"test_mode"
-#define _CMD_TEST_OUT		"test_out"
-#define _CMD_START			"start"
-#define _CMD_STOP				"stop"
-#define _CMD_PULSE_TIME "pulse_time"
-#define _CMD_CYCLE_TIME	"cycle_time"
-#define _CMD_LOAD_PATTERN	"load_pattern"
+#define _CMD_BLDC_START_FWD "start_fwd"
+#define _CMD_BLDC_START_BWD "start_bwd"
+#define _CMD_BLDC_START_STOP "stop"
+
+#define _CMD_BLDC_GET_ERR "get_err"
+#define _CMD_BLDC_GET_CURRENT "get_current"
+#define _CMD_BLDC_GET_VOLTAGE "get_voltage"
+
+
+//#define _CMD_TEST_MODE 	"test_mode"
+//#define _CMD_TEST_OUT		"test_out"
+//#define _CMD_START			"start"
+//#define _CMD_STOP				"stop"
+//#define _CMD_PULSE_TIME "pulse_time"
+//#define _CMD_CYCLE_TIME	"cycle_time"
+//#define _CMD_LOAD_PATTERN	"load_pattern"
 
 	
 	//arguments _CMD_TEST_MODE
-	#define _ACMD_TEST_MODE_ON  "on"
-	#define _ACMD_TEST_MODE_OFF "off"
+//	#define _ACMD_TEST_MODE_ON  "on"
+//	#define _ACMD_TEST_MODE_OFF "off"
 	
 
 
@@ -73,7 +82,7 @@ void Cmd_Iface_Init(void)
 	microrl_set_complete_callback (prl, complet);
 #endif
 	// set callback for Ctrl+C
-	microrl_set_sigint_callback (prl, sigint);	
+	//microrl_set_sigint_callback (prl, sigint);	
 	
 	xTaskCreate(Cmd_Iface_Task,"CMD interface task",CMD_IFACE_TASK_STACK_SIZE, NULL, tskIDLE_PRIORITY + 1, NULL);
 }
@@ -82,6 +91,7 @@ void Cmd_Iface_Init(void)
 static void Cmd_Iface_Task(void *pvParameters)
 {
 	uint8_t chr;
+	__HAL_UART_ENABLE_IT(&huart1, UART_IT_RXNE);
 	while(1)
 	{		
 		
@@ -89,17 +99,22 @@ static void Cmd_Iface_Task(void *pvParameters)
 		{
 				chr = FIFO_FRONT( uart1_rx_fifo );
 				FIFO_POP( uart1_rx_fifo );
+				microrl_insert_char (prl, chr);	
 		}
 //		chr = get_char();
 		
-		microrl_insert_char (prl, chr);	
+		
 	}
 }
 
+void Cmd_UART_Rx(UART_HandleTypeDef *huart)
 {
-		if( !FIFO_IS_FULL( usb_cdc0_tx_fifo ) ) 
+	  char ch;
+
+		ch = huart->Instance->RDR;
+		if( !FIFO_IS_FULL( uart1_rx_fifo ) ) 
 		{
-			FIFO_PUSH( usb_cdc0_tx_fifo, ch );
+			FIFO_PUSH( uart1_rx_fifo, ch );
 		}
 }
 
@@ -130,25 +145,25 @@ void print_help (void)
 int execute (int argc, const char * const * argv)
 {
 	int i = 0;
-	char print_str[100];
+
 	// just iterate through argv word and compare it with your commands
 	while (i < argc) {
 		if (strcmp (argv[i], _CMD_HELP) == 0) 
 		{
-				strcpy(print_str, "microrl v\n\r");
-				print (print_str);
-//				print (MICRORL_LIB_VER);
-//				print("\n\r");
-////				print_help ();        // print help
+
+				print ("microrl v");
+				print (MICRORL_LIB_VER);
+				print("\n\r");
+				print_help ();        // print help
 		} 
 		else if (strcmp (argv[i], _CMD_CLEAR) == 0) 
 		{
 				print ("\033[2J");    // ESC seq for clear entire screen
 				print ("\033[H");     // ESC seq for move cursor at left-top corner
 		}
-		else if ((strcmp (argv[i], _CMD_SET) == 0) || 
-							(strcmp (argv[i], _CMD_CLR) == 0)) 
-		{
+//		else if ((strcmp (argv[i], _CMD_SET) == 0) || 
+//							(strcmp (argv[i], _CMD_CLR) == 0)) 
+//		{
 //				if (++i < argc)
 //				{
 //					int val = strcmp (argv[i-1], _CMD_CLR);
@@ -180,7 +195,7 @@ int execute (int argc, const char * const * argv)
 //						print ("specify port, use Tab\n\r");
 //					return 1;
 //				}
-		} 
+//		} 
 		else 
 		{
 				print ("command: '");
