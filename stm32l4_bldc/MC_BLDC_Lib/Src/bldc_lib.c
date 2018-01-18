@@ -223,18 +223,18 @@ void MC_SixStep_NextStep(void)
 				nextStep = 1;
 		 }
 		
-			/*
-		 Сместим фазу для реверса
-		 */
-		 if(SIXSTEP_parameters.direction == SIXSTEP_DIR_BACKWARD)
-		 {
-				//nextStep += 1;
-				nextStep += 5;
-				if(nextStep>6)
-				{
-						nextStep -= 6;
-				}
-		 }
+//			/*
+//		 Сместим фазу для реверса
+//		 */
+//		 if(SIXSTEP_parameters.direction == SIXSTEP_DIR_BACKWARD)
+//		 {
+//				//nextStep += 1;
+//				nextStep += 5;
+//				if(nextStep>6)
+//				{
+//						nextStep -= 6;
+//				}
+//		 }
 		 
 		MC_SixStep_Table(nextStep);
 }
@@ -420,8 +420,8 @@ uint32_t MC_SixStep_GetMechSpeedRPM(void) //Частота вращения ротора двигателя в 
 		return SIXSTEP_parameters.speedFdbk;
 }
 
-const uint8_t hallPosTable[8] = {0, 1, 3, 2, 5, 6, 4, 0};//Перекодировка датчиков Холла в шаг
-
+const uint8_t hallPosTable_FWD[8] = {0, 1, 3, 2, 5, 6, 4, 0};//Перекодировка датчиков Холла в шаг
+const uint8_t hallPosTable_BWD[8] = {0, 6, 2, 1, 4, 5, 3, 0};//Перекодировка датчиков Холла в шаг
 uint8_t   MC_SixStep_GetCurrentPosition(void) //Текущее положение ротора
 {
 		uint8_t HALL_1=0;
@@ -438,8 +438,14 @@ uint8_t   MC_SixStep_GetCurrentPosition(void) //Текущее положение ротора
 	
 		hallPos=((HALL_1<<2)|(HALL_2<<1)|(HALL_3));
 	
-	
-		stepPos = hallPosTable[hallPos];
+	 if(SIXSTEP_parameters.direction == SIXSTEP_DIR_FORWARD)
+	 {	
+			stepPos = hallPosTable_FWD[hallPos];
+	 }
+	 else
+	 {
+			stepPos = hallPosTable_BWD[hallPos];
+	 }
 		
 		if(stepPos)
 		{
@@ -450,10 +456,6 @@ uint8_t   MC_SixStep_GetCurrentPosition(void) //Текущее положение ротора
 				MC_SixStep_SetErrorFlag(SIXSTEP_ERR_POSFBKERROR);
 				return 0;
 		}
-		
-
-		
-
 		
 		return stepPos;
 }
@@ -618,7 +620,7 @@ void 			MC_SixStep_Handler(void)
 					{
 							SIXSTEP_parameters.PWM_Value = BLDC_PWM_START;	
 							MC_SixStep_Table(SIXSTEP_parameters.positionStep);
-//							MC_SixStep_NextStep();
+							//MC_SixStep_NextStep();
 							SIXSTEP_parameters.status=SIXSTEP_STATUS_RAMP;
 							htim1.Instance->EGR|=TIM_EGR_COMG; //генерим событие коммутации
 							
