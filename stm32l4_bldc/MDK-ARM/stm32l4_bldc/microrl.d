@@ -44,3 +44,4 @@ stm32l4_bldc\microrl.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex
 stm32l4_bldc\microrl.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h
 stm32l4_bldc\microrl.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h
 stm32l4_bldc\microrl.o: ..\MC_BLDC_Lib\Inc\bldc_param.h
+stm32l4_bldc\microrl.o: ..\MC_BLDC_Lib\Inc\bldc_pid.h

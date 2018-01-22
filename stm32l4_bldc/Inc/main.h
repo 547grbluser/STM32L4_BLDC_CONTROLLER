@@ -94,7 +94,13 @@
 /* #define USE_FULL_ASSERT    1U */
 
 /* USER CODE BEGIN Private defines */
+#ifndef TRUE
+#define TRUE                                 1      /*!< Define TRUE */  
+#endif
 
+#ifndef FALSE
+#define FALSE                                0      /*!< Define FALSE */
+#endif
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

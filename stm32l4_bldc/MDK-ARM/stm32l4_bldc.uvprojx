@@ -620,6 +620,11 @@
               <FileType>1</FileType>
               <FilePath>..\MC_BLDC_Lib\Src\bldc_lib.c</FilePath>
             </File>
+            <File>
+              <FileName>bldc_pid.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MC_BLDC_Lib\Src\bldc_pid.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

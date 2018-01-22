@@ -40,6 +40,7 @@ stm32l4_bldc\bldc_lib.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.
 stm32l4_bldc\bldc_lib.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h
 stm32l4_bldc\bldc_lib.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
 stm32l4_bldc\bldc_lib.o: ..\MC_BLDC_Lib\Inc\bldc_param.h
+stm32l4_bldc\bldc_lib.o: ..\MC_BLDC_Lib\Inc\bldc_pid.h
 stm32l4_bldc\bldc_lib.o: ../Inc/tim.h
 stm32l4_bldc\bldc_lib.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\string.h
 stm32l4_bldc\bldc_lib.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
@@ -57,3 +58,5 @@ stm32l4_bldc\bldc_lib.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/time
 stm32l4_bldc\bldc_lib.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
 stm32l4_bldc\bldc_lib.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 stm32l4_bldc\bldc_lib.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
+stm32l4_bldc\bldc_lib.o: ../Inc/adc_int.h
+stm32l4_bldc\bldc_lib.o: ../Inc/calibr.h

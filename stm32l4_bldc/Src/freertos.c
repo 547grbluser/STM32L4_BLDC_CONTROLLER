@@ -119,7 +119,7 @@ void StartDefaultTask(void const * argument)
 
   /* USER CODE BEGIN StartDefaultTask */
 	
-//	adcIntInit();
+	adcIntInit();
 	
 	osDelay(100);
 //	MC_SixStep_SetSpeed(1000);//RPM

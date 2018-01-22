@@ -7,6 +7,7 @@
 #include "stdlib.h"
 #include "stdio.h"
 #include "bldc_param.h"
+#include "bldc_pid.h"
 
 
 #define PHASE_TIM               htim1
@@ -47,22 +48,6 @@ typedef enum
 		SIXSTEP_DIR_BACKWARD,
 }enSIXSTEP_Direction;
 
-/** 
-  * @brief  Six PI regulator parameters  
-  */
-
-typedef struct
-{
-  uint16_t ReferenceSpeed;                    /*!< Refence value for PI regulator */ 
-  int16_t Kp_Gain;                      /*!< Kp value for PI regulator */ 
-  int16_t Ki_Gain;                      /*!< Ki value for PI regulator */  
-  int16_t Lower_Limit_Output;           /*!< Min output value for PI regulator */ 
-  int16_t Upper_Limit_Output;           /*!< Max output value for PI regulator */ 
-  int8_t 	Max_PID_Output;                /*!< Max Saturation indicator flag */ 
-  int8_t 	Min_PID_Output;                /*!< Min Saturation indicator flag */ 
-	
-	int32_t 	integralTermSum;             /*!< Global Integral part for PI*/  
-} stSIXSTEP_PI_Param;  /*!< PI Data Structure */
 
 
 /** 
@@ -98,5 +83,6 @@ void MC_SixStep_Init(void);
 void MC_SixStep_StartMotor(enSIXSTEP_Direction dir);
 void MC_SixStep_StopMotor(void);
 void MC_SixStep_SetSpeed(uint16_t);
+enSIXSTEP_Error	MC_SixStep_GetErrorCode(void);
 void MC_SixStep_Handler(void); 
 #endif

@@ -27,6 +27,8 @@
 #define _CMD_BLDC_GET_CURRENT "get_current"
 #define _CMD_BLDC_GET_VOLTAGE "get_voltage"
 
+#define _CMD_BLDC_GET_ERROR_CODE "get-err"
+
 
 //#define _CMD_TEST_MODE 	"test_mode"
 //#define _CMD_TEST_OUT		"test_out"
@@ -177,7 +179,17 @@ int execute (int argc, const char * const * argv)
 				print("Stop motor\r\n");
 				MC_SixStep_StopMotor();
 		}		
+		else if (strcmp (argv[i], _CMD_BLDC_GET_ERROR_CODE) == 0) 
+		{
+				uint16_t err = MC_SixStep_GetErrorCode();
+				static uint8_t str[30];
+				sprintf(str, "Error code = %X\r\n", err);			
+				print(str);
+		}		
 		
+		
+		
+
 //		else if ((strcmp (argv[i], _CMD_SET) == 0) || 
 //							(strcmp (argv[i], _CMD_CLR) == 0)) 
 //		{

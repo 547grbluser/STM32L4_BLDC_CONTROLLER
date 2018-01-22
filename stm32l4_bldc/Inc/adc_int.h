@@ -21,6 +21,9 @@ typedef enum
 }enADCChannels;
 
 
+#define ADC_MC_VOLTAGE	ADC_INT_CHANNEL_0
+#define ADC_MC_CURRENT	ADC_INT_CHANNEL_1
+
 int 			adcIntInit(void);
 uint16_t 	adcIntGet(enADCChannels channel);
 uint16_t 	adcIntGetVoltage(enADCChannels channel);//mV
