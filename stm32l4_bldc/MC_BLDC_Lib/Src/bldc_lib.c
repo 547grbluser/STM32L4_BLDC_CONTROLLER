@@ -172,26 +172,34 @@ void MC_SixStep_NextStep(void)
 
 void 			MC_SixStep_ChargeCap(void)
 {
-		MC_SixStep_SetPhaseParam(TIM_CHANNEL_1, TIM_OCMODE_FORCED_INACTIVE, TIM_OCNPOLARITY_HIGH);
-		MC_SixStep_SetPhaseParam(TIM_CHANNEL_2, TIM_OCMODE_FORCED_INACTIVE, TIM_OCNPOLARITY_HIGH);								
-		MC_SixStep_SetPhaseParam(TIM_CHANNEL_3, TIM_OCMODE_FORCED_INACTIVE, TIM_OCNPOLARITY_HIGH);							
+//		MC_SixStep_SetPhaseParam(TIM_CHANNEL_1, TIM_OCMODE_FORCED_INACTIVE, TIM_OCNPOLARITY_HIGH);
+//		MC_SixStep_SetPhaseParam(TIM_CHANNEL_2, TIM_OCMODE_FORCED_INACTIVE, TIM_OCNPOLARITY_HIGH);								
+//		MC_SixStep_SetPhaseParam(TIM_CHANNEL_3, TIM_OCMODE_FORCED_INACTIVE, TIM_OCNPOLARITY_HIGH);	
+
+		MC_SixStep_SetPhaseParam(TIM_CHANNEL_1, TIM_OCMODE_FORCED_ACTIVE, TIM_OCNPOLARITY_HIGH);
+		MC_SixStep_SetPhaseParam(TIM_CHANNEL_2, TIM_OCMODE_FORCED_ACTIVE, TIM_OCNPOLARITY_HIGH);								
+		MC_SixStep_SetPhaseParam(TIM_CHANNEL_3, TIM_OCMODE_FORCED_ACTIVE, TIM_OCNPOLARITY_HIGH);	
 	
 		htim1.Instance->EGR|=TIM_EGR_COMG; //генерим событие коммутации
 	
 		vTaskDelay(200);
 	
-		MC_SixStep_SetPhaseParam(TIM_CHANNEL_1, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_LOW);
-		MC_SixStep_SetPhaseParam(TIM_CHANNEL_2, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_LOW);								
-		MC_SixStep_SetPhaseParam(TIM_CHANNEL_3, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_LOW);
+//		MC_SixStep_SetPhaseParam(TIM_CHANNEL_1, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_LOW);
+//		MC_SixStep_SetPhaseParam(TIM_CHANNEL_2, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_LOW);								
+//		MC_SixStep_SetPhaseParam(TIM_CHANNEL_3, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_LOW);
 
-		htim1.Instance->EGR|=TIM_EGR_COMG; //генерим событие коммутации
+//		htim1.Instance->EGR|=TIM_EGR_COMG; //генерим событие коммутации
 }
 
 void 		MC_SixStep_Reset(void) //Останов и сброс 
 {   
-		MC_SixStep_SetPhaseParam(TIM_CHANNEL_1, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_LOW);
-		MC_SixStep_SetPhaseParam(TIM_CHANNEL_2, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_LOW);								
-		MC_SixStep_SetPhaseParam(TIM_CHANNEL_3, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_LOW);
+//		MC_SixStep_SetPhaseParam(TIM_CHANNEL_1, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_LOW);
+//		MC_SixStep_SetPhaseParam(TIM_CHANNEL_2, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_LOW);								
+//		MC_SixStep_SetPhaseParam(TIM_CHANNEL_3, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_LOW);
+	
+		MC_SixStep_SetPhaseParam(TIM_CHANNEL_1, TIM_OCMODE_FORCED_ACTIVE, TIM_OCNPOLARITY_HIGH);
+		MC_SixStep_SetPhaseParam(TIM_CHANNEL_2, TIM_OCMODE_FORCED_ACTIVE, TIM_OCNPOLARITY_HIGH);								
+		MC_SixStep_SetPhaseParam(TIM_CHANNEL_3, TIM_OCMODE_FORCED_ACTIVE, TIM_OCNPOLARITY_HIGH);		
 
 		htim1.Instance->EGR|=TIM_EGR_COMG; //генерим событие коммутации
 	
@@ -285,11 +293,12 @@ uint32_t MC_SixStep_GetMechSpeedRPM(void) //Частота вращения ротора двигателя в 
 		return SIXSTEP_parameters.speedFdbk;
 }
 
+//const uint8_t hallPosTable_FWD[8] = {0, 1, 3, 2, 5, 6, 4, 0};//Перекодировка датчиков Холла в шаг FW
+//const uint8_t hallPosTable_BWD[8] = {0, 6, 2, 1, 4, 5, 3, 0};//Перекодировка датчиков Холла в шаг BW
+
 const uint8_t hallPosTable_FWD[8] = {0, 1, 3, 2, 5, 6, 4, 0};//Перекодировка датчиков Холла в шаг FW
 const uint8_t hallPosTable_BWD[8] = {0, 6, 2, 1, 4, 5, 3, 0};//Перекодировка датчиков Холла в шаг BW
 
-//const uint8_t hallPosTable_FWD[8] = {0, 2, 5, 6, 4, 1, 3, 0};//Перекодировка датчиков Холла в шаг FW
-//const uint8_t hallPosTable_BWD[8] = {0, 6, 2, 1, 4, 5, 3, 0};//Перекодировка датчиков Холла в шаг BW
 
 uint8_t   MC_SixStep_GetCurrentPosition(void) //Текущее положение ротора
 {
@@ -339,7 +348,9 @@ void	MC_SixStep_HallFdbkVerify(void)
 		/*
 			Проверим пропуски положения ротора
 		*/
-		 if((SIXSTEP_parameters.status==SIXSTEP_STATUS_INIT) || (SIXSTEP_parameters.status==SIXSTEP_STATUS_RAMP))
+		 if((SIXSTEP_parameters.status==SIXSTEP_STATUS_INIT) || 
+			 (SIXSTEP_parameters.status==SIXSTEP_STATUS_RAMP)	 ||
+			 (SIXSTEP_parameters.status==SIXSTEP_STATUS_NEXT_STEP))
 		 {
 				stepPosPrev = 0xFF;
 		 }
@@ -350,7 +361,7 @@ void	MC_SixStep_HallFdbkVerify(void)
 				return ;
 		 }
 	
-		 if(SIXSTEP_parameters.direction == SIXSTEP_DIR_FORWARD)
+		 if(SIXSTEP_parameters.direction == SIXSTEP_DIR_BACKWARD)
 		 {	
 				if(stepPos!= 1)
 				{
@@ -451,7 +462,7 @@ void MC_SixStep_GetParameters(void)
 }
 
 
-void 	MC_SixStep_DetectSpeedZero(void)//Вызывается с частотой 1kHz
+void 	MC_SixStep_DetectSpeedZero(void)//Вызывается с частотой FSM (100 Hz)
 {
 	static uint16_t timerZeroSpeedCnt=0;
 	
@@ -471,7 +482,6 @@ void 	MC_SixStep_DetectSpeedZero(void)//Вызывается с частотой 1kHz
 /*
 *****************FSM контроллера двигателя*******************
 */
-
 void 			MC_SixStep_Handler(void)
 {
 	/*
@@ -490,10 +500,10 @@ void 			MC_SixStep_Handler(void)
 			SIXSTEP_parameters.status = SIXSTEP_STATUS_FAULT;
 	}
 	
-	if(MC_SixStep_GetDriverFault() == TRUE)
-	{
-			MC_SixStep_SetErrorFlag(SIXSTEP_ERR_OVERCURRENT);
-	}
+//	if(MC_SixStep_GetDriverFault() == TRUE)
+//	{
+//			MC_SixStep_SetErrorFlag(SIXSTEP_ERR_OVERCURRENT);
+//	}
 	
 	switch(SIXSTEP_parameters.status)
 	{		
@@ -514,17 +524,28 @@ void 			MC_SixStep_Handler(void)
 					}
 					else
 					{
-							SIXSTEP_parameters.PWM_Value = 58;												
+							SIXSTEP_parameters.PWM_Value = 50;												
 							MC_SixStep_Table(SIXSTEP_parameters.positionStep);	
 							//MC_SixStep_NextStep();
 							MC_SixStep_ChargeCap();
 							htim1.Instance->EGR|=TIM_EGR_COMG; //генерим событие коммутации															
-							SIXSTEP_parameters.status=SIXSTEP_STATUS_RAMP;	
-							MC_SixStep_SetDelay(300);
+							SIXSTEP_parameters.status=SIXSTEP_STATUS_NEXT_STEP;	
+							MC_SixStep_SetDelay(2);
 					}	
 			}
 			break;	
 
+			case SIXSTEP_STATUS_NEXT_STEP:
+			{
+					if(/*(SIXSTEP_parameters.flagIsSpeedNotZero == FALSE) &&*/ MC_SixStep_TimeoutDelay())
+					{	
+							MC_SixStep_SetDelay(200);
+							MC_SixStep_NextStep();
+							htim1.Instance->EGR|=TIM_EGR_COMG; 
+							SIXSTEP_parameters.status=SIXSTEP_STATUS_RAMP;
+					}					
+			}
+			break;
 			
 			case SIXSTEP_STATUS_RAMP://Плавное увеличение тока двигателя при старте
 			{					
@@ -557,9 +578,7 @@ void 			MC_SixStep_Handler(void)
 			break;
 			
 			case SIXSTEP_STATUS_FAULT:
-			{
-				//error message
-					
+			{				
 					MC_SixStep_ShutDown();
 				  SIXSTEP_parameters.status=SIXSTEP_STATUS_BREAK;
 			}
