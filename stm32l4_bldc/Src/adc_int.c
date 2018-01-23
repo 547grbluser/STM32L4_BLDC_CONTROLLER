@@ -34,7 +34,7 @@ uint16_t adcIntGetVoltage(enADCChannels channel)//mV
 		uint16_t vrefValue=0;
 		uint32_t adcValue=0;
 		uint16_t result;
-		uint16_t vrefCal= *VREFINT_CAL; // read VREFINT_CAL_ADDR memory location
+		uint16_t vrefCal= ADC_INT_VREF_VAL;//*VREFINT_CAL; // read VREFINT_CAL_ADDR memory location
 	
 		vrefValue=adcIntGetFilteredValue(ADC_INT_CHANNEL_VREF);
 		if(!vrefValue)

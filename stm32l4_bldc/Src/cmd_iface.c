@@ -26,35 +26,14 @@
 #define _CMD_BLDC_GET_ERR "get_err"
 #define _CMD_BLDC_GET_CURRENT "get_current"
 #define _CMD_BLDC_GET_VOLTAGE "get_voltage"
-
+#define _CMD_BLDC_GET_RPM_SPEED "get_rpm"
+#define _CMD_BLDC_GET_STATUS "get_status"
 #define _CMD_BLDC_GET_ERROR_CODE "get-err"
 
 
-//#define _CMD_TEST_MODE 	"test_mode"
-//#define _CMD_TEST_OUT		"test_out"
-//#define _CMD_START			"start"
-//#define _CMD_STOP				"stop"
-//#define _CMD_PULSE_TIME "pulse_time"
-//#define _CMD_CYCLE_TIME	"cycle_time"
-//#define _CMD_LOAD_PATTERN	"load_pattern"
 
 	
-	//arguments _CMD_TEST_MODE
-//	#define _ACMD_TEST_MODE_ON  "on"
-//	#define _ACMD_TEST_MODE_OFF "off"
-	
 
-
-//#define _NUM_OF_CMD 9
-//#define _NUM_OF_SETCLEAR_SCMD 2
-
-//available  commands
-//char * keywords [] = {_CMD_HELP, _CMD_CLEAR, _CMD_TEST_MODE, _CMD_TEST_OUT, _CMD_START, _CMD_STOP, _CMD_PULSE_TIME, _CMD_CYCLE_TIME, _CMD_LOAD_PATTERN};
-//// 'set/clear' command argements
-//char * set_clear_key [] = {_SCMD_PB, _SCMD_PD};
-
-// array for completion
-//char * compl_word [_NUM_OF_CMD + 1];
 
 #define CMD_IFACE_TASK_STACK_SIZE  256
 
@@ -105,8 +84,6 @@ static void Cmd_Iface_Task(void *pvParameters)
 				microrl_insert_char (prl, chr);	
 		}
 //		chr = get_char();
-		
-		
 	}
 }
 
@@ -148,7 +125,7 @@ void print_help (void)
 int execute (int argc, const char * const * argv)
 {
 	int i = 0;
-
+	static uint8_t str[30];
 	// just iterate through argv word and compare it with your commands
 	while (i < argc) {
 		if (strcmp (argv[i], _CMD_HELP) == 0) 
@@ -182,12 +159,34 @@ int execute (int argc, const char * const * argv)
 		else if (strcmp (argv[i], _CMD_BLDC_GET_ERROR_CODE) == 0) 
 		{
 				uint16_t err = MC_SixStep_GetErrorCode();
-				static uint8_t str[30];
+				
 				sprintf(str, "Error code = %X\r\n", err);			
 				print(str);
 		}		
-		
-		
+		else if (strcmp (argv[i], _CMD_BLDC_GET_CURRENT) == 0) 
+		{
+				uint16_t current = MC_SixStep_GetCurrent();
+				sprintf(str, "Current = %d mA\r\n", current);			
+				print(str);
+		}	
+		else if (strcmp (argv[i], _CMD_BLDC_GET_VOLTAGE) == 0) 
+		{
+				uint16_t voltage = MC_SixStep_GetVoltage();
+				sprintf(str, "Voltage = %d V\r\n", voltage);			
+				print(str);
+		}			
+		else if (strcmp (argv[i], _CMD_BLDC_GET_STATUS) == 0) 
+		{
+				uint16_t status = MC_SixStep_GetStatus();
+				sprintf(str, "Status code = %d\r\n", status);			
+				print(str);
+		}
+		else if (strcmp (argv[i], _CMD_BLDC_GET_RPM_SPEED) == 0) 
+		{
+				uint16_t rpm = (uint16_t)MC_SixStep_GetMechSpeedRPM();
+				sprintf(str, "RPM = %d\r\n", rpm);			
+				print(str);
+		}				
 		
 
 //		else if ((strcmp (argv[i], _CMD_SET) == 0) || 

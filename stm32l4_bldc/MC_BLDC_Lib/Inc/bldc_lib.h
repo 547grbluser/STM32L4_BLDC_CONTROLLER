@@ -82,6 +82,10 @@ typedef struct
 void MC_SixStep_Init(void);
 void MC_SixStep_StartMotor(enSIXSTEP_Direction dir);
 void MC_SixStep_StopMotor(void);
+uint16_t MC_SixStep_GetCurrent(void);
+uint16_t MC_SixStep_GetVoltage(void); 
+uint32_t MC_SixStep_GetMechSpeedRPM(void);
+enSIXSTEP_SystStatus MC_SixStep_GetStatus(void); 
 void MC_SixStep_SetSpeed(uint16_t);
 enSIXSTEP_Error	MC_SixStep_GetErrorCode(void);
 void MC_SixStep_Handler(void); 
