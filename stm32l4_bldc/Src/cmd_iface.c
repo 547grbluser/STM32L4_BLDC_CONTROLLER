@@ -23,12 +23,12 @@
 #define _CMD_BLDC_START_BWD "start_bwd"
 #define _CMD_BLDC_STOP 			"stop"
 
-#define _CMD_BLDC_GET_ERR "get_err"
+
 #define _CMD_BLDC_GET_CURRENT "get_current"
 #define _CMD_BLDC_GET_VOLTAGE "get_voltage"
 #define _CMD_BLDC_GET_RPM_SPEED "get_rpm"
 #define _CMD_BLDC_GET_STATUS "get_status"
-#define _CMD_BLDC_GET_ERROR_CODE "get-err"
+#define _CMD_BLDC_GET_ERROR_CODE "get_err"
 
 
 

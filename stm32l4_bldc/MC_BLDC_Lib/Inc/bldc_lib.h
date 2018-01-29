@@ -22,7 +22,7 @@ typedef enum
 {
     SIXSTEP_STATUS_IDLE=0,
 		SIXSTEP_STATUS_INIT,
-		SIXSTEP_STATUS_NEXT_STEP,
+		SIXSTEP_STATUS_PREV_STEP,
 		SIXSTEP_STATUS_RAMP,	
     SIXSTEP_STATUS_RUN,
 	  SIXSTEP_STATUS_BREAK, 
@@ -68,6 +68,7 @@ typedef struct
 	
 	/*BLDC write params*/
 //	int16_t 	speedTarget;
+	uint8_t 	prevStep;
 	enSIXSTEP_Direction		direction;
 	uint8_t		positionStep;
 	uint16_t 	PWM_Value;

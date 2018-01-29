@@ -13,7 +13,7 @@ stSIXSTEP_Base SIXSTEP_parameters;            /*!< Main SixStep structure*/
 /* Variables -----------------------------------------------------------------*/
 
 /* 6Step Not-Exported functions ----------------------------------------------*/
-void			MC_SixStep_Init(void);
+
 void			MC_SixStep_Reset(void);
 
 void 			MC_SixStep_GetParameters(void);
@@ -22,11 +22,12 @@ void		 	MC_SixStep_DetectSpeedZero(void);
 
 void 			MC_SixStep_SetPhaseParam(uint32_t Channel, uint32_t OCMode, uint32_t OCNPolarity);
 void		 	MC_SixStep_NextStep(void);
+void 			MC_SixStep_PrevStep(void);
 uint8_t   MC_SixStep_GetCurrentPosition(void);
 void 			MC_SixStep_Table(uint8_t);
 uint8_t 	MC_SixStep_Ramp(uint8_t maxVal, uint8_t step);
 
-void 			MC_SixStep_ChargeCap(void);
+void 			MC_SixStep_ChargeCap(uint16_t time);
 
 /*
 	IR2133
@@ -91,48 +92,48 @@ void MC_SixStep_Table(uint8_t step_number)
 			case 1:
 			{                  				
 					MC_SixStep_SetPhaseParam(TIM_CHANNEL_1, TIM_OCMODE_PWM1, TIM_OCNPOLARITY_LOW);				
-					MC_SixStep_SetPhaseParam(TIM_CHANNEL_2, TIM_OCMODE_FORCED_INACTIVE, TIM_OCNPOLARITY_LOW);
-					MC_SixStep_SetPhaseParam(TIM_CHANNEL_3, TIM_OCMODE_FORCED_INACTIVE, TIM_OCNPOLARITY_HIGH);
+					MC_SixStep_SetPhaseParam(TIM_CHANNEL_2, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_LOW);
+					MC_SixStep_SetPhaseParam(TIM_CHANNEL_3, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_HIGH);
 			}
 		  break;
 			
 			case 2:
 			{     
-					MC_SixStep_SetPhaseParam(TIM_CHANNEL_1, TIM_OCMODE_FORCED_INACTIVE, TIM_OCNPOLARITY_HIGH);				
-					MC_SixStep_SetPhaseParam(TIM_CHANNEL_2, TIM_OCMODE_FORCED_INACTIVE, TIM_OCNPOLARITY_LOW);
+					MC_SixStep_SetPhaseParam(TIM_CHANNEL_1, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_HIGH);				
+					MC_SixStep_SetPhaseParam(TIM_CHANNEL_2, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_LOW);
 					MC_SixStep_SetPhaseParam(TIM_CHANNEL_3, TIM_OCMODE_PWM1, TIM_OCNPOLARITY_LOW);
 			}
 			break; 
 			
 			case 3:  
 			{ 
-					MC_SixStep_SetPhaseParam(TIM_CHANNEL_1, TIM_OCMODE_FORCED_INACTIVE, TIM_OCNPOLARITY_LOW);
-					MC_SixStep_SetPhaseParam(TIM_CHANNEL_2, TIM_OCMODE_FORCED_INACTIVE, TIM_OCNPOLARITY_HIGH);					
+					MC_SixStep_SetPhaseParam(TIM_CHANNEL_1, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_LOW);
+					MC_SixStep_SetPhaseParam(TIM_CHANNEL_2, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_HIGH);					
 					MC_SixStep_SetPhaseParam(TIM_CHANNEL_3, TIM_OCMODE_PWM1, TIM_OCNPOLARITY_LOW);
 			}
 			break; 
 			
 			case 4:
 			{ 
-					MC_SixStep_SetPhaseParam(TIM_CHANNEL_1, TIM_OCMODE_FORCED_INACTIVE, TIM_OCNPOLARITY_LOW);
+					MC_SixStep_SetPhaseParam(TIM_CHANNEL_1, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_LOW);
 					MC_SixStep_SetPhaseParam(TIM_CHANNEL_2, TIM_OCMODE_PWM1, TIM_OCNPOLARITY_LOW);				
-					MC_SixStep_SetPhaseParam(TIM_CHANNEL_3, TIM_OCMODE_FORCED_INACTIVE, TIM_OCNPOLARITY_HIGH);					
+					MC_SixStep_SetPhaseParam(TIM_CHANNEL_3, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_HIGH);					
 			}
 			break;  
 			
 			case 5:  
 			{  
-					MC_SixStep_SetPhaseParam(TIM_CHANNEL_1, TIM_OCMODE_FORCED_INACTIVE, TIM_OCNPOLARITY_HIGH);
+					MC_SixStep_SetPhaseParam(TIM_CHANNEL_1, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_HIGH);
 					MC_SixStep_SetPhaseParam(TIM_CHANNEL_2, TIM_OCMODE_PWM1, TIM_OCNPOLARITY_LOW);			
-					MC_SixStep_SetPhaseParam(TIM_CHANNEL_3, TIM_OCMODE_FORCED_INACTIVE, TIM_OCNPOLARITY_LOW);							
+					MC_SixStep_SetPhaseParam(TIM_CHANNEL_3, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_LOW);							
 			}
 			break;
 			
 			case 6:
 			{ 
 					MC_SixStep_SetPhaseParam(TIM_CHANNEL_1, TIM_OCMODE_PWM1, TIM_OCNPOLARITY_LOW);		
-					MC_SixStep_SetPhaseParam(TIM_CHANNEL_2, TIM_OCMODE_FORCED_INACTIVE, TIM_OCNPOLARITY_HIGH);	
-					MC_SixStep_SetPhaseParam(TIM_CHANNEL_3, TIM_OCMODE_FORCED_INACTIVE, TIM_OCNPOLARITY_LOW);
+					MC_SixStep_SetPhaseParam(TIM_CHANNEL_2, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_HIGH);	
+					MC_SixStep_SetPhaseParam(TIM_CHANNEL_3, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_LOW);
 			}
 			break; 			
 		} 
@@ -142,70 +143,106 @@ void MC_SixStep_Table(uint8_t step_number)
 void MC_SixStep_NextStep(void)
 {		
 		int8_t nextStep;
-			 
-//		if(SIXSTEP_parameters.direction == SIXSTEP_DIR_FORWARD)
-//		{
-//				nextStep = (int8_t)SIXSTEP_parameters.positionStep - 1;
-//		}
-//		else
-//		{
-//				nextStep = (int8_t)SIXSTEP_parameters.positionStep + 1;
-//		}
-//				
-//	
-//		 if(nextStep<1)
-//		 {
-//				nextStep = 6;
-//		 }
-//		
-
-		 nextStep = (int8_t)SIXSTEP_parameters.positionStep + 1;		 
-		 if(nextStep>6)
-		 { 
-				nextStep = 1;
-		 }
 		 
+//		nextStep = (int8_t)SIXSTEP_parameters.positionStep + 1;		 
+//		if(nextStep>6)
+//		{ 
+//			nextStep = 1;
+//		}
 		
-				 
+		if(SIXSTEP_parameters.direction == SIXSTEP_DIR_FORWARD)
+	  {			
+				nextStep = (int8_t)SIXSTEP_parameters.positionStep + 1;	
+	  }
+		else
+		{
+				nextStep = (int8_t)SIXSTEP_parameters.positionStep - 1;	
+		}
+		
+		if(nextStep>6)
+		{ 
+			nextStep = 1;
+		}
+		
+		if(nextStep<1)
+		{ 
+			nextStep = 6;
+		}		
+				
+	
 		MC_SixStep_Table(nextStep);
 }
 
-void 			MC_SixStep_ChargeCap(void)
-{
-		MC_SixStep_SetPhaseParam(TIM_CHANNEL_1, TIM_OCMODE_FORCED_INACTIVE, TIM_OCNPOLARITY_LOW);
-		MC_SixStep_SetPhaseParam(TIM_CHANNEL_2, TIM_OCMODE_FORCED_INACTIVE, TIM_OCNPOLARITY_LOW);								
-		MC_SixStep_SetPhaseParam(TIM_CHANNEL_3, TIM_OCMODE_FORCED_INACTIVE, TIM_OCNPOLARITY_LOW);	
+void MC_SixStep_PrevStep(void)
+{		
+		int8_t prevStep;
+		 
+	  if(SIXSTEP_parameters.direction == SIXSTEP_DIR_FORWARD)
+	  {			
+				prevStep = (int8_t)SIXSTEP_parameters.positionStep + 2;	
+	  }
+		else
+		{
+				prevStep = (int8_t)SIXSTEP_parameters.positionStep + 4;	
+		}
+	 
+	 
+		if(prevStep > 6)
+		{ 
+			prevStep = prevStep - 6;
+		}
+		
+		MC_SixStep_Table(prevStep);
+}
 
-//		MC_SixStep_SetPhaseParam(TIM_CHANNEL_1, TIM_OCMODE_FORCED_ACTIVE, TIM_OCNPOLARITY_LOW);
-//		MC_SixStep_SetPhaseParam(TIM_CHANNEL_2, TIM_OCMODE_FORCED_ACTIVE, TIM_OCNPOLARITY_LOW);								
-//		MC_SixStep_SetPhaseParam(TIM_CHANNEL_3, TIM_OCMODE_FORCED_ACTIVE, TIM_OCNPOLARITY_LOW);	
+void 			MC_SixStep_ChargeCap(uint16_t time)
+{
+		MC_SixStep_SetPhaseParam(TIM_CHANNEL_1, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_LOW);
+		MC_SixStep_SetPhaseParam(TIM_CHANNEL_2, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_LOW);								
+		MC_SixStep_SetPhaseParam(TIM_CHANNEL_3, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_LOW);
+
+//		SIXSTEP_parameters.PWM_Value	=  1;
+//		
+//		
+////		MC_SixStep_SetPhaseParam(TIM_CHANNEL_1, TIM_OCMODE_PWM1, TIM_OCNPOLARITY_LOW);
+////		HAL_TIM_OC_Stop(&htim1, TIM_CHANNEL_1);
+////		HAL_TIMEx_OCN_Start(&htim1, TIM_CHANNEL_1);
+//		
+//	  MC_SixStep_SetPhaseParam(TIM_CHANNEL_1, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_HIGH);
+//	
+//		MC_SixStep_SetPhaseParam(TIM_CHANNEL_2, TIM_OCMODE_PWM1, TIM_OCNPOLARITY_LOW);	
+//		HAL_TIM_OC_Stop(&htim1, TIM_CHANNEL_2);
+//		HAL_TIMEx_OCN_Start(&htim1, TIM_CHANNEL_2);
+//	
+//			MC_SixStep_SetPhaseParam(TIM_CHANNEL_3, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_HIGH);	
+////	
+////		MC_SixStep_SetPhaseParam(TIM_CHANNEL_3, TIM_OCMODE_PWM1, TIM_OCNPOLARITY_LOW);	
+////		HAL_TIM_OC_Stop(&htim1, TIM_CHANNEL_3);
+////		HAL_TIMEx_OCN_Start(&htim1, TIM_CHANNEL_3);	
 	
 		htim1.Instance->EGR|=TIM_EGR_COMG; //генерим событие коммутации
 	
-		vTaskDelay(200);
+		vTaskDelay(time);
 	
-//		MC_SixStep_SetPhaseParam(TIM_CHANNEL_1, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_LOW);
-//		MC_SixStep_SetPhaseParam(TIM_CHANNEL_2, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_LOW);								
-//		MC_SixStep_SetPhaseParam(TIM_CHANNEL_3, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_LOW);
+		MC_SixStep_SetPhaseParam(TIM_CHANNEL_1, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_HIGH);
+		MC_SixStep_SetPhaseParam(TIM_CHANNEL_2, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_HIGH);								
+		MC_SixStep_SetPhaseParam(TIM_CHANNEL_3, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_HIGH);	
 
-//		htim1.Instance->EGR|=TIM_EGR_COMG; //генерим событие коммутации
+		htim1.Instance->EGR|=TIM_EGR_COMG; //генерим событие коммутации
 }
 
 void 		MC_SixStep_Reset(void) //Останов и сброс 
-{   
-//		MC_SixStep_SetPhaseParam(TIM_CHANNEL_1, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_LOW);
-//		MC_SixStep_SetPhaseParam(TIM_CHANNEL_2, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_LOW);								
-//		MC_SixStep_SetPhaseParam(TIM_CHANNEL_3, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_LOW);
-	
-		MC_SixStep_SetPhaseParam(TIM_CHANNEL_1, TIM_OCMODE_FORCED_INACTIVE, TIM_OCNPOLARITY_HIGH);
-		MC_SixStep_SetPhaseParam(TIM_CHANNEL_2, TIM_OCMODE_FORCED_INACTIVE, TIM_OCNPOLARITY_HIGH);								
-		MC_SixStep_SetPhaseParam(TIM_CHANNEL_3, TIM_OCMODE_FORCED_INACTIVE, TIM_OCNPOLARITY_HIGH);		
+{   	
+		MC_SixStep_SetPhaseParam(TIM_CHANNEL_1, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_HIGH);
+		MC_SixStep_SetPhaseParam(TIM_CHANNEL_2, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_HIGH);								
+		MC_SixStep_SetPhaseParam(TIM_CHANNEL_3, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_HIGH);		
 
 		htim1.Instance->EGR|=TIM_EGR_COMG; //генерим событие коммутации
 	
 		SIXSTEP_parameters.speedFdbk 	= 0;
 		SIXSTEP_parameters.PWM_Value	= 0;
 		SIXSTEP_parameters.status = SIXSTEP_STATUS_STOP;
+		SIXSTEP_parameters.prevStep = FALSE;
 	
 		MC_SixStep_Set_PI_Param(&SIXSTEP_parameters.PI_Param); 
 }
@@ -253,6 +290,9 @@ uint8_t 	MC_SixStep_Ramp(uint8_t maxVal, uint8_t step)
 		if(SIXSTEP_parameters.PWM_Value  < maxVal)
 		{
 				SIXSTEP_parameters.PWM_Value += step;
+				htim1.Instance->CCR1 = SIXSTEP_parameters.PWM_Value; 
+				htim1.Instance->CCR2 = SIXSTEP_parameters.PWM_Value; 
+				htim1.Instance->CCR3 = SIXSTEP_parameters.PWM_Value; 
 				return FALSE;
 		}
 		else
@@ -293,12 +333,11 @@ uint32_t MC_SixStep_GetMechSpeedRPM(void) //Частота вращения ротора двигателя в 
 		return SIXSTEP_parameters.speedFdbk;
 }
 
-//const uint8_t hallPosTable_FWD[8] = {0, 1, 3, 2, 5, 6, 4, 0};//Перекодировка датчиков Холла в шаг FW
-//const uint8_t hallPosTable_BWD[8] = {0, 6, 2, 1, 4, 5, 3, 0};//Перекодировка датчиков Холла в шаг BW
 
+//const uint8_t hallPosTable_FWD[8] = {0, 3, 5, 4, 1, 2, 6, 0};//Перекодировка датчиков Холла в шаг FW
+//const uint8_t hallPosTable_BWD[8] = {0, 4, 6, 5, 2, 3, 1, 0};//Перекодировка датчиков Холла в шаг BW
 const uint8_t hallPosTable_FWD[8] = {0, 3, 5, 4, 1, 2, 6, 0};//Перекодировка датчиков Холла в шаг FW
-const uint8_t hallPosTable_BWD[8] = {0, 4, 6, 5, 2, 3, 1, 0};//Перекодировка датчиков Холла в шаг BW
-
+const uint8_t hallPosTable_BWD[8] = {0, 6, 2, 1, 4, 5, 3, 0};//Перекодировка датчиков Холла в шаг BW
 
 uint8_t   MC_SixStep_GetCurrentPosition(void) //Текущее положение ротора
 {
@@ -349,8 +388,9 @@ void	MC_SixStep_HallFdbkVerify(void)
 			Проверим пропуски положения ротора
 		*/
 		 if((SIXSTEP_parameters.status==SIXSTEP_STATUS_INIT) || 
+			 (SIXSTEP_parameters.status==SIXSTEP_STATUS_PREV_STEP)||
 			 (SIXSTEP_parameters.status==SIXSTEP_STATUS_RAMP)	 ||
-			 (SIXSTEP_parameters.status==SIXSTEP_STATUS_NEXT_STEP))
+			 (SIXSTEP_parameters.status==SIXSTEP_STATUS_STOP))
 		 {
 				stepPosPrev = 0xFF;
 		 }
@@ -434,6 +474,8 @@ void MC_SixStep_Init(void)
 {
 		HAL_TIMEx_ConfigCommutationEvent_IT(&PHASE_TIM, PHASE_TIM_TRIGGER_INPUT, TIM_COMMUTATION_SOFTWARE);
 		HAL_TIMEx_HallSensor_Start_IT(&HALL_TIM);
+	
+//		MC_SixStep_ChargeCap(1000);
     MC_SixStep_Reset();
 }
 
@@ -500,10 +542,10 @@ void 			MC_SixStep_Handler(void)
 			SIXSTEP_parameters.status = SIXSTEP_STATUS_FAULT;
 	}
 	
-//	if(MC_SixStep_GetDriverFault() == TRUE)
-//	{
-//			MC_SixStep_SetErrorFlag(SIXSTEP_ERR_OVERCURRENT);
-//	}
+	if(MC_SixStep_GetDriverFault() == TRUE)
+	{
+			MC_SixStep_SetErrorFlag(SIXSTEP_ERR_OVERCURRENT);
+	}
 	
 	switch(SIXSTEP_parameters.status)
 	{		
@@ -524,32 +566,37 @@ void 			MC_SixStep_Handler(void)
 					}
 					else
 					{
-							SIXSTEP_parameters.PWM_Value = 50;												
-							MC_SixStep_Table(SIXSTEP_parameters.positionStep);	
-							//MC_SixStep_NextStep();
-							MC_SixStep_ChargeCap();
+							SIXSTEP_parameters.PWM_Value = 0;		
+							MC_SixStep_ChargeCap(100);
+							//MC_SixStep_Table(SIXSTEP_parameters.positionStep);	
+							MC_SixStep_PrevStep();
+							SIXSTEP_parameters.prevStep = TRUE;
+							
 							htim1.Instance->EGR|=TIM_EGR_COMG; //генерим событие коммутации															
-							SIXSTEP_parameters.status=SIXSTEP_STATUS_NEXT_STEP;	
-							MC_SixStep_SetDelay(200);
+							SIXSTEP_parameters.status = SIXSTEP_STATUS_PREV_STEP;//SIXSTEP_STATUS_RAMP;	
+							MC_SixStep_SetDelay(50);
 					}	
 			}
 			break;	
 
-			case SIXSTEP_STATUS_NEXT_STEP:
-			{
-					if((SIXSTEP_parameters.flagIsSpeedNotZero == FALSE) &&  MC_SixStep_TimeoutDelay())
+			case SIXSTEP_STATUS_PREV_STEP:
+			{			
+					if(MC_SixStep_TimeoutDelay() && MC_SixStep_Ramp(60, 5))
 					{	
-							MC_SixStep_SetDelay(200);
-							MC_SixStep_NextStep();
+							SIXSTEP_parameters.PWM_Value = 0;	
+							SIXSTEP_parameters.prevStep = FALSE;
+							MC_SixStep_GetCurrentPosition();
+							MC_SixStep_Table(SIXSTEP_parameters.positionStep);	
 							htim1.Instance->EGR|=TIM_EGR_COMG; 
 							SIXSTEP_parameters.status=SIXSTEP_STATUS_RAMP;
+							MC_SixStep_SetDelay(200);
 					}					
 			}
 			break;
 			
 			case SIXSTEP_STATUS_RAMP://Плавное увеличение тока двигателя при старте
 			{					
-					if(MC_SixStep_Ramp(60, 5) && MC_SixStep_TimeoutDelay())
+					if(MC_SixStep_Ramp(60, 1) && MC_SixStep_TimeoutDelay())
 					{	
 							SIXSTEP_parameters.status=SIXSTEP_STATUS_RUN;
 					}
@@ -650,7 +697,10 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 		{				
 			 if(htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1)
 			 {
-					htim1.Instance->EGR|=TIM_EGR_COMG; //commutation signal
+					if(SIXSTEP_parameters.prevStep == FALSE)
+					{
+							htim1.Instance->EGR|=TIM_EGR_COMG; //commutation signal
+					}
 			 }
 		}
 }
