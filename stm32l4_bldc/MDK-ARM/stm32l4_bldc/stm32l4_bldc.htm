@@ -3,7 +3,7 @@
 <title>Static Call Graph - [stm32l4_bldc\stm32l4_bldc.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image stm32l4_bldc\stm32l4_bldc.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060528: Last Updated: Mon Jan 29 16:21:05 2018
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060528: Last Updated: Tue Jan 30 16:50:31 2018
 <BR><P>
 <H3>Maximum Stack Usage =        288 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -610,7 +610,6 @@ Global Symbols
 
 <P><STRONG><a name="[d4]"></a>HAL_GPIO_WritePin</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, stm32l4xx_hal_gpio.o(i.HAL_GPIO_WritePin))
 <BR><BR>[Called By]<UL><LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_GPIO_Init
-<LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MC_SixStep_ShutDown
 <LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MC_SixStep_ClearDriverFault
 </UL>
 
@@ -1071,7 +1070,7 @@ Global Symbols
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MC_SixStep_HallFdbkVerify
 </UL>
 
-<P><STRONG><a name="[db]"></a>MC_SixStep_GetDriverFault</STRONG> (Thumb, 22 bytes, Stack size 8 bytes, bldc_lib.o(i.MC_SixStep_GetDriverFault))
+<P><STRONG><a name="[db]"></a>MC_SixStep_GetDriverFault</STRONG> (Thumb, 54 bytes, Stack size 8 bytes, bldc_lib.o(i.MC_SixStep_GetDriverFault))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = MC_SixStep_GetDriverFault
 </UL>
 <BR>[Calls]<UL><LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_ReadPin
@@ -1166,7 +1165,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIMEx_CommutationCallback
 </UL>
 
-<P><STRONG><a name="[e2]"></a>MC_SixStep_PrevStep</STRONG> (Thumb, 42 bytes, Stack size 8 bytes, bldc_lib.o(i.MC_SixStep_PrevStep))
+<P><STRONG><a name="[e2]"></a>MC_SixStep_PrevStep</STRONG> (Thumb, 50 bytes, Stack size 8 bytes, bldc_lib.o(i.MC_SixStep_PrevStep))
 <BR><BR>[Stack]<UL><LI>Max Depth = 92<LI>Call Chain = MC_SixStep_PrevStep &rArr; MC_SixStep_Table &rArr; MC_SixStep_SetPhaseParam &rArr; HAL_TIMEx_OCN_Stop &rArr; TIM_CCxNChannelCmd
 </UL>
 <BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MC_SixStep_Table
@@ -1219,12 +1218,8 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MC_SixStep_Reset
 </UL>
 
-<P><STRONG><a name="[e8]"></a>MC_SixStep_ShutDown</STRONG> (Thumb, 14 bytes, Stack size 8 bytes, bldc_lib.o(i.MC_SixStep_ShutDown))
-<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = MC_SixStep_ShutDown
-</UL>
-<BR>[Calls]<UL><LI><a href="#[d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
-</UL>
-<BR>[Called By]<UL><LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MC_SixStep_Handler
+<P><STRONG><a name="[e8]"></a>MC_SixStep_ShutDown</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, bldc_lib.o(i.MC_SixStep_ShutDown))
+<BR><BR>[Called By]<UL><LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MC_SixStep_Handler
 </UL>
 
 <P><STRONG><a name="[ec]"></a>MC_SixStep_StartMotor</STRONG> (Thumb, 32 bytes, Stack size 8 bytes, bldc_lib.o(i.MC_SixStep_StartMotor))

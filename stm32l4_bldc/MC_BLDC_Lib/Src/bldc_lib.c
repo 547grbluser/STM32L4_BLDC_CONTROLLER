@@ -142,13 +142,7 @@ void MC_SixStep_Table(uint8_t step_number)
 
 void MC_SixStep_NextStep(void)
 {		
-		int8_t nextStep;
-		 
-//		nextStep = (int8_t)SIXSTEP_parameters.positionStep + 1;		 
-//		if(nextStep>6)
-//		{ 
-//			nextStep = 1;
-//		}
+		int8_t nextStep;		 
 		
 		if(SIXSTEP_parameters.direction == SIXSTEP_DIR_FORWARD)
 	  {			
@@ -179,17 +173,22 @@ void MC_SixStep_PrevStep(void)
 		 
 	  if(SIXSTEP_parameters.direction == SIXSTEP_DIR_FORWARD)
 	  {			
-				prevStep = (int8_t)SIXSTEP_parameters.positionStep + 2;	
+				prevStep = (int8_t)SIXSTEP_parameters.positionStep - 1;//+ 2;	
 	  }
 		else
 		{
-				prevStep = (int8_t)SIXSTEP_parameters.positionStep + 4;	
+				prevStep = (int8_t)SIXSTEP_parameters.positionStep + 1;//+ 4;	
 		}
 	 
 	 
 		if(prevStep > 6)
 		{ 
 			prevStep = prevStep - 6;
+		}
+		
+		if(prevStep < 1)
+		{ 
+			prevStep = prevStep + 6;
 		}
 		
 		MC_SixStep_Table(prevStep);
@@ -574,7 +573,7 @@ void 			MC_SixStep_Handler(void)
 							
 							htim1.Instance->EGR|=TIM_EGR_COMG; //генерим событие коммутации															
 							SIXSTEP_parameters.status = SIXSTEP_STATUS_PREV_STEP;//SIXSTEP_STATUS_RAMP;	
-							MC_SixStep_SetDelay(50);
+							MC_SixStep_SetDelay(100);
 					}	
 			}
 			break;	
@@ -642,9 +641,27 @@ void 			MC_SixStep_Handler(void)
 /*
 **********************IR2133 signals***************************
 */
+
+/*
+Наблюдается дребезг!
+*/
 uint8_t   MC_SixStep_GetDriverFault(void) //Overcurrent or undervoltage
 {
-		return !HAL_GPIO_ReadPin(FAULT_GPIO_Port, FAULT_Pin);
+		static GPIO_PinState pinStatePrev = GPIO_PIN_SET;
+		uint8_t fault = FALSE;
+
+		if(HAL_GPIO_ReadPin(FAULT_GPIO_Port, FAULT_Pin) == GPIO_PIN_RESET)
+		{
+				if(pinStatePrev == HAL_GPIO_ReadPin(FAULT_GPIO_Port, FAULT_Pin))
+				{
+						fault =  TRUE;
+				}
+		}
+		
+		pinStatePrev = HAL_GPIO_ReadPin(FAULT_GPIO_Port, FAULT_Pin);
+		
+		
+		return fault;
 }
 
 void 			MC_SixStep_ClearDriverFault(void)//
@@ -657,7 +674,7 @@ void 			MC_SixStep_ClearDriverFault(void)//
 
 void 			MC_SixStep_ShutDown(void)
 {
-		HAL_GPIO_WritePin(SD_GPIO_Port, SD_Pin, GPIO_PIN_SET);
+		//HAL_GPIO_WritePin(SD_GPIO_Port, SD_Pin, GPIO_PIN_SET);
 }
 /*
 ****************************************************************  
