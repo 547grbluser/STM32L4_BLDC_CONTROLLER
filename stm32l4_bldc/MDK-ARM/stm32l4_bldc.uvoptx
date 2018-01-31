@@ -151,12 +151,12 @@
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>SIXSTEP_parameters</ItemText>
+          <ItemText>ADC_value</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>ADC_value</ItemText>
+          <ItemText>SIXSTEP_parameters</ItemText>
         </Ww>
       </WatchWindow1>
       <MemoryWindow1>
@@ -780,7 +780,7 @@
       <GroupNumber>6</GroupNumber>
       <FileNumber>43</FileNumber>
       <FileType>1</FileType>
-      <tvExp>1</tvExp>
+      <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\MC_BLDC_Lib\Src\bldc_lib.c</PathWithFileName>

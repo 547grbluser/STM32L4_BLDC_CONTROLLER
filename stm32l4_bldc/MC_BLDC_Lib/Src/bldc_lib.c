@@ -17,6 +17,7 @@ stSIXSTEP_Base SIXSTEP_parameters;            /*!< Main SixStep structure*/
 void			MC_SixStep_Reset(void);
 
 void 			MC_SixStep_GetParameters(void);
+void 			MC_SixStep_ElSpeedHzToBuf(uint16_t elSpeed);
 uint32_t	MC_SixStep_GetElSpeedHz(void);
 void		 	MC_SixStep_DetectSpeedZero(void);
 
@@ -50,7 +51,9 @@ uint8_t 	MC_SixStep_TimeoutDelay(void);
 /*
 *********************Static variables*****************************
 */
+#define BLDC_EL_SPEED_BUF_SIZE		48
 static uint8_t hallSensorPulse=FALSE;
+static uint16_t ElSpeedBuf[BLDC_EL_SPEED_BUF_SIZE] = {0};//буфер усреднения RPM
 /*
 *******************************************************************
 */
@@ -289,25 +292,44 @@ uint8_t 	MC_SixStep_Ramp(uint8_t maxVal, uint8_t step)
 }
 
 
+void MC_SixStep_ElSpeedHzToBuf(uint16_t elSpeed)
+{
+		static uint8_t bufCnt = 0;
+		
+		ElSpeedBuf[bufCnt] = elSpeed;
+		bufCnt++;
+		
+		if(bufCnt > BLDC_EL_SPEED_BUF_SIZE)
+		{
+				bufCnt = 0;
+		}
+}
+
 uint32_t MC_SixStep_GetElSpeedHz(void) //Частота импульсов с датчиков Холла
 {   
 
 	//код определения частоты вращения двигателя
 	
 	 uint32_t freq;
+	 uint8_t  bufCnt;
 	
 	 if(SIXSTEP_parameters.flagIsSpeedNotZero==FALSE)
 	 {
 			return 0;
 	 }
+	 
+	 for(bufCnt = 0; bufCnt < BLDC_EL_SPEED_BUF_SIZE; bufCnt++)
+	 {
+			freq += ElSpeedBuf[bufCnt];
+	 }
 	
-	 if(HALL_TIM.Instance->CCR1==0)
+	 if(freq==0)
 	 {
 			return 0;
 	 }
 	 else
 	 {
-			freq= HALL_TIM_FREQ/HALL_TIM.Instance->CCR1;
+			freq= HALL_TIM_FREQ * BLDC_EL_SPEED_BUF_SIZE/freq;
 	 }
 	 
 	 return freq;
@@ -743,6 +765,8 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 					{
 							htim1.Instance->EGR|=TIM_EGR_COMG; //commutation signal
 					}
+					
+					MC_SixStep_ElSpeedHzToBuf(htim->Instance->CCR1);
 			 }
 		}
 }

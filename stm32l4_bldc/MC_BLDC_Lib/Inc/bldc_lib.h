@@ -15,7 +15,7 @@
 #define HALL_TIM                htim2
 #define SPEED_TIM								htim4	
 
-#define HALL_TIM_FREQ						20000 //Hz
+#define HALL_TIM_FREQ						80000 //Hz
 
 
 typedef enum 
