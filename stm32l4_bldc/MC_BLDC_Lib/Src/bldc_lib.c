@@ -382,10 +382,14 @@ uint8_t   MC_SixStep_GetCurrentPosition(void) //Текущее положение ротора
 		return stepPos;
 }
 
+#define SIXSTEP_POS_CNT_ERR		5
 void	MC_SixStep_HallFdbkVerify(void)
 {
 		
      static uint8_t stepPosPrev = 0xFF;
+		 static uint8_t stepPosErrCnt	= 0;
+	
+		 uint8_t stepPosErrFlag = FALSE;
 	
 		 uint8_t stepPos = MC_SixStep_GetCurrentPosition();
 	
@@ -397,6 +401,7 @@ void	MC_SixStep_HallFdbkVerify(void)
 			 (SIXSTEP_parameters.status==SIXSTEP_STATUS_RAMP)	 ||
 			 (SIXSTEP_parameters.status==SIXSTEP_STATUS_STOP))
 		 {
+				stepPosErrCnt = 0;
 				stepPosPrev = 0xFF;
 		 }
 	
@@ -412,18 +417,14 @@ void	MC_SixStep_HallFdbkVerify(void)
 				{
 						if(stepPos!= (stepPosPrev + 1))
 						{
-								MC_SixStep_SetErrorFlag(SIXSTEP_ERR_POSFBKERROR);
-								stepPosPrev = 0xFF;
-								return;
+								stepPosErrFlag = TRUE;
 						}
 				}
 				else
 				{
 						if(stepPosPrev!= 6)
 						{
-								MC_SixStep_SetErrorFlag(SIXSTEP_ERR_POSFBKERROR);
-								stepPosPrev = 0xFF;
-								return;
+								stepPosErrFlag = TRUE;
 						}
 				}
 		 }
@@ -433,23 +434,38 @@ void	MC_SixStep_HallFdbkVerify(void)
 				{
 						if(stepPos != (stepPosPrev - 1))
 						{
-								MC_SixStep_SetErrorFlag(SIXSTEP_ERR_POSFBKERROR);
-								stepPosPrev = 0xFF;
-								return;
+								stepPosErrFlag = TRUE;
 						}
 				}
 				else
 				{
 						if(stepPosPrev!= 1)
 						{
-								MC_SixStep_SetErrorFlag(SIXSTEP_ERR_POSFBKERROR);
-								stepPosPrev = 0xFF;
-								return;
+								stepPosErrFlag = TRUE;								
 						}
 				}		 
 		 }
 		 
-		 stepPosPrev = stepPos;
+		 
+		 if(stepPosErrFlag)
+		 {
+				stepPosErrCnt++;
+				stepPosPrev = 0xFF;
+		 }
+		 else
+		 {
+				stepPosErrCnt = 0;
+		 }
+		 
+		 if(stepPosErrCnt < SIXSTEP_POS_CNT_ERR)
+		 {
+				stepPosPrev = stepPos;
+		 }
+		 else
+		 {
+				stepPosErrCnt = 0;
+				MC_SixStep_SetErrorFlag(SIXSTEP_ERR_POSFBKERROR);
+		 }
 }
 
 #define MC_CURRENT_COEF 10
@@ -674,7 +690,7 @@ void 			MC_SixStep_ClearDriverFault(void)//
 {
 		HAL_GPIO_WritePin(SD_GPIO_Port, SD_Pin, GPIO_PIN_RESET);
 		HAL_GPIO_WritePin(F_CLR_GPIO_Port, F_CLR_Pin, GPIO_PIN_RESET);
-		osDelay(500);
+		osDelay(50);
 		HAL_GPIO_WritePin(F_CLR_GPIO_Port, F_CLR_Pin, GPIO_PIN_SET);		
 }
 
@@ -707,8 +723,8 @@ void HAL_TIMEx_CommutationCallback(TIM_HandleTypeDef *htim) //
 {
 	if(htim->Instance == TIM1)
 	{		
-//			MC_SixStep_HallFdbkVerify();
-		MC_SixStep_GetCurrentPosition();
+			MC_SixStep_HallFdbkVerify();
+//		MC_SixStep_GetCurrentPosition();
 			MC_SixStep_NextStep();
 			SIXSTEP_parameters.flagIsSpeedNotZero = TRUE;
 			hallSensorPulse = TRUE;	
