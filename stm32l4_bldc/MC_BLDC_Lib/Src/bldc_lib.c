@@ -202,25 +202,6 @@ void 			MC_SixStep_ChargeCap(uint16_t time)
 		MC_SixStep_SetPhaseParam(TIM_CHANNEL_2, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_LOW);								
 		MC_SixStep_SetPhaseParam(TIM_CHANNEL_3, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_LOW);
 
-//		SIXSTEP_parameters.PWM_Value	=  1;
-//		
-//		
-////		MC_SixStep_SetPhaseParam(TIM_CHANNEL_1, TIM_OCMODE_PWM1, TIM_OCNPOLARITY_LOW);
-////		HAL_TIM_OC_Stop(&htim1, TIM_CHANNEL_1);
-////		HAL_TIMEx_OCN_Start(&htim1, TIM_CHANNEL_1);
-//		
-//	  MC_SixStep_SetPhaseParam(TIM_CHANNEL_1, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_HIGH);
-//	
-//		MC_SixStep_SetPhaseParam(TIM_CHANNEL_2, TIM_OCMODE_PWM1, TIM_OCNPOLARITY_LOW);	
-//		HAL_TIM_OC_Stop(&htim1, TIM_CHANNEL_2);
-//		HAL_TIMEx_OCN_Start(&htim1, TIM_CHANNEL_2);
-//	
-//			MC_SixStep_SetPhaseParam(TIM_CHANNEL_3, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_HIGH);	
-////	
-////		MC_SixStep_SetPhaseParam(TIM_CHANNEL_3, TIM_OCMODE_PWM1, TIM_OCNPOLARITY_LOW);	
-////		HAL_TIM_OC_Stop(&htim1, TIM_CHANNEL_3);
-////		HAL_TIMEx_OCN_Start(&htim1, TIM_CHANNEL_3);	
-	
 		htim1.Instance->EGR|=TIM_EGR_COMG; //генерим событие коммутации
 		
 		MC_SixStep_ClearDriverFault();
@@ -279,6 +260,7 @@ void 		MC_SixStep_StartMotor(enSIXSTEP_Direction dir)
 			MC_SixStep_ClearErrors();
 			SIXSTEP_parameters.direction = dir;
 			SIXSTEP_parameters.status = SIXSTEP_STATUS_INIT;
+			SIXSTEP_parameters.faultCnt = 0;
 		}
 }
 
@@ -339,8 +321,7 @@ uint32_t MC_SixStep_GetMechSpeedRPM(void) //Частота вращения ротора двигателя в 
 }
 
 
-//const uint8_t hallPosTable_FWD[8] = {0, 3, 5, 4, 1, 2, 6, 0};//Перекодировка датчиков Холла в шаг FW
-//const uint8_t hallPosTable_BWD[8] = {0, 4, 6, 5, 2, 3, 1, 0};//Перекодировка датчиков Холла в шаг BW
+
 const uint8_t hallPosTable_FWD[8] = {0, 3, 5, 4, 1, 2, 6, 0};//Перекодировка датчиков Холла в шаг FW
 const uint8_t hallPosTable_BWD[8] = {0, 6, 2, 1, 4, 5, 3, 0};//Перекодировка датчиков Холла в шаг BW
 
@@ -557,7 +538,8 @@ void 			MC_SixStep_Handler(void)
 	if( SIXSTEP_parameters.error!=SIXSTEP_ERR_OK 					&&
 		((SIXSTEP_parameters.status !=SIXSTEP_STATUS_FAULT) && 
 		 (SIXSTEP_parameters.status !=SIXSTEP_STATUS_BREAK) &&
-		 (SIXSTEP_parameters.status !=SIXSTEP_STATUS_STOP))
+		 (SIXSTEP_parameters.status !=SIXSTEP_STATUS_STOP)	&&
+		 (SIXSTEP_parameters.status !=SIXSTEP_STATUS_RESTART))
 	  )
 	{
 			SIXSTEP_parameters.status = SIXSTEP_STATUS_FAULT;
@@ -646,11 +628,33 @@ void 			MC_SixStep_Handler(void)
 			break;
 			
 			case SIXSTEP_STATUS_FAULT:
-			{				
+			{
+					SIXSTEP_parameters.faultCnt++;
 					MC_SixStep_ShutDown();
-				  SIXSTEP_parameters.status=SIXSTEP_STATUS_BREAK;
+					
+				
+					if(SIXSTEP_parameters.faultCnt < BLDC_FAULT_RESTART_N)
+					{
+							MC_SixStep_SetDelay(200);
+							SIXSTEP_parameters.status=SIXSTEP_STATUS_RESTART;
+					}
+					else
+					{							
+							SIXSTEP_parameters.status=SIXSTEP_STATUS_BREAK;						
+					}
 			}
-			break;			
+			break;
+
+			case SIXSTEP_STATUS_RESTART:
+			{				
+					if(MC_SixStep_TimeoutDelay())
+					{
+							SIXSTEP_parameters.status=SIXSTEP_STATUS_INIT;
+							MC_SixStep_ClearDriverFault();
+							MC_SixStep_ClearErrors();
+					}
+			}
+			break;				
 			
 			default:
 			{
@@ -681,8 +685,7 @@ uint8_t   MC_SixStep_GetDriverFault(void) //Overcurrent or undervoltage
 		}
 		
 		pinStatePrev = HAL_GPIO_ReadPin(FAULT_GPIO_Port, FAULT_Pin);
-		
-		
+				
 		return fault;
 }
 
@@ -724,7 +727,6 @@ void HAL_TIMEx_CommutationCallback(TIM_HandleTypeDef *htim) //
 	if(htim->Instance == TIM1)
 	{		
 			MC_SixStep_HallFdbkVerify();
-//		MC_SixStep_GetCurrentPosition();
 			MC_SixStep_NextStep();
 			SIXSTEP_parameters.flagIsSpeedNotZero = TRUE;
 			hallSensorPulse = TRUE;	

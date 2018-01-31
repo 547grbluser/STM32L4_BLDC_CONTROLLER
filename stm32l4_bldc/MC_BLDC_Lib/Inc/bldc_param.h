@@ -21,6 +21,7 @@
 //#define BLDC_ACCEL_MAX														500				//RPM/M
 //#define IS_BLDC_ACCEL(__ACCEL__) (((__ACCEL__) >=BLDC_ACCEL_MIN) && ((__ACCEL__) <= BLDC_ACCEL_MAX))
 
+#define BLDC_FAULT_RESTART_N											5
 
 
 

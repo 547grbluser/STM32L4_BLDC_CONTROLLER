@@ -27,7 +27,8 @@ typedef enum
     SIXSTEP_STATUS_RUN,
 	  SIXSTEP_STATUS_BREAK, 
 	  SIXSTEP_STATUS_STOP, 
-		SIXSTEP_STATUS_FAULT, 	
+		SIXSTEP_STATUS_FAULT, 
+		SIXSTEP_STATUS_RESTART,
 		
 } enSIXSTEP_SystStatus;
 
@@ -59,6 +60,7 @@ typedef struct
 {
 	enSIXSTEP_SystStatus status;      			/*!< Status variable for SixStep algorithm*/ 
 	enSIXSTEP_Error			 error;							/*!< Error variable for SixStep algorithm*/ 
+	uint8_t							 faultCnt;
 
 	/*BLDC read params*/
 	uint16_t 	speedFdbk;
