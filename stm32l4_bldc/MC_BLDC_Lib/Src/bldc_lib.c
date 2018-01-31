@@ -196,6 +196,8 @@ void MC_SixStep_PrevStep(void)
 
 void 			MC_SixStep_ChargeCap(uint16_t time)
 {
+		MC_SixStep_ShutDown();
+	
 		MC_SixStep_SetPhaseParam(TIM_CHANNEL_1, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_LOW);
 		MC_SixStep_SetPhaseParam(TIM_CHANNEL_2, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_LOW);								
 		MC_SixStep_SetPhaseParam(TIM_CHANNEL_3, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_LOW);
@@ -220,14 +222,18 @@ void 			MC_SixStep_ChargeCap(uint16_t time)
 ////		HAL_TIMEx_OCN_Start(&htim1, TIM_CHANNEL_3);	
 	
 		htim1.Instance->EGR|=TIM_EGR_COMG; //генерим событие коммутации
+		
+		MC_SixStep_ClearDriverFault();
 	
 		vTaskDelay(time);
 	
+		MC_SixStep_ShutDown();
 		MC_SixStep_SetPhaseParam(TIM_CHANNEL_1, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_HIGH);
 		MC_SixStep_SetPhaseParam(TIM_CHANNEL_2, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_HIGH);								
 		MC_SixStep_SetPhaseParam(TIM_CHANNEL_3, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_HIGH);	
 
 		htim1.Instance->EGR|=TIM_EGR_COMG; //генерим событие коммутации
+		MC_SixStep_ClearDriverFault();
 }
 
 void 		MC_SixStep_Reset(void) //Останов и сброс 
@@ -243,7 +249,7 @@ void 		MC_SixStep_Reset(void) //Останов и сброс
 		SIXSTEP_parameters.status = SIXSTEP_STATUS_STOP;
 		SIXSTEP_parameters.prevStep = FALSE;
 	
-		MC_SixStep_Set_PI_Param(&SIXSTEP_parameters.PI_Param); 
+//		MC_SixStep_Set_PI_Param(&SIXSTEP_parameters.PI_Param); 
 }
 
 /*
@@ -369,7 +375,7 @@ uint8_t   MC_SixStep_GetCurrentPosition(void) //Текущее положение ротора
 		}
 		else //Недопустимый сигнал датчиков (все 0 или 1)
 		{
-				MC_SixStep_SetErrorFlag(SIXSTEP_ERR_POSFBKERROR);
+				MC_SixStep_SetErrorFlag(SIXSTEP_ERR_HALL_SENSOR_ERROR);
 				return 0;
 		}
 		
@@ -471,11 +477,11 @@ enSIXSTEP_SystStatus MC_SixStep_GetStatus(void)
 
 void MC_SixStep_Init(void)
 {
+		MC_SixStep_ShutDown();
+		MC_SixStep_Reset();
 		HAL_TIMEx_ConfigCommutationEvent_IT(&PHASE_TIM, PHASE_TIM_TRIGGER_INPUT, TIM_COMMUTATION_SOFTWARE);
-		HAL_TIMEx_HallSensor_Start_IT(&HALL_TIM);
-	
-//		MC_SixStep_ChargeCap(1000);
-    MC_SixStep_Reset();
+		HAL_TIMEx_HallSensor_Start_IT(&HALL_TIM);    
+		MC_SixStep_ClearDriverFault();
 }
 
 /*
@@ -566,7 +572,7 @@ void 			MC_SixStep_Handler(void)
 					else
 					{
 							SIXSTEP_parameters.PWM_Value = 0;		
-							MC_SixStep_ChargeCap(100);
+							MC_SixStep_ChargeCap(5);
 							//MC_SixStep_Table(SIXSTEP_parameters.positionStep);	
 							MC_SixStep_PrevStep();
 							SIXSTEP_parameters.prevStep = TRUE;
@@ -674,7 +680,7 @@ void 			MC_SixStep_ClearDriverFault(void)//
 
 void 			MC_SixStep_ShutDown(void)
 {
-		//HAL_GPIO_WritePin(SD_GPIO_Port, SD_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(SD_GPIO_Port, SD_Pin, GPIO_PIN_SET);
 }
 /*
 ****************************************************************  
@@ -701,7 +707,8 @@ void HAL_TIMEx_CommutationCallback(TIM_HandleTypeDef *htim) //
 {
 	if(htim->Instance == TIM1)
 	{		
-			MC_SixStep_HallFdbkVerify();
+//			MC_SixStep_HallFdbkVerify();
+		MC_SixStep_GetCurrentPosition();
 			MC_SixStep_NextStep();
 			SIXSTEP_parameters.flagIsSpeedNotZero = TRUE;
 			hallSensorPulse = TRUE;	
