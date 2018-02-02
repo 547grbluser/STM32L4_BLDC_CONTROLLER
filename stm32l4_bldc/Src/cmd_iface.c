@@ -76,14 +76,12 @@ static void Cmd_Iface_Task(void *pvParameters)
 	__HAL_UART_ENABLE_IT(&huart1, UART_IT_RXNE);
 	while(1)
 	{		
-		
 		if(!FIFO_IS_EMPTY( uart1_rx_fifo ))
 		{
 				chr = FIFO_FRONT( uart1_rx_fifo );
 				FIFO_POP( uart1_rx_fifo );
 				microrl_insert_char (prl, chr);	
 		}
-//		chr = get_char();
 	}
 }
 

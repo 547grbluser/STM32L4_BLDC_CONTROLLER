@@ -7,7 +7,7 @@
 #define ADC_INT_CIRCLE_BUF_LEN		64 //количество элементов кольцевого буфера на один канал
 #define ADC_INT_FILTER_LEN				56	
 
-#define ADC_INT_VREF_VAL				1200//mV
+#define ADC_INT_VREF_VAL				1300//mV
 #define ADC_INT_MAX_VAL					4095
 #define ADC_INT_AVCC_VAL				3300//mV
 

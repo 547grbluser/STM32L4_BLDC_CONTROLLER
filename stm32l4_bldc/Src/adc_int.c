@@ -20,7 +20,9 @@ static void ADC_Int_Test_Task(void *pvParameters);
 int adcIntInit(void)
 {
 		HAL_StatusTypeDef err=HAL_OK;
-		err=HAL_ADC_Start_DMA(&hadc1,(uint32_t*)ADC_value,(ADC_INT_CHANNEL_NUM*ADC_INT_CIRCLE_BUF_LEN));
+		err = HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED);
+		vTaskDelay(100);
+		err = HAL_ADC_Start_DMA(&hadc1,(uint32_t*)ADC_value,(ADC_INT_CHANNEL_NUM*ADC_INT_CIRCLE_BUF_LEN));
 }
 
 uint16_t adcIntGet(enADCChannels channel)
@@ -44,9 +46,9 @@ uint16_t adcIntGetVoltage(enADCChannels channel)//mV
 		
 		adcValue=adcIntGetFilteredValue(channel);
 	
-		uint16_t avcc=(ADC_INT_AVCC_VAL*vrefCal/vrefValue);
-		result=(uint16_t)((adcValue*avcc)/ADC_INT_MAX_VAL);
-	
+		//uint16_t avcc=(ADC_INT_AVCC_VAL*vrefCal/vrefValue);
+		//result=(uint16_t)((adcValue*avcc)/ADC_INT_MAX_VAL);
+		result=(uint16_t)(adcValue*vrefCal/vrefValue);
 		return result;	
 }
 

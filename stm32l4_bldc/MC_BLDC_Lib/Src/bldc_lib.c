@@ -475,8 +475,25 @@ void	MC_SixStep_HallFdbkVerify(void)
 uint16_t MC_SixStep_GetCurrent(void) 
 {
 		uint32_t adcVoltage;
+		static uint32_t adcVoltageCur0 = 0;
+	
+	/*
+		ѕри остановленном двигателе найдем смещение нул€
+	*/
+		if(SIXSTEP_parameters.status == SIXSTEP_STATUS_STOP)
+		{
+				adcVoltageCur0 = adcIntGetVoltage(ADC_MC_CURRENT);
+		}
+	
 		adcVoltage = adcIntGetVoltage(ADC_MC_CURRENT);
-		SIXSTEP_parameters.currentFdbk = (uint16_t)(adcVoltage * MC_CURRENT_COEF);		
+		if(adcVoltage > adcVoltageCur0)
+		{
+			SIXSTEP_parameters.currentFdbk = (uint16_t)((adcVoltage - adcVoltageCur0) * 5/2);	
+		}
+		else
+		{
+				SIXSTEP_parameters.currentFdbk = 0;
+		}
 		return SIXSTEP_parameters.currentFdbk;
 }
 
