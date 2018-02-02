@@ -29,6 +29,7 @@ typedef enum
 	  SIXSTEP_STATUS_STOP, 
 		SIXSTEP_STATUS_FAULT, 
 		SIXSTEP_STATUS_RESTART,
+		SIXSTEP_OPEN_VT_SWITCH,
 		
 } enSIXSTEP_SystStatus;
 
@@ -51,7 +52,11 @@ typedef enum
 		SIXSTEP_DIR_BACKWARD,
 }enSIXSTEP_Direction;
 
-
+typedef enum
+{
+		SIXSTEP_MODE_MOTOR=0,
+		SIXSTEP_MODE_OPEN_SWITCH,
+}enSIXSTEP_Mode;
 
 /** 
   * @brief  Six Step parameters  
@@ -62,17 +67,17 @@ typedef struct
 	enSIXSTEP_Error			 error;							/*!< Error variable for SixStep algorithm*/ 
 	uint8_t							 faultCnt;
 
-	/*BLDC read params*/
+
 	uint16_t 	speedFdbk;
 	uint8_t  	flagIsSpeedNotZero;
 	uint16_t 	currentFdbk;
 	uint16_t 	voltageFdbk;
 	uint8_t 	positionFdbk;
 	
-	/*BLDC write params*/
-//	int16_t 	speedTarget;
+
 	uint8_t 	prevStep;
 	enSIXSTEP_Direction		direction;
+	enSIXSTEP_Mode	mode;
 	uint8_t		positionStep;
 	uint16_t 	PWM_Value;
 	

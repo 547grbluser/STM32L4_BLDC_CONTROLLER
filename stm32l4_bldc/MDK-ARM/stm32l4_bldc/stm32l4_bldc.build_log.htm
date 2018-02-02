@@ -27,76 +27,16 @@ Project File Date:  02/02/2018
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 5 (build 528)', folder: 'C:\Program Files\Keil\ARM\ARMCC\Bin'
 Build target 'stm32l4_bldc'
-compiling cmd_iface.c...
-..\MC_BLDC_Lib\Inc\bldc_pid.h(28): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\Src\cmd_iface.c(158): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
-  				sprintf(str, "OK %02X\r\n", err);			
-..\Src\cmd_iface.c(159): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
-  				print(str);
-..\Src\cmd_iface.c(165): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
-  				sprintf(str, "OK %02X\r\n", err);			
-..\Src\cmd_iface.c(166): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
-  				print(str);
-..\Src\cmd_iface.c(172): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
-  				sprintf(str, "OK %02X\r\n", err);			
-..\Src\cmd_iface.c(173): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
-  				print(str);
-..\Src\cmd_iface.c(180): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
-  				sprintf(str, "Error code = %X\r\n", err);			
-..\Src\cmd_iface.c(181): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
-  				print(str);
-..\Src\cmd_iface.c(186): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
-  				sprintf(str, "Current = %d mA\r\n", current);			
-..\Src\cmd_iface.c(187): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
-  				print(str);
-..\Src\cmd_iface.c(192): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
-  				sprintf(str, "Voltage = %d V\r\n", voltage);			
-..\Src\cmd_iface.c(193): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
-  				print(str);
-..\Src\cmd_iface.c(198): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
-  				sprintf(str, "Status code = %d\r\n", status);			
-..\Src\cmd_iface.c(199): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
-  				print(str);
-..\Src\cmd_iface.c(204): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
-  				sprintf(str, "RPM = %d\r\n", rpm);			
-..\Src\cmd_iface.c(205): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
-  				print(str);
-..\Src\cmd_iface.c(217): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
-  				sprintf(str, "OK %02X %d %d %d %d\r\n", err, voltage, current, rpm, phase);			
-..\Src\cmd_iface.c(218): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
-  				print(str);			
-..\Src\cmd_iface.c(223): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
-  				sprintf(str, "OK %02X\r\n", err);			
-..\Src\cmd_iface.c(224): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
-  				print(str);
-..\Src\cmd_iface.c(242): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
-  				sprintf(str, "OK\r\n");			
-..\Src\cmd_iface.c(243): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
-  				print(str);
-..\Src\cmd_iface.c(299): warning:  #1-D: last line of file ends without a newline
-  }
-..\Src\cmd_iface.c: 24 warnings, 0 errors
 compiling bldc_lib.c...
 ..\MC_BLDC_Lib\Inc\bldc_pid.h(28): warning:  #1-D: last line of file ends without a newline
   #endif
-..\MC_BLDC_Lib\Src\bldc_lib.c(248): warning:  #186-D: pointless comparison of unsigned integer with zero
+..\MC_BLDC_Lib\Src\bldc_lib.c(250): warning:  #186-D: pointless comparison of unsigned integer with zero
      if(
 S_BLDC_RPM(speed_value))
 ..\MC_BLDC_Lib\Src\bldc_lib.c: 2 warnings, 0 errors
-compiling freertos.c...
-..\MC_BLDC_Lib\Inc\bldc_pid.h(28): warning:  #1-D: last line of file ends without a newline
-  #endif
-../Src/freertos.c: 1 warning, 0 errors
-compiling microrl.c...
-..\MC_BLDC_Lib\Inc\bldc_pid.h(28): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\microrl\src\microrl.c(212): warning:  #111-D: statement is unreachable
-  	return i;
-..\microrl\src\microrl.c: 2 warnings, 0 errors
 linking...
-Program Size: Code=29048 RO-data=584 RW-data=148 ZI-data=22188  
-"stm32l4_bldc\stm32l4_bldc.axf" - 0 Error(s), 29 Warning(s).
+Program Size: Code=29248 RO-data=584 RW-data=148 ZI-data=22188  
+"stm32l4_bldc\stm32l4_bldc.axf" - 0 Error(s), 2 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -119,7 +59,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.0.1
-Build Time Elapsed:  00:00:13
+Build Time Elapsed:  00:00:04
 </pre>
 </body>
 </html>

@@ -225,6 +225,7 @@ int execute (int argc, const char * const * argv)
 				/*
 					Open VT SWITCH
 				*/
+				MC_SixStep_OpenVTSwitch();
 		}
 		else if (strcmp (argv[i], _CMD_ECHO) == 0) 
 		{

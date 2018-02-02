@@ -224,7 +224,8 @@ void 			MC_SixStep_ChargeCap(uint16_t time)
 }
 
 void 		MC_SixStep_Reset(void) //Останов и сброс 
-{   	
+{   
+		HAL_TIMEx_HallSensor_Stop_IT(&HALL_TIM); 
 		MC_SixStep_SetPhaseParam(TIM_CHANNEL_1, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_HIGH);
 		MC_SixStep_SetPhaseParam(TIM_CHANNEL_2, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_HIGH);								
 		MC_SixStep_SetPhaseParam(TIM_CHANNEL_3, TIM_OCMODE_INACTIVE, TIM_OCNPOLARITY_HIGH);		
@@ -235,6 +236,7 @@ void 		MC_SixStep_Reset(void) //Останов и сброс
 		SIXSTEP_parameters.PWM_Value	= 0;
 		SIXSTEP_parameters.status = SIXSTEP_STATUS_STOP;
 		SIXSTEP_parameters.prevStep = FALSE;
+//		SIXSTEP_parameters.mode	=	SIXSTEP_MODE_MOTOR;
 	
 //		MC_SixStep_Set_PI_Param(&SIXSTEP_parameters.PI_Param); 
 }
@@ -267,6 +269,7 @@ void 		MC_SixStep_StartMotor(enSIXSTEP_Direction dir)
 			SIXSTEP_parameters.direction = dir;
 			SIXSTEP_parameters.status = SIXSTEP_STATUS_INIT;
 			SIXSTEP_parameters.faultCnt = 0;
+			SIXSTEP_parameters.mode	=	SIXSTEP_MODE_MOTOR;
 		}
 }
 
@@ -299,7 +302,22 @@ uint8_t 	MC_SixStep_Ramp(uint8_t maxVal, uint8_t step)
 */
 void 			MC_SixStep_OpenVTSwitch(void)
 {
-		
+		if(SIXSTEP_parameters.status == SIXSTEP_STATUS_STOP)
+		{
+				HAL_TIMEx_HallSensor_Stop_IT(&HALL_TIM); 
+
+				MC_SixStep_ClearDriverFault();
+				MC_SixStep_ClearErrors();
+				SIXSTEP_parameters.mode	=	SIXSTEP_MODE_OPEN_SWITCH;
+				MC_SixStep_ChargeCap(BLDC_CHARGE_CAP_TIME);
+			
+				MC_SixStep_SetPhaseParam(TIM_CHANNEL_1, TIM_OCMODE_ACTIVE, TIM_OCNPOLARITY_HIGH);
+				MC_SixStep_SetPhaseParam(TIM_CHANNEL_2, TIM_OCMODE_ACTIVE, TIM_OCNPOLARITY_HIGH);								
+				MC_SixStep_SetPhaseParam(TIM_CHANNEL_3, TIM_OCMODE_ACTIVE, TIM_OCNPOLARITY_HIGH);		
+				
+				SIXSTEP_parameters.status = SIXSTEP_OPEN_VT_SWITCH;
+				htim1.Instance->EGR|=TIM_EGR_COMG; //генерим событие коммутации
+		}	
 }
 
 /*
@@ -307,7 +325,7 @@ void 			MC_SixStep_OpenVTSwitch(void)
 */
 void 			MC_SixStep_CloseVTSwitch(void)
 {
-		
+		MC_SixStep_Reset();
 }
 /***********************************************************************/
 void MC_SixStep_ElSpeedHzToBuf(uint16_t elSpeed)
@@ -534,7 +552,7 @@ void MC_SixStep_Init(void)
 		MC_SixStep_ShutDown();
 		MC_SixStep_Reset();
 		HAL_TIMEx_ConfigCommutationEvent_IT(&PHASE_TIM, PHASE_TIM_TRIGGER_INPUT, TIM_COMMUTATION_SOFTWARE);
-		HAL_TIMEx_HallSensor_Start_IT(&HALL_TIM);    
+		HAL_TIMEx_HallSensor_Stop_IT(&HALL_TIM);    
 		MC_SixStep_ClearDriverFault();
 }
 
@@ -591,6 +609,11 @@ void 			MC_SixStep_Handler(void)
 	MC_SixStep_DetectSpeedZero();
 	
 	MC_SixStep_GetParameters();
+	
+	if(MC_SixStep_GetDriverFault() == TRUE)
+	{
+			MC_SixStep_SetErrorFlag(SIXSTEP_ERR_OVERCURRENT);
+	}
 
 	if( SIXSTEP_parameters.error!=SIXSTEP_ERR_OK 					&&
 		((SIXSTEP_parameters.status !=SIXSTEP_STATUS_FAULT) && 
@@ -602,10 +625,7 @@ void 			MC_SixStep_Handler(void)
 			SIXSTEP_parameters.status = SIXSTEP_STATUS_FAULT;
 	}
 	
-	if(MC_SixStep_GetDriverFault() == TRUE)
-	{
-			MC_SixStep_SetErrorFlag(SIXSTEP_ERR_OVERCURRENT);
-	}
+
 	
 	switch(SIXSTEP_parameters.status)
 	{		
@@ -629,7 +649,8 @@ void 			MC_SixStep_Handler(void)
 							SIXSTEP_parameters.PWM_Value = BLDC_PWM_START;		
 							MC_SixStep_ChargeCap(BLDC_CHARGE_CAP_TIME);
 							MC_SixStep_PrevStep();
-							SIXSTEP_parameters.prevStep = TRUE;
+							//SIXSTEP_parameters.prevStep = TRUE;
+							HAL_TIMEx_HallSensor_Stop_IT(&HALL_TIM); 
 							
 							htim1.Instance->EGR|=TIM_EGR_COMG; //генерим событие коммутации															
 							SIXSTEP_parameters.status = SIXSTEP_STATUS_PREV_STEP;
@@ -643,7 +664,8 @@ void 			MC_SixStep_Handler(void)
 					if(MC_SixStep_TimeoutDelay() && MC_SixStep_Ramp(BLDC_PWM_RAMP_MAX, 5))
 					{	
 							SIXSTEP_parameters.PWM_Value = BLDC_PWM_START;	
-							SIXSTEP_parameters.prevStep = FALSE;
+							//SIXSTEP_parameters.prevStep = FALSE;
+							HAL_TIMEx_HallSensor_Start_IT(&HALL_TIM); 
 							MC_SixStep_GetCurrentPosition();
 							MC_SixStep_Table(SIXSTEP_parameters.positionStep);	
 							htim1.Instance->EGR|=TIM_EGR_COMG; 
@@ -689,7 +711,8 @@ void 			MC_SixStep_Handler(void)
 					MC_SixStep_ShutDown();
 					
 				
-					if(SIXSTEP_parameters.faultCnt < BLDC_FAULT_RESTART_N)
+					if((SIXSTEP_parameters.faultCnt < BLDC_FAULT_RESTART_N) 
+							&& (SIXSTEP_parameters.mode	== SIXSTEP_MODE_MOTOR))
 					{
 							MC_SixStep_SetDelay(200);
 							SIXSTEP_parameters.status=SIXSTEP_STATUS_RESTART;
@@ -710,7 +733,13 @@ void 			MC_SixStep_Handler(void)
 							MC_SixStep_ClearErrors();
 					}
 			}
-			break;				
+			break;	
+
+			case SIXSTEP_OPEN_VT_SWITCH:
+			{	
+					
+			}
+			break;
 			
 			default:
 			{
@@ -782,10 +811,13 @@ void HAL_TIMEx_CommutationCallback(TIM_HandleTypeDef *htim) //
 {
 	if(htim->Instance == TIM1)
 	{		
+		if(SIXSTEP_parameters.mode	== SIXSTEP_MODE_MOTOR)
+		{
 			MC_SixStep_HallFdbkVerify();
 			MC_SixStep_NextStep();
 			SIXSTEP_parameters.flagIsSpeedNotZero = TRUE;
 			hallSensorPulse = TRUE;	
+		}
 	}
 }
 
@@ -795,10 +827,10 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 		{				
 			 if(htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1)
 			 {
-					if(SIXSTEP_parameters.prevStep == FALSE)
-					{
+	//				if(SIXSTEP_parameters.prevStep == FALSE)
+	//				{
 							htim1.Instance->EGR|=TIM_EGR_COMG; //commutation signal
-					}
+	//				}
 					
 					MC_SixStep_ElSpeedHzToBuf(htim->Instance->CCR1);
 			 }
