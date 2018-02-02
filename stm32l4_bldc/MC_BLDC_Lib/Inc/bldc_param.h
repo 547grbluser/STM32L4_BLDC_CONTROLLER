@@ -16,17 +16,17 @@
 #define IS_BLDC_RPM(__RPM__) (((__RPM__) >=BLDC_RPM_MIN) && ((__RPM__) <= BLDC_RPM_MAX))
 
 
-#define BLDC_PWM_START															0		
-//#define BLDC_ACCEL_MIN														0					//RPM/M
-//#define BLDC_ACCEL_MAX														500				//RPM/M
-//#define IS_BLDC_ACCEL(__ACCEL__) (((__ACCEL__) >=BLDC_ACCEL_MIN) && ((__ACCEL__) <= BLDC_ACCEL_MAX))
+#define BLDC_PWM_START															0
+#define BLDC_PWM_RAMP_MAX														60	
 
-#define BLDC_FAULT_RESTART_N											5
+#define BLDC_FAULT_RESTART_N												5
 
 
 
 
 #define DUTY_CYCLE_INIT_VALUE                 1     /*!< Initial duty cycle value during startup */          
+
+#define BLDC_CHARGE_CAP_TIME									5//ms
 
 #ifndef TRUE
 #define TRUE                                 1      /*!< Define TRUE */  

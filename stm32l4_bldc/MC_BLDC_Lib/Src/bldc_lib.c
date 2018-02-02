@@ -30,6 +30,9 @@ uint8_t 	MC_SixStep_Ramp(uint8_t maxVal, uint8_t step);
 
 void 			MC_SixStep_ChargeCap(uint16_t time);
 
+
+
+
 /*
 	IR2133
 */
@@ -291,7 +294,22 @@ uint8_t 	MC_SixStep_Ramp(uint8_t maxVal, uint8_t step)
 		}
 }
 
+/*
+	Включить ток через кабель
+*/
+void 			MC_SixStep_OpenVTSwitch(void)
+{
+		
+}
 
+/*
+	Выключить ток через кабель
+*/
+void 			MC_SixStep_CloseVTSwitch(void)
+{
+		
+}
+/***********************************************************************/
 void MC_SixStep_ElSpeedHzToBuf(uint16_t elSpeed)
 {
 		static uint8_t bufCnt = 0;
@@ -608,14 +626,13 @@ void 			MC_SixStep_Handler(void)
 					}
 					else
 					{
-							SIXSTEP_parameters.PWM_Value = 0;		
-							MC_SixStep_ChargeCap(5);
-							//MC_SixStep_Table(SIXSTEP_parameters.positionStep);	
+							SIXSTEP_parameters.PWM_Value = BLDC_PWM_START;		
+							MC_SixStep_ChargeCap(BLDC_CHARGE_CAP_TIME);
 							MC_SixStep_PrevStep();
 							SIXSTEP_parameters.prevStep = TRUE;
 							
 							htim1.Instance->EGR|=TIM_EGR_COMG; //генерим событие коммутации															
-							SIXSTEP_parameters.status = SIXSTEP_STATUS_PREV_STEP;//SIXSTEP_STATUS_RAMP;	
+							SIXSTEP_parameters.status = SIXSTEP_STATUS_PREV_STEP;
 							MC_SixStep_SetDelay(100);
 					}	
 			}
@@ -623,9 +640,9 @@ void 			MC_SixStep_Handler(void)
 
 			case SIXSTEP_STATUS_PREV_STEP:
 			{			
-					if(MC_SixStep_TimeoutDelay() && MC_SixStep_Ramp(60, 5))
+					if(MC_SixStep_TimeoutDelay() && MC_SixStep_Ramp(BLDC_PWM_RAMP_MAX, 5))
 					{	
-							SIXSTEP_parameters.PWM_Value = 0;	
+							SIXSTEP_parameters.PWM_Value = BLDC_PWM_START;	
 							SIXSTEP_parameters.prevStep = FALSE;
 							MC_SixStep_GetCurrentPosition();
 							MC_SixStep_Table(SIXSTEP_parameters.positionStep);	
@@ -638,7 +655,7 @@ void 			MC_SixStep_Handler(void)
 			
 			case SIXSTEP_STATUS_RAMP://Плавное увеличение тока двигателя при старте
 			{					
-					if(MC_SixStep_Ramp(60, 1) && MC_SixStep_TimeoutDelay())
+					if(MC_SixStep_Ramp(BLDC_PWM_RAMP_MAX, 1) && MC_SixStep_TimeoutDelay())
 					{	
 							SIXSTEP_parameters.status=SIXSTEP_STATUS_RUN;
 					}

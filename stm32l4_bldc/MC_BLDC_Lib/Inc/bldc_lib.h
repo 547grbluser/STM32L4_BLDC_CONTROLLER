@@ -94,4 +94,10 @@ enSIXSTEP_SystStatus MC_SixStep_GetStatus(void);
 void MC_SixStep_SetSpeed(uint16_t);
 enSIXSTEP_Error	MC_SixStep_GetErrorCode(void);
 void MC_SixStep_Handler(void); 
+
+/*
+	Режим теста кабеля
+*/
+void 			MC_SixStep_OpenVTSwitch(void);	
+void 			MC_SixStep_CloseVTSwitch(void);
 #endif

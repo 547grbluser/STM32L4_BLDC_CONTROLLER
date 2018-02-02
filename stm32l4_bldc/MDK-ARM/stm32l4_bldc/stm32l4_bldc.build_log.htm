@@ -77,9 +77,26 @@ compiling cmd_iface.c...
 ..\Src\cmd_iface.c(299): warning:  #1-D: last line of file ends without a newline
   }
 ..\Src\cmd_iface.c: 24 warnings, 0 errors
+compiling bldc_lib.c...
+..\MC_BLDC_Lib\Inc\bldc_pid.h(28): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\MC_BLDC_Lib\Src\bldc_lib.c(248): warning:  #186-D: pointless comparison of unsigned integer with zero
+     if(
+S_BLDC_RPM(speed_value))
+..\MC_BLDC_Lib\Src\bldc_lib.c: 2 warnings, 0 errors
+compiling freertos.c...
+..\MC_BLDC_Lib\Inc\bldc_pid.h(28): warning:  #1-D: last line of file ends without a newline
+  #endif
+../Src/freertos.c: 1 warning, 0 errors
+compiling microrl.c...
+..\MC_BLDC_Lib\Inc\bldc_pid.h(28): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\microrl\src\microrl.c(212): warning:  #111-D: statement is unreachable
+  	return i;
+..\microrl\src\microrl.c: 2 warnings, 0 errors
 linking...
 Program Size: Code=29048 RO-data=584 RW-data=148 ZI-data=22188  
-"stm32l4_bldc\stm32l4_bldc.axf" - 0 Error(s), 24 Warning(s).
+"stm32l4_bldc\stm32l4_bldc.axf" - 0 Error(s), 29 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -102,7 +119,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.0.1
-Build Time Elapsed:  00:00:04
+Build Time Elapsed:  00:00:13
 </pre>
 </body>
 </html>

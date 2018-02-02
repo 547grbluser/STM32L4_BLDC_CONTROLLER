@@ -3,7 +3,7 @@
 <title>Static Call Graph - [stm32l4_bldc\stm32l4_bldc.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image stm32l4_bldc\stm32l4_bldc.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060528: Last Updated: Fri Feb 02 15:44:34 2018
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060528: Last Updated: Fri Feb 02 15:55:07 2018
 <BR><P>
 <H3>Maximum Stack Usage =        288 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -631,10 +631,10 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[6d]"></a>HAL_GetTick</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stm32l4xx_hal.o(i.HAL_GetTick))
-<BR><BR>[Called By]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_OscConfig
-<LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_ClockConfig
-<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCCEx_PeriphCLKConfig
+<BR><BR>[Called By]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCCEx_PeriphCLKConfig
 <LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCCEx_PLLSAI1_Config
+<LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_OscConfig
+<LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_ClockConfig
 <LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_WaitOnFlagUntilTimeout
 <LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_CheckIdleState
 <LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_Enable
@@ -651,8 +651,8 @@ Global Symbols
 <P><STRONG><a name="[8b]"></a>HAL_Init</STRONG> (Thumb, 22 bytes, Stack size 8 bytes, stm32l4xx_hal.o(i.HAL_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = HAL_Init &rArr; HAL_InitTick &rArr; HAL_NVIC_SetPriority &rArr; NVIC_SetPriority
 </UL>
-<BR>[Calls]<UL><LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_InitTick
-<LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_SetPriorityGrouping
+<BR>[Calls]<UL><LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_SetPriorityGrouping
+<LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_InitTick
 <LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_MspInit
 </UL>
 <BR>[Called By]<UL><LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -664,9 +664,9 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_SYSTICK_Config
 <LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_SetPriority
 </UL>
-<BR>[Called By]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_OscConfig
+<BR>[Called By]<UL><LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Init
+<LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_OscConfig
 <LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_ClockConfig
-<LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Init
 </UL>
 
 <P><STRONG><a name="[8e]"></a>HAL_MspInit</STRONG> (Thumb, 140 bytes, Stack size 8 bytes, stm32l4xx_hal_msp.o(i.HAL_MspInit))
@@ -714,8 +714,8 @@ Global Symbols
 <P><STRONG><a name="[93]"></a>HAL_RCCEx_PeriphCLKConfig</STRONG> (Thumb, 1044 bytes, Stack size 32 bytes, stm32l4xx_hal_rcc_ex.o(i.HAL_RCCEx_PeriphCLKConfig))
 <BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = HAL_RCCEx_PeriphCLKConfig &rArr; RCCEx_PLLSAI1_Config
 </UL>
-<BR>[Calls]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
-<LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCCEx_PLLSAI1_Config
+<BR>[Calls]<UL><LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCCEx_PLLSAI1_Config
+<LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
 <BR>[Called By]<UL><LI><a href="#[ff]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
 </UL>
@@ -789,7 +789,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[9c]"></a>HAL_TIMEx_CommutationCallback</STRONG> (Thumb, 32 bytes, Stack size 8 bytes, bldc_lib.o(i.HAL_TIMEx_CommutationCallback))
-<BR><BR>[Stack]<UL><LI>Max Depth = 100<LI>Call Chain = HAL_TIMEx_CommutationCallback &rArr; MC_SixStep_NextStep &rArr; MC_SixStep_Table &rArr; MC_SixStep_SetPhaseParam &rArr; HAL_TIMEx_OCN_Stop &rArr; TIM_CCxNChannelCmd
+<BR><BR>[Stack]<UL><LI>Max Depth = 100<LI>Call Chain = HAL_TIMEx_CommutationCallback &rArr; MC_SixStep_NextStep &rArr; MC_SixStep_Table &rArr; MC_SixStep_SetPhaseParam &rArr; HAL_TIM_OC_ConfigChannel &rArr; TIM_OC6_SetConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MC_SixStep_NextStep
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MC_SixStep_HallFdbkVerify
@@ -868,20 +868,20 @@ Global Symbols
 <P><STRONG><a name="[aa]"></a>HAL_TIM_Base_MspInit</STRONG> (Thumb, 146 bytes, Stack size 32 bytes, tim.o(i.HAL_TIM_Base_MspInit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = HAL_TIM_Base_MspInit &rArr; HAL_NVIC_SetPriority &rArr; NVIC_SetPriority
 </UL>
-<BR>[Calls]<UL><LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_Init
-<LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_SetPriority
+<BR>[Calls]<UL><LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_SetPriority
 <LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_EnableIRQ
+<LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_Base_Init
 </UL>
 
 <P><STRONG><a name="[ac]"></a>HAL_TIM_ConfigClockSource</STRONG> (Thumb, 308 bytes, Stack size 24 bytes, stm32l4xx_hal_tim.o(i.HAL_TIM_ConfigClockSource))
-<BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = HAL_TIM_ConfigClockSource &rArr; TIM_ETR_SetConfig
+<BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = HAL_TIM_ConfigClockSource &rArr; TIM_TI2_ConfigInputStage
 </UL>
-<BR>[Calls]<UL><LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ETR_SetConfig
-<LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_TI2_ConfigInputStage
+<BR>[Calls]<UL><LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_TI2_ConfigInputStage
 <LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_TI1_ConfigInputStage
 <LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ITRx_SetConfig
+<LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ETR_SetConfig
 </UL>
 <BR>[Called By]<UL><LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM2_Init
 <LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM1_Init
@@ -896,7 +896,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[b3]"></a>HAL_TIM_IRQHandler</STRONG> (Thumb, 406 bytes, Stack size 8 bytes, stm32l4xx_hal_tim.o(i.HAL_TIM_IRQHandler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 108<LI>Call Chain = HAL_TIM_IRQHandler &rArr; HAL_TIMEx_CommutationCallback &rArr; MC_SixStep_NextStep &rArr; MC_SixStep_Table &rArr; MC_SixStep_SetPhaseParam &rArr; HAL_TIMEx_OCN_Stop &rArr; TIM_CCxNChannelCmd
+<BR><BR>[Stack]<UL><LI>Max Depth = 108<LI>Call Chain = HAL_TIM_IRQHandler &rArr; HAL_TIMEx_CommutationCallback &rArr; MC_SixStep_NextStep &rArr; MC_SixStep_Table &rArr; MC_SixStep_SetPhaseParam &rArr; HAL_TIM_OC_ConfigChannel &rArr; TIM_OC6_SetConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_TriggerCallback
 <LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PeriodElapsedCallback
@@ -919,14 +919,14 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[ba]"></a>HAL_TIM_OC_ConfigChannel</STRONG> (Thumb, 148 bytes, Stack size 16 bytes, stm32l4xx_hal_tim.o(i.HAL_TIM_OC_ConfigChannel))
-<BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = HAL_TIM_OC_ConfigChannel &rArr; TIM_OC2_SetConfig
+<BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = HAL_TIM_OC_ConfigChannel &rArr; TIM_OC6_SetConfig
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC2_SetConfig
-<LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC6_SetConfig
+<BR>[Calls]<UL><LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC6_SetConfig
 <LI><a href="#[be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC5_SetConfig
 <LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC4_SetConfig
 <LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC3_SetConfig
 <LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC1_SetConfig
+<LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC2_SetConfig
 </UL>
 <BR>[Called By]<UL><LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MC_SixStep_SetPhaseParam
 </UL>
@@ -944,14 +944,14 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[c1]"></a>HAL_TIM_PWM_ConfigChannel</STRONG> (Thumb, 372 bytes, Stack size 16 bytes, stm32l4xx_hal_tim.o(i.HAL_TIM_PWM_ConfigChannel))
-<BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = HAL_TIM_PWM_ConfigChannel &rArr; TIM_OC2_SetConfig
+<BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = HAL_TIM_PWM_ConfigChannel &rArr; TIM_OC6_SetConfig
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC2_SetConfig
-<LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC6_SetConfig
+<BR>[Calls]<UL><LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC6_SetConfig
 <LI><a href="#[be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC5_SetConfig
 <LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC4_SetConfig
 <LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC3_SetConfig
 <LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC1_SetConfig
+<LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC2_SetConfig
 </UL>
 <BR>[Called By]<UL><LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM1_Init
 </UL>
@@ -978,7 +978,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[c4]"></a>HAL_TIM_SlaveConfigSynchronization</STRONG> (Thumb, 86 bytes, Stack size 16 bytes, stm32l4xx_hal_tim.o(i.HAL_TIM_SlaveConfigSynchronization))
-<BR><BR>[Stack]<UL><LI>Max Depth = 52<LI>Call Chain = HAL_TIM_SlaveConfigSynchronization &rArr; TIM_SlaveTimer_SetConfig &rArr; TIM_ETR_SetConfig
+<BR><BR>[Stack]<UL><LI>Max Depth = 52<LI>Call Chain = HAL_TIM_SlaveConfigSynchronization &rArr; TIM_SlaveTimer_SetConfig &rArr; TIM_TI2_ConfigInputStage
 </UL>
 <BR>[Calls]<UL><LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_SlaveTimer_SetConfig
 </UL>
@@ -1024,9 +1024,9 @@ Global Symbols
 <P><STRONG><a name="[cd]"></a>HAL_UART_MspInit</STRONG> (Thumb, 90 bytes, Stack size 32 bytes, usart.o(i.HAL_UART_MspInit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = HAL_UART_MspInit &rArr; HAL_NVIC_SetPriority &rArr; NVIC_SetPriority
 </UL>
-<BR>[Calls]<UL><LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_Init
-<LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_SetPriority
+<BR>[Calls]<UL><LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_SetPriority
 <LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_EnableIRQ
+<LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Init
 </UL>
@@ -1160,7 +1160,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[e4]"></a>MC_SixStep_Handler</STRONG> (Thumb, 364 bytes, Stack size 8 bytes, bldc_lib.o(i.MC_SixStep_Handler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 100<LI>Call Chain = MC_SixStep_Handler &rArr; MC_SixStep_PrevStep &rArr; MC_SixStep_Table &rArr; MC_SixStep_SetPhaseParam &rArr; HAL_TIMEx_OCN_Stop &rArr; TIM_CCxNChannelCmd
+<BR><BR>[Stack]<UL><LI>Max Depth = 100<LI>Call Chain = MC_SixStep_Handler &rArr; MC_SixStep_PrevStep &rArr; MC_SixStep_Table &rArr; MC_SixStep_SetPhaseParam &rArr; HAL_TIM_OC_ConfigChannel &rArr; TIM_OC6_SetConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MC_SixStep_TimeoutDelay
 <LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MC_SixStep_Table
@@ -1182,7 +1182,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[ed]"></a>MC_SixStep_Init</STRONG> (Thumb, 34 bytes, Stack size 8 bytes, bldc_lib.o(i.MC_SixStep_Init))
-<BR><BR>[Stack]<UL><LI>Max Depth = 92<LI>Call Chain = MC_SixStep_Init &rArr; MC_SixStep_Reset &rArr; MC_SixStep_SetPhaseParam &rArr; HAL_TIMEx_OCN_Stop &rArr; TIM_CCxNChannelCmd
+<BR><BR>[Stack]<UL><LI>Max Depth = 92<LI>Call Chain = MC_SixStep_Init &rArr; MC_SixStep_Reset &rArr; MC_SixStep_SetPhaseParam &rArr; HAL_TIM_OC_ConfigChannel &rArr; TIM_OC6_SetConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIMEx_HallSensor_Start_IT
 <LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIMEx_ConfigCommutationEvent_IT
@@ -1194,7 +1194,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[9e]"></a>MC_SixStep_NextStep</STRONG> (Thumb, 46 bytes, Stack size 8 bytes, bldc_lib.o(i.MC_SixStep_NextStep))
-<BR><BR>[Stack]<UL><LI>Max Depth = 92<LI>Call Chain = MC_SixStep_NextStep &rArr; MC_SixStep_Table &rArr; MC_SixStep_SetPhaseParam &rArr; HAL_TIMEx_OCN_Stop &rArr; TIM_CCxNChannelCmd
+<BR><BR>[Stack]<UL><LI>Max Depth = 92<LI>Call Chain = MC_SixStep_NextStep &rArr; MC_SixStep_Table &rArr; MC_SixStep_SetPhaseParam &rArr; HAL_TIM_OC_ConfigChannel &rArr; TIM_OC6_SetConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MC_SixStep_Table
 </UL>
@@ -1202,7 +1202,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[e6]"></a>MC_SixStep_PrevStep</STRONG> (Thumb, 50 bytes, Stack size 8 bytes, bldc_lib.o(i.MC_SixStep_PrevStep))
-<BR><BR>[Stack]<UL><LI>Max Depth = 92<LI>Call Chain = MC_SixStep_PrevStep &rArr; MC_SixStep_Table &rArr; MC_SixStep_SetPhaseParam &rArr; HAL_TIMEx_OCN_Stop &rArr; TIM_CCxNChannelCmd
+<BR><BR>[Stack]<UL><LI>Max Depth = 92<LI>Call Chain = MC_SixStep_PrevStep &rArr; MC_SixStep_Table &rArr; MC_SixStep_SetPhaseParam &rArr; HAL_TIM_OC_ConfigChannel &rArr; TIM_OC6_SetConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MC_SixStep_Table
 </UL>
@@ -1214,7 +1214,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[eb]"></a>MC_SixStep_Reset</STRONG> (Thumb, 66 bytes, Stack size 8 bytes, bldc_lib.o(i.MC_SixStep_Reset))
-<BR><BR>[Stack]<UL><LI>Max Depth = 84<LI>Call Chain = MC_SixStep_Reset &rArr; MC_SixStep_SetPhaseParam &rArr; HAL_TIMEx_OCN_Stop &rArr; TIM_CCxNChannelCmd
+<BR><BR>[Stack]<UL><LI>Max Depth = 84<LI>Call Chain = MC_SixStep_Reset &rArr; MC_SixStep_SetPhaseParam &rArr; HAL_TIM_OC_ConfigChannel &rArr; TIM_OC6_SetConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MC_SixStep_SetPhaseParam
 </UL>
@@ -1237,12 +1237,12 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[d5]"></a>MC_SixStep_SetPhaseParam</STRONG> (Thumb, 76 bytes, Stack size 48 bytes, bldc_lib.o(i.MC_SixStep_SetPhaseParam))
-<BR><BR>[Stack]<UL><LI>Max Depth = 76<LI>Call Chain = MC_SixStep_SetPhaseParam &rArr; HAL_TIMEx_OCN_Stop &rArr; TIM_CCxNChannelCmd
+<BR><BR>[Stack]<UL><LI>Max Depth = 76<LI>Call Chain = MC_SixStep_SetPhaseParam &rArr; HAL_TIM_OC_ConfigChannel &rArr; TIM_OC6_SetConfig
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIMEx_OCN_Stop
-<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIMEx_OCN_Start
-<LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_OC_Start
+<BR>[Calls]<UL><LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_OC_Start
 <LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_OC_ConfigChannel
+<LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIMEx_OCN_Stop
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIMEx_OCN_Start
 </UL>
 <BR>[Called By]<UL><LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MC_SixStep_Table
 <LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MC_SixStep_Reset
@@ -1273,7 +1273,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[ea]"></a>MC_SixStep_Table</STRONG> (Thumb, 216 bytes, Stack size 8 bytes, bldc_lib.o(i.MC_SixStep_Table))
-<BR><BR>[Stack]<UL><LI>Max Depth = 84<LI>Call Chain = MC_SixStep_Table &rArr; MC_SixStep_SetPhaseParam &rArr; HAL_TIMEx_OCN_Stop &rArr; TIM_CCxNChannelCmd
+<BR><BR>[Stack]<UL><LI>Max Depth = 84<LI>Call Chain = MC_SixStep_Table &rArr; MC_SixStep_SetPhaseParam &rArr; HAL_TIM_OC_ConfigChannel &rArr; TIM_OC6_SetConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MC_SixStep_SetPhaseParam
 </UL>
@@ -1321,8 +1321,8 @@ Global Symbols
 <P><STRONG><a name="[f5]"></a>MX_GPIO_Init</STRONG> (Thumb, 184 bytes, Stack size 32 bytes, gpio.o(i.MX_GPIO_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 52<LI>Call Chain = MX_GPIO_Init &rArr; HAL_GPIO_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_Init
-<LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
+<BR>[Calls]<UL><LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
+<LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -1330,13 +1330,13 @@ Global Symbols
 <P><STRONG><a name="[f6]"></a>MX_TIM1_Init</STRONG> (Thumb, 296 bytes, Stack size 128 bytes, tim.o(i.MX_TIM1_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 216<LI>Call Chain = MX_TIM1_Init &rArr; HAL_TIM_Base_Init &rArr; HAL_TIM_Base_MspInit &rArr; HAL_NVIC_SetPriority &rArr; NVIC_SetPriority
 </UL>
-<BR>[Calls]<UL><LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIMEx_MasterConfigSynchronization
+<BR>[Calls]<UL><LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_ConfigClockSource
+<LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_Base_Init
+<LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIMEx_MasterConfigSynchronization
 <LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIMEx_ConfigBreakDeadTime
 <LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_SlaveConfigSynchronization
 <LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Init
 <LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_ConfigChannel
-<LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_ConfigClockSource
-<LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_Base_Init
 <LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_MspPostInit
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_Error_Handler
 </UL>
@@ -1346,10 +1346,10 @@ Global Symbols
 <P><STRONG><a name="[f9]"></a>MX_TIM2_Init</STRONG> (Thumb, 136 bytes, Stack size 48 bytes, tim.o(i.MX_TIM2_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = MX_TIM2_Init &rArr; HAL_TIM_Base_Init &rArr; HAL_TIM_Base_MspInit &rArr; HAL_NVIC_SetPriority &rArr; NVIC_SetPriority
 </UL>
-<BR>[Calls]<UL><LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIMEx_MasterConfigSynchronization
-<LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIMEx_HallSensor_Init
-<LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_ConfigClockSource
+<BR>[Calls]<UL><LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_ConfigClockSource
 <LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_Base_Init
+<LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIMEx_MasterConfigSynchronization
+<LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIMEx_HallSensor_Init
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_Error_Handler
 </UL>
 <BR>[Called By]<UL><LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -1379,7 +1379,7 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> freertos.o(.constdata)
 </UL>
 <P><STRONG><a name="[5e]"></a>Start_MC_Task</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, freertos.o(i.Start_MC_Task))
-<BR><BR>[Stack]<UL><LI>Max Depth = 100<LI>Call Chain = Start_MC_Task &rArr; MC_SixStep_Handler &rArr; MC_SixStep_PrevStep &rArr; MC_SixStep_Table &rArr; MC_SixStep_SetPhaseParam &rArr; HAL_TIMEx_OCN_Stop &rArr; TIM_CCxNChannelCmd
+<BR><BR>[Stack]<UL><LI>Max Depth = 100<LI>Call Chain = Start_MC_Task &rArr; MC_SixStep_Handler &rArr; MC_SixStep_PrevStep &rArr; MC_SixStep_Table &rArr; MC_SixStep_SetPhaseParam &rArr; HAL_TIM_OC_ConfigChannel &rArr; TIM_OC6_SetConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MC_SixStep_Init
 <LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MC_SixStep_Handler
@@ -1398,14 +1398,14 @@ Global Symbols
 <P><STRONG><a name="[ff]"></a>SystemClock_Config</STRONG> (Thumb, 202 bytes, Stack size 200 bytes, main.o(i.SystemClock_Config))
 <BR><BR>[Stack]<UL><LI>Max Depth = 288<LI>Call Chain = SystemClock_Config &rArr; HAL_RCC_OscConfig &rArr; HAL_InitTick &rArr; HAL_NVIC_SetPriority &rArr; NVIC_SetPriority
 </UL>
-<BR>[Calls]<UL><LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_PWREx_ControlVoltageScaling
-<LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_OscConfig
-<LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetHCLKFreq
-<LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_ClockConfig
-<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCCEx_PeriphCLKConfig
+<BR>[Calls]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCCEx_PeriphCLKConfig
 <LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_SYSTICK_Config
 <LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_SYSTICK_CLKSourceConfig
 <LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_SetPriority
+<LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_PWREx_ControlVoltageScaling
+<LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_OscConfig
+<LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetHCLKFreq
+<LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_ClockConfig
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_Error_Handler
 </UL>
 <BR>[Called By]<UL><LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -1415,30 +1415,30 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32l452xx.o(.text)
 </UL>
 <P><STRONG><a name="[24]"></a>TIM1_TRG_COM_IRQHandler</STRONG> (Thumb, 10 bytes, Stack size 8 bytes, stm32l4xx_it.o(i.TIM1_TRG_COM_IRQHandler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 116<LI>Call Chain = TIM1_TRG_COM_IRQHandler &rArr; HAL_TIM_IRQHandler &rArr; HAL_TIMEx_CommutationCallback &rArr; MC_SixStep_NextStep &rArr; MC_SixStep_Table &rArr; MC_SixStep_SetPhaseParam &rArr; HAL_TIMEx_OCN_Stop &rArr; TIM_CCxNChannelCmd
+<BR><BR>[Stack]<UL><LI>Max Depth = 116<LI>Call Chain = TIM1_TRG_COM_IRQHandler &rArr; HAL_TIM_IRQHandler &rArr; HAL_TIMEx_CommutationCallback &rArr; MC_SixStep_NextStep &rArr; MC_SixStep_Table &rArr; MC_SixStep_SetPhaseParam &rArr; HAL_TIM_OC_ConfigChannel &rArr; TIM_OC6_SetConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_IRQHandler
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32l452xx.o(RESET)
 </UL>
 <P><STRONG><a name="[26]"></a>TIM2_IRQHandler</STRONG> (Thumb, 10 bytes, Stack size 8 bytes, stm32l4xx_it.o(i.TIM2_IRQHandler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 116<LI>Call Chain = TIM2_IRQHandler &rArr; HAL_TIM_IRQHandler &rArr; HAL_TIMEx_CommutationCallback &rArr; MC_SixStep_NextStep &rArr; MC_SixStep_Table &rArr; MC_SixStep_SetPhaseParam &rArr; HAL_TIMEx_OCN_Stop &rArr; TIM_CCxNChannelCmd
+<BR><BR>[Stack]<UL><LI>Max Depth = 116<LI>Call Chain = TIM2_IRQHandler &rArr; HAL_TIM_IRQHandler &rArr; HAL_TIMEx_CommutationCallback &rArr; MC_SixStep_NextStep &rArr; MC_SixStep_Table &rArr; MC_SixStep_SetPhaseParam &rArr; HAL_TIM_OC_ConfigChannel &rArr; TIM_OC6_SetConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_IRQHandler
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32l452xx.o(RESET)
 </UL>
 <P><STRONG><a name="[a1]"></a>TIM_Base_SetConfig</STRONG> (Thumb, 114 bytes, Stack size 0 bytes, stm32l4xx_hal_tim.o(i.TIM_Base_SetConfig))
-<BR><BR>[Called By]<UL><LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIMEx_HallSensor_Init
+<BR><BR>[Called By]<UL><LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_Base_Init
+<LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIMEx_HallSensor_Init
 <LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Init
-<LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_Base_Init
 </UL>
 
 <P><STRONG><a name="[a5]"></a>TIM_CCxChannelCmd</STRONG> (Thumb, 28 bytes, Stack size 12 bytes, stm32l4xx_hal_tim.o(i.TIM_CCxChannelCmd))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = TIM_CCxChannelCmd
 </UL>
-<BR>[Called By]<UL><LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIMEx_HallSensor_Start_IT
-<LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_OC_Start
+<BR>[Called By]<UL><LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_OC_Start
+<LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIMEx_HallSensor_Start_IT
 </UL>
 
 <P><STRONG><a name="[ad]"></a>TIM_ETR_SetConfig</STRONG> (Thumb, 24 bytes, Stack size 12 bytes, stm32l4xx_hal_tim.o(i.TIM_ETR_SetConfig))
@@ -1451,9 +1451,9 @@ Global Symbols
 <P><STRONG><a name="[a3]"></a>TIM_OC2_SetConfig</STRONG> (Thumb, 134 bytes, Stack size 12 bytes, stm32l4xx_hal_tim.o(i.TIM_OC2_SetConfig))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = TIM_OC2_SetConfig
 </UL>
-<BR>[Called By]<UL><LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIMEx_HallSensor_Init
+<BR>[Called By]<UL><LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_OC_ConfigChannel
+<LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIMEx_HallSensor_Init
 <LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_ConfigChannel
-<LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_OC_ConfigChannel
 </UL>
 
 <P><STRONG><a name="[a2]"></a>TIM_TI1_SetConfig</STRONG> (Thumb, 94 bytes, Stack size 16 bytes, stm32l4xx_hal_tim.o(i.TIM_TI1_SetConfig))
@@ -1977,44 +1977,44 @@ Local Symbols
 <P><STRONG><a name="[bb]"></a>TIM_OC1_SetConfig</STRONG> (Thumb, 124 bytes, Stack size 12 bytes, stm32l4xx_hal_tim.o(i.TIM_OC1_SetConfig))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = TIM_OC1_SetConfig
 </UL>
-<BR>[Called By]<UL><LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_ConfigChannel
-<LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_OC_ConfigChannel
+<BR>[Called By]<UL><LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_OC_ConfigChannel
+<LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_ConfigChannel
 </UL>
 
 <P><STRONG><a name="[bc]"></a>TIM_OC3_SetConfig</STRONG> (Thumb, 132 bytes, Stack size 12 bytes, stm32l4xx_hal_tim.o(i.TIM_OC3_SetConfig))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = TIM_OC3_SetConfig
 </UL>
-<BR>[Called By]<UL><LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_ConfigChannel
-<LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_OC_ConfigChannel
+<BR>[Called By]<UL><LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_OC_ConfigChannel
+<LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_ConfigChannel
 </UL>
 
 <P><STRONG><a name="[bd]"></a>TIM_OC4_SetConfig</STRONG> (Thumb, 86 bytes, Stack size 12 bytes, stm32l4xx_hal_tim.o(i.TIM_OC4_SetConfig))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = TIM_OC4_SetConfig
 </UL>
-<BR>[Called By]<UL><LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_ConfigChannel
-<LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_OC_ConfigChannel
+<BR>[Called By]<UL><LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_OC_ConfigChannel
+<LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_ConfigChannel
 </UL>
 
 <P><STRONG><a name="[be]"></a>TIM_OC5_SetConfig</STRONG> (Thumb, 80 bytes, Stack size 12 bytes, stm32l4xx_hal_tim.o(i.TIM_OC5_SetConfig))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = TIM_OC5_SetConfig
 </UL>
-<BR>[Called By]<UL><LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_ConfigChannel
-<LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_OC_ConfigChannel
+<BR>[Called By]<UL><LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_OC_ConfigChannel
+<LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_ConfigChannel
 </UL>
 
 <P><STRONG><a name="[bf]"></a>TIM_OC6_SetConfig</STRONG> (Thumb, 82 bytes, Stack size 12 bytes, stm32l4xx_hal_tim.o(i.TIM_OC6_SetConfig))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = TIM_OC6_SetConfig
 </UL>
-<BR>[Called By]<UL><LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_ConfigChannel
-<LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_OC_ConfigChannel
+<BR>[Called By]<UL><LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_OC_ConfigChannel
+<LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_ConfigChannel
 </UL>
 
 <P><STRONG><a name="[c5]"></a>TIM_SlaveTimer_SetConfig</STRONG> (Thumb, 164 bytes, Stack size 24 bytes, stm32l4xx_hal_tim.o(i.TIM_SlaveTimer_SetConfig))
-<BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = TIM_SlaveTimer_SetConfig &rArr; TIM_ETR_SetConfig
+<BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = TIM_SlaveTimer_SetConfig &rArr; TIM_TI2_ConfigInputStage
 </UL>
-<BR>[Calls]<UL><LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ETR_SetConfig
-<LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_TI2_ConfigInputStage
+<BR>[Calls]<UL><LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_TI2_ConfigInputStage
 <LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_TI1_ConfigInputStage
+<LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ETR_SetConfig
 </UL>
 <BR>[Called By]<UL><LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_SlaveConfigSynchronization
 </UL>
