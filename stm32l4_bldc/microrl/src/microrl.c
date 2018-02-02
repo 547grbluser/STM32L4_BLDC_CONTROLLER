@@ -18,6 +18,7 @@ BUGS and TODO:
 //#define DBG(...) fprintf(stderr, "\033[33m");fprintf(stderr,__VA_ARGS__);fprintf(stderr,"\033[0m");
 
 char * prompt_default = _PROMPT_DEFAULT;
+extern uint8_t cmdEchoFlag;
 
 #ifdef _USE_HISTORY
 
@@ -683,7 +684,11 @@ void microrl_insert_char (microrl_t * pThis, int ch)
 					char str[2];
 					str[0] = ch;
 					str[1] = 0;
-					pThis->print (str);
+					
+					if(cmdEchoFlag)
+					{
+							pThis->print (str);
+					}
 				}
 			break;
 		}

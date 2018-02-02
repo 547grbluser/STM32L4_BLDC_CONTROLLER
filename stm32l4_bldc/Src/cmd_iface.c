@@ -14,24 +14,35 @@
 #include "fifo.h"
 
 // definition commands word
-#define _CMD_HELP   "help"
-#define _CMD_CLEAR  "clear"
-//#define _CMD_CLR    "clear_port"
-//#define _CMD_SET    "set_port"
-
-#define _CMD_BLDC_START_FWD "start_fwd"
-#define _CMD_BLDC_START_BWD "start_bwd"
-#define _CMD_BLDC_STOP 			"stop"
+#define _CMD_HELP   "HLP"
+#define _CMD_CLEAR  "CLR"
+#define _CMD_ECHO		"ECHO"
 
 
-#define _CMD_BLDC_GET_CURRENT "get_current"
-#define _CMD_BLDC_GET_VOLTAGE "get_voltage"
-#define _CMD_BLDC_GET_RPM_SPEED "get_rpm"
-#define _CMD_BLDC_GET_STATUS "get_status"
-#define _CMD_BLDC_GET_ERROR_CODE "get_err"
+//#define _CMD_BLDC_START_FWD 	"start_fwd"
+//#define _CMD_BLDC_START_BWD 	"start_bwd"
+//#define _CMD_BLDC_STOP 				"stop"
+
+
+#define _CMD_BLDC_GET_CURRENT 		"get_current"
+#define _CMD_BLDC_GET_VOLTAGE 		"get_voltage"
+#define _CMD_BLDC_GET_RPM_SPEED 	"get_rpm"
+#define _CMD_BLDC_GET_STATUS 			"get_status"
+#define _CMD_BLDC_GET_ERROR_CODE 	"get_err"
 
 
 
+#define _CMD_BLDC_START_FWD 				"STRTR"
+#define _CMD_BLDC_START_BWD 				"STRTL"
+#define _CMD_BLDC_STOP 							"STP"
+#define _CMD_BLDC_OPEN_VT_SWITCH 		"OPNSW"
+#define _CMD_BLDC_GET_PARAMS 				"PRM"
+
+#define _CMD_BLDC_CMD_ERROR					"ERR 1\n\r"
+
+
+#define _CMD_ON		"ON"
+#define _CMD_OFF	"OFF"
 	
 
 
@@ -39,6 +50,8 @@
 
 microrl_t rl;
 microrl_t * prl = &rl;
+uint8_t cmdEchoFlag	= 0;
+
 extern UART_HandleTypeDef huart1;
 xSemaphoreHandle xUARTSemaphore;
 #define UART_FIFO_SIZE	256
@@ -123,7 +136,7 @@ void print_help (void)
 int execute (int argc, const char * const * argv)
 {
 	int i = 0;
-	static uint8_t str[30];
+	static uint8_t str[128];
 	// just iterate through argv word and compare it with your commands
 	while (i < argc) {
 		if (strcmp (argv[i], _CMD_HELP) == 0) 
@@ -141,17 +154,23 @@ int execute (int argc, const char * const * argv)
 		}
 		else if (strcmp (argv[i], _CMD_BLDC_START_FWD) == 0) 
 		{
-				print("Start motor forward\r\n");
+				uint16_t err = MC_SixStep_GetErrorCode();	
+				sprintf(str, "OK %02X\r\n", err);			
+				print(str);
 				MC_SixStep_StartMotor(SIXSTEP_DIR_FORWARD);
 		}
 		else if (strcmp (argv[i], _CMD_BLDC_START_BWD) == 0) 
 		{
-				print("Start motor backrward\r\n");
+				uint16_t err = MC_SixStep_GetErrorCode();
+				sprintf(str, "OK %02X\r\n", err);			
+				print(str);
 				MC_SixStep_StartMotor(SIXSTEP_DIR_BACKWARD);
 		}	
 		else if (strcmp (argv[i], _CMD_BLDC_STOP) == 0) 
 		{
-				print("Stop motor\r\n");
+				uint16_t err = MC_SixStep_GetErrorCode();
+				sprintf(str, "OK %02X\r\n", err);			
+				print(str);
 				MC_SixStep_StopMotor();
 		}		
 		else if (strcmp (argv[i], _CMD_BLDC_GET_ERROR_CODE) == 0) 
@@ -184,8 +203,45 @@ int execute (int argc, const char * const * argv)
 				uint16_t rpm = (uint16_t)MC_SixStep_GetMechSpeedRPM();
 				sprintf(str, "RPM = %d\r\n", rpm);			
 				print(str);
-		}				
-		
+		}	
+		else if(strcmp (argv[i], _CMD_BLDC_GET_PARAMS) == 0) 
+		{
+				
+				uint16_t err = MC_SixStep_GetErrorCode();	
+				uint16_t current = MC_SixStep_GetCurrent();
+				uint16_t voltage = MC_SixStep_GetVoltage();
+			  uint16_t rpm = (uint16_t)MC_SixStep_GetMechSpeedRPM();
+				
+				uint16_t phase = 0;
+			
+				sprintf(str, "OK %02X %d %d %d %d\r\n", err, voltage, current, rpm, phase);			
+				print(str);			
+		}
+		else if (strcmp (argv[i], _CMD_BLDC_OPEN_VT_SWITCH) == 0) 
+		{
+				uint16_t err = MC_SixStep_GetErrorCode();
+				sprintf(str, "OK %02X\r\n", err);			
+				print(str);
+				/*
+					Open VT SWITCH
+				*/
+		}
+		else if (strcmp (argv[i], _CMD_ECHO) == 0) 
+		{
+				if (++i < argc)
+				{
+						if (strcmp (argv[i], _CMD_ON) == 0) 
+						{
+								cmdEchoFlag = 1;
+						}
+						else if(strcmp (argv[i], _CMD_OFF) == 0)
+						{
+								cmdEchoFlag = 0;
+						}
+				}
+				sprintf(str, "OK\r\n");			
+				print(str);
+		}	
 
 //		else if ((strcmp (argv[i], _CMD_SET) == 0) || 
 //							(strcmp (argv[i], _CMD_CLR) == 0)) 
@@ -224,9 +280,10 @@ int execute (int argc, const char * const * argv)
 //		} 
 		else 
 		{
-				print ("command: '");
-				print ((char*)argv[i]);
-				print ("' Not found.\n\r");
+//				print ("command: '");
+//				print ((char*)argv[i]);
+//				print ("' Not found.\n\r");
+					print (_CMD_BLDC_CMD_ERROR);
 		}
 		i++;
 	}

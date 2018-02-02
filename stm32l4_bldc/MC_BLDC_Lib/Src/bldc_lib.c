@@ -310,7 +310,7 @@ uint32_t MC_SixStep_GetElSpeedHz(void) //Частота импульсов с датчиков Холла
 
 	//код определения частоты вращения двигателя
 	
-	 uint32_t freq;
+	 uint32_t freq = 0;
 	 uint8_t  bufCnt;
 	
 	 if(SIXSTEP_parameters.flagIsSpeedNotZero==FALSE)
@@ -471,7 +471,7 @@ void	MC_SixStep_HallFdbkVerify(void)
 		 }
 }
 
-#define MC_CURRENT_COEF 10
+#define MC_CURRENT_COEF 5/2
 uint16_t MC_SixStep_GetCurrent(void) 
 {
 		uint32_t adcVoltage;
@@ -488,7 +488,7 @@ uint16_t MC_SixStep_GetCurrent(void)
 		adcVoltage = adcIntGetVoltage(ADC_MC_CURRENT);
 		if(adcVoltage > adcVoltageCur0)
 		{
-			SIXSTEP_parameters.currentFdbk = (uint16_t)((adcVoltage - adcVoltageCur0) * 5/2);	
+			SIXSTEP_parameters.currentFdbk = (uint16_t)((adcVoltage - adcVoltageCur0) * MC_CURRENT_COEF);	
 		}
 		else
 		{
