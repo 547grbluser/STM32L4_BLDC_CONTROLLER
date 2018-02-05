@@ -5,6 +5,7 @@
 #include <string.h>
 #include "microrl.h"
 #include "bldc_lib.h"
+#include "version.h"
 
 
 #include "FreeRTOS.h"
@@ -37,6 +38,7 @@
 #define _CMD_BLDC_STOP 							"STP"
 #define _CMD_BLDC_OPEN_VT_SWITCH 		"OPNSW"
 #define _CMD_BLDC_GET_PARAMS 				"PRM"
+#define _CMD_BLDC_GET_VERSION				"GTVR"
 
 #define _CMD_BLDC_CMD_ERROR					"ERR 1\n\r"
 
@@ -243,7 +245,11 @@ int execute (int argc, const char * const * argv)
 				sprintf(str, "OK\r\n");			
 				print(str);
 		}	
-
+		else if (strcmp (argv[i], _CMD_BLDC_GET_VERSION) == 0) 
+		{
+				sprintf(str,"OK %s\r\n", VERSION_BLDC);			
+				print(str);
+		}
 //		else if ((strcmp (argv[i], _CMD_SET) == 0) || 
 //							(strcmp (argv[i], _CMD_CLR) == 0)) 
 //		{

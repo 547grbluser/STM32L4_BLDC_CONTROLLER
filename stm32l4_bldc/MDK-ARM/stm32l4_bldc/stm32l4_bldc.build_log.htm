@@ -27,16 +27,66 @@ Project File Date:  02/02/2018
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 5 (build 528)', folder: 'C:\Program Files\Keil\ARM\ARMCC\Bin'
 Build target 'stm32l4_bldc'
-compiling bldc_lib.c...
+compiling cmd_iface.c...
 ..\MC_BLDC_Lib\Inc\bldc_pid.h(28): warning:  #1-D: last line of file ends without a newline
   #endif
-..\MC_BLDC_Lib\Src\bldc_lib.c(250): warning:  #186-D: pointless comparison of unsigned integer with zero
-     if(
-S_BLDC_RPM(speed_value))
-..\MC_BLDC_Lib\Src\bldc_lib.c: 2 warnings, 0 errors
+../Inc/version.h(6): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\Src\cmd_iface.c(160): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
+  				sprintf(str, "OK %02X\r\n", err);			
+..\Src\cmd_iface.c(161): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
+  				print(str);
+..\Src\cmd_iface.c(167): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
+  				sprintf(str, "OK %02X\r\n", err);			
+..\Src\cmd_iface.c(168): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
+  				print(str);
+..\Src\cmd_iface.c(174): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
+  				sprintf(str, "OK %02X\r\n", err);			
+..\Src\cmd_iface.c(175): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
+  				print(str);
+..\Src\cmd_iface.c(182): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
+  				sprintf(str, "Error code = %X\r\n", err);			
+..\Src\cmd_iface.c(183): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
+  				print(str);
+..\Src\cmd_iface.c(188): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
+  				sprintf(str, "Current = %d mA\r\n", current);			
+..\Src\cmd_iface.c(189): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
+  				print(str);
+..\Src\cmd_iface.c(194): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
+  				sprintf(str, "Voltage = %d V\r\n", voltage);			
+..\Src\cmd_iface.c(195): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
+  				print(str);
+..\Src\cmd_iface.c(200): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
+  				sprintf(str, "Status code = %d\r\n", status);			
+..\Src\cmd_iface.c(201): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
+  				print(str);
+..\Src\cmd_iface.c(206): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
+  				sprintf(str, "RPM = %d\r\n", rpm);			
+..\Src\cmd_iface.c(207): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
+  				print(str);
+..\Src\cmd_iface.c(219): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
+  				sprintf(str, "OK %02X %d %d %d %d\r\n", err, voltage, current, rpm, phase);			
+..\Src\cmd_iface.c(220): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
+  				print(str);			
+..\Src\cmd_iface.c(225): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
+  				sprintf(str, "OK %02X\r\n", err);			
+..\Src\cmd_iface.c(226): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
+  				print(str);
+..\Src\cmd_iface.c(245): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
+  				sprintf(str, "OK\r\n");			
+..\Src\cmd_iface.c(246): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
+  				print(str);
+..\Src\cmd_iface.c(250): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
+  				sprintf(str,"OK %s\r\n", 
+ERSION_BLDC);			
+..\Src\cmd_iface.c(251): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
+  				print(str);
+..\Src\cmd_iface.c(306): warning:  #1-D: last line of file ends without a newline
+  }
+..\Src\cmd_iface.c: 27 warnings, 0 errors
 linking...
-Program Size: Code=29248 RO-data=584 RW-data=148 ZI-data=22188  
-"stm32l4_bldc\stm32l4_bldc.axf" - 0 Error(s), 2 Warning(s).
+Program Size: Code=29308 RO-data=584 RW-data=148 ZI-data=22188  
+"stm32l4_bldc\stm32l4_bldc.axf" - 0 Error(s), 27 Warning(s).
 
 <h2>Software Packages used:</h2>
 

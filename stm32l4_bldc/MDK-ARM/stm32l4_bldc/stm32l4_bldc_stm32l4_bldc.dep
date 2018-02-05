@@ -1367,7 +1367,7 @@ I (../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h)(0x5A3CBB6E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/task.h)(0x5A3CBB6E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/list.h)(0x5A3CBB6E)
-F (..\Src\cmd_iface.c)(0x5A746A86)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Drivers/CMSIS/Include -I ..\MC_BLDC_Lib\Inc -I ..\microrl\src --C99-I.\RTE\_stm32l4_bldc-I"C:\Program Files\Keil\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include"-I"C:\Program Files\Keil\ARM\PACK\Keil\STM32L4xx_DFP\1.4.0\Device\Include"-D__UVISION_VERSION="524" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o stm32l4_bldc\cmd_iface.o --omf_browse stm32l4_bldc\cmd_iface.crf --depend stm32l4_bldc\cmd_iface.d)
+F (..\Src\cmd_iface.c)(0x5A7805AC)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Drivers/CMSIS/Include -I ..\MC_BLDC_Lib\Inc -I ..\microrl\src --C99-I.\RTE\_stm32l4_bldc-I"C:\Program Files\Keil\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include"-I"C:\Program Files\Keil\ARM\PACK\Keil\STM32L4xx_DFP\1.4.0\Device\Include"-D__UVISION_VERSION="524" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o stm32l4_bldc\cmd_iface.o --omf_browse stm32l4_bldc\cmd_iface.crf --depend stm32l4_bldc\cmd_iface.d)
 I (../Inc/cmd_iface.h)(0x5A608AAD)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5A3CBB6B)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l452xx.h)(0x5A3CBB6B)
@@ -1413,6 +1413,7 @@ I (C:\Program Files\Keil\ARM\ARMCC\include\math.h)(0x588BC994)
 I (C:\Program Files\Keil\ARM\ARMCC\include\stdlib.h)(0x588BC994)
 I (..\MC_BLDC_Lib\Inc\bldc_param.h)(0x5A745F7A)
 I (..\MC_BLDC_Lib\Inc\bldc_pid.h)(0x5A65D68B)
+I (../Inc/version.h)(0x5A78059A)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h)(0x5A3CBB6E)
 I (C:\Program Files\Keil\ARM\ARMCC\include\stddef.h)(0x588BC994)
 I (../Inc/FreeRTOSConfig.h)(0x5A608598)
@@ -1426,7 +1427,7 @@ I (../Middlewares/Third_Party/FreeRTOS/Source/include/list.h)(0x5A3CBB6E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h)(0x5A3CBB6E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h)(0x5A3CBB6E)
 I (../Inc/fifo.h)(0x5A26A697)
-F (..\MC_BLDC_Lib\Src\bldc_lib.c)(0x5A748E51)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Drivers/CMSIS/Include -I ..\MC_BLDC_Lib\Inc -I ..\microrl\src --C99-I.\RTE\_stm32l4_bldc-I"C:\Program Files\Keil\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include"-I"C:\Program Files\Keil\ARM\PACK\Keil\STM32L4xx_DFP\1.4.0\Device\Include"-D__UVISION_VERSION="524" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o stm32l4_bldc\bldc_lib.o --omf_browse stm32l4_bldc\bldc_lib.crf --depend stm32l4_bldc\bldc_lib.d)
+F (..\MC_BLDC_Lib\Src\bldc_lib.c)(0x5A749025)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Drivers/CMSIS/Include -I ..\MC_BLDC_Lib\Inc -I ..\microrl\src --C99-I.\RTE\_stm32l4_bldc-I"C:\Program Files\Keil\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include"-I"C:\Program Files\Keil\ARM\PACK\Keil\STM32L4xx_DFP\1.4.0\Device\Include"-D__UVISION_VERSION="524" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o stm32l4_bldc\bldc_lib.o --omf_browse stm32l4_bldc\bldc_lib.crf --depend stm32l4_bldc\bldc_lib.d)
 I (..\MC_BLDC_Lib\Inc\bldc_lib.h)(0x5A747873)
 I (C:\Program Files\Keil\ARM\ARMCC\include\math.h)(0x588BC994)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5A3CBB6C)
