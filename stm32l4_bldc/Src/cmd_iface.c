@@ -20,11 +20,6 @@
 #define _CMD_ECHO		"ECHO"
 
 
-//#define _CMD_BLDC_START_FWD 	"start_fwd"
-//#define _CMD_BLDC_START_BWD 	"start_bwd"
-//#define _CMD_BLDC_STOP 				"stop"
-
-
 #define _CMD_BLDC_GET_CURRENT 		"get_current"
 #define _CMD_BLDC_GET_VOLTAGE 		"get_voltage"
 #define _CMD_BLDC_GET_RPM_SPEED 	"get_rpm"
@@ -250,46 +245,8 @@ int execute (int argc, const char * const * argv)
 				sprintf(str,"OK %s\r\n", VERSION_BLDC);			
 				print(str);
 		}
-//		else if ((strcmp (argv[i], _CMD_SET) == 0) || 
-//							(strcmp (argv[i], _CMD_CLR) == 0)) 
-//		{
-//				if (++i < argc)
-//				{
-//					int val = strcmp (argv[i-1], _CMD_CLR);
-//					unsigned char * port = NULL;
-//					int pin = 0;
-//					if (strcmp (argv[i], _SCMD_PD) == 0) {
-//					//	port = (unsigned char *)&PORTD;
-//					} else if (strcmp (argv[i], _SCMD_PB) == 0) {
-//						//port = (unsigned char *)&PORTB;
-//					} else {
-//						print ("only '");
-//						print (_SCMD_PB);
-//						print ("' and '");
-//						print (_SCMD_PD);
-//						print ("' support\n\r");
-//						return 1;
-//					}
-//					if (++i < argc) {
-//						pin = atoi (argv[i]);
-//					//	set_port_val (port, pin, val);
-//						return 0;
-//					} else {
-//						print ("specify pin number, use Tab\n\r");
-//						return 1;
-//					}
-//				} 
-//				else 
-//				{
-//						print ("specify port, use Tab\n\r");
-//					return 1;
-//				}
-//		} 
 		else 
 		{
-//				print ("command: '");
-//				print ((char*)argv[i]);
-//				print ("' Not found.\n\r");
 					print (_CMD_BLDC_CMD_ERROR);
 		}
 		i++;
