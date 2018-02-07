@@ -1,8 +1,8 @@
 stm32l4_bldc\timers.o: ../Middlewares/Third_Party/FreeRTOS/Source/timers.c
-stm32l4_bldc\timers.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
+stm32l4_bldc\timers.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 stm32l4_bldc\timers.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
-stm32l4_bldc\timers.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\stddef.h
-stm32l4_bldc\timers.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\stdint.h
+stm32l4_bldc\timers.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+stm32l4_bldc\timers.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 stm32l4_bldc\timers.o: ../Inc/FreeRTOSConfig.h
 stm32l4_bldc\timers.o: ../Inc/main.h
 stm32l4_bldc\timers.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h

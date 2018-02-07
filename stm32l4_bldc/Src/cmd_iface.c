@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 #include "microrl.h"
 #include "bldc_lib.h"
 #include "version.h"
@@ -35,7 +36,7 @@
 #define _CMD_BLDC_GET_PARAMS 				"PRM"
 #define _CMD_BLDC_GET_VERSION				"GTVR"
 
-#define _CMD_BLDC_CMD_ERROR					"ERR 1\n\r"
+#define _CMD_BLDC_CMD_ERROR					"ERR\n"
 
 
 #define _CMD_ON		"ON"
@@ -84,6 +85,9 @@ static void Cmd_Iface_Task(void *pvParameters)
 {
 	uint8_t chr;
 	__HAL_UART_ENABLE_IT(&huart1, UART_IT_RXNE);
+	
+	vTaskDelay(10);
+	FIFO_FLUSH(uart1_rx_fifo);
 	while(1)
 	{		
 		if(!FIFO_IS_EMPTY( uart1_rx_fifo ))
@@ -100,10 +104,14 @@ void Cmd_UART_Rx(UART_HandleTypeDef *huart)
 	  char ch;
 
 		ch = huart->Instance->RDR;
-		if( !FIFO_IS_FULL( uart1_rx_fifo ) ) 
+		
+		if(isalnum(ch) || isspace(ch) || (ch == '\n'))
 		{
-			FIFO_PUSH( uart1_rx_fifo, ch );
-		}
+			if( !FIFO_IS_FULL( uart1_rx_fifo ) ) 
+			{
+				FIFO_PUSH( uart1_rx_fifo, ch );
+			}
+	  }
 }
 
 
@@ -124,7 +132,7 @@ char get_char (void)
 //*****************************************************************************
 void print_help (void)
 {
-	print ("\tclear               - clear screen\n\r");
+	print ("\tclear               - clear screen\n");
 }
 
 //*****************************************************************************
@@ -141,7 +149,7 @@ int execute (int argc, const char * const * argv)
 
 				print ("microrl v");
 				print (MICRORL_LIB_VER);
-				print("\n\r");
+				print("\n");
 				print_help ();        // print help
 		} 
 		else if (strcmp (argv[i], _CMD_CLEAR) == 0) 
@@ -152,21 +160,21 @@ int execute (int argc, const char * const * argv)
 		else if (strcmp (argv[i], _CMD_BLDC_START_FWD) == 0) 
 		{
 				uint16_t err = MC_SixStep_GetErrorCode();	
-				sprintf(str, "OK %02X\r\n", err);			
+				sprintf(str, "OK %02X\n", err);			
 				print(str);
 				MC_SixStep_StartMotor(SIXSTEP_DIR_FORWARD);
 		}
 		else if (strcmp (argv[i], _CMD_BLDC_START_BWD) == 0) 
 		{
 				uint16_t err = MC_SixStep_GetErrorCode();
-				sprintf(str, "OK %02X\r\n", err);			
+				sprintf(str, "OK %02X\n", err);			
 				print(str);
 				MC_SixStep_StartMotor(SIXSTEP_DIR_BACKWARD);
 		}	
 		else if (strcmp (argv[i], _CMD_BLDC_STOP) == 0) 
 		{
 				uint16_t err = MC_SixStep_GetErrorCode();
-				sprintf(str, "OK %02X\r\n", err);			
+				sprintf(str, "OK %02X\n", err);			
 				print(str);
 				MC_SixStep_StopMotor();
 		}		
@@ -174,31 +182,31 @@ int execute (int argc, const char * const * argv)
 		{
 				uint16_t err = MC_SixStep_GetErrorCode();
 				
-				sprintf(str, "Error code = %X\r\n", err);			
+				sprintf(str, "Error code = %X\n", err);			
 				print(str);
 		}		
 		else if (strcmp (argv[i], _CMD_BLDC_GET_CURRENT) == 0) 
 		{
 				uint16_t current = MC_SixStep_GetCurrent();
-				sprintf(str, "Current = %d mA\r\n", current);			
+				sprintf(str, "Current = %d mA\n", current);			
 				print(str);
 		}	
 		else if (strcmp (argv[i], _CMD_BLDC_GET_VOLTAGE) == 0) 
 		{
 				uint16_t voltage = MC_SixStep_GetVoltage();
-				sprintf(str, "Voltage = %d V\r\n", voltage);			
+				sprintf(str, "Voltage = %d V\n", voltage);			
 				print(str);
 		}			
 		else if (strcmp (argv[i], _CMD_BLDC_GET_STATUS) == 0) 
 		{
 				uint16_t status = MC_SixStep_GetStatus();
-				sprintf(str, "Status code = %d\r\n", status);			
+				sprintf(str, "Status code = %d\n", status);			
 				print(str);
 		}
 		else if (strcmp (argv[i], _CMD_BLDC_GET_RPM_SPEED) == 0) 
 		{
 				uint16_t rpm = (uint16_t)MC_SixStep_GetMechSpeedRPM();
-				sprintf(str, "RPM = %d\r\n", rpm);			
+				sprintf(str, "RPM = %d\n", rpm);			
 				print(str);
 		}	
 		else if(strcmp (argv[i], _CMD_BLDC_GET_PARAMS) == 0) 
@@ -211,13 +219,13 @@ int execute (int argc, const char * const * argv)
 				
 				uint16_t phase = 0;
 			
-				sprintf(str, "OK %02X %d %d %d %d\r\n", err, voltage, current, rpm, phase);			
+				sprintf(str, "OK %02X %d %d %d %d\n", err, voltage, current, rpm, phase);			
 				print(str);			
 		}
 		else if (strcmp (argv[i], _CMD_BLDC_OPEN_VT_SWITCH) == 0) 
 		{
 				uint16_t err = MC_SixStep_GetErrorCode();
-				sprintf(str, "OK %02X\r\n", err);			
+				sprintf(str, "OK %02X\n", err);			
 				print(str);
 				/*
 					Open VT SWITCH
@@ -237,12 +245,12 @@ int execute (int argc, const char * const * argv)
 								cmdEchoFlag = 0;
 						}
 				}
-				sprintf(str, "OK\r\n");			
+				sprintf(str, "OK\n");			
 				print(str);
 		}	
 		else if (strcmp (argv[i], _CMD_BLDC_GET_VERSION) == 0) 
 		{
-				sprintf(str,"OK %s\r\n", VERSION_BLDC);			
+				sprintf(str,"OK %s\n", VERSION_BLDC);			
 				print(str);
 		}
 		else 
@@ -259,5 +267,5 @@ int execute (int argc, const char * const * argv)
 //*****************************************************************************
 void sigint (void)
 {
-	print ("^C catched!\n\r");
+	print ("^C catched!\n");
 }

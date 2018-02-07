@@ -374,14 +374,18 @@ uint32_t MC_SixStep_GetElSpeedHz(void) //Частота импульсов с датчиков Холла
 
 uint32_t MC_SixStep_GetMechSpeedRPM(void) //Частота вращения ротора двигателя в RPM
 {  	
-		SIXSTEP_parameters.speedFdbk=(uint32_t)(MC_SixStep_GetElSpeedHz() *  60 / NUM_POLE_PAIRS);
+		SIXSTEP_parameters.speedFdbk=(uint32_t)(MC_SixStep_GetElSpeedHz() *  60 / NUM_POLE_PAIRS/2/6);
 		return SIXSTEP_parameters.speedFdbk;
 }
 
 
 
-const uint8_t hallPosTable_FWD[8] = {0, 3, 5, 4, 1, 2, 6, 0};//Перекодировка датчиков Холла в шаг FW
-const uint8_t hallPosTable_BWD[8] = {0, 6, 2, 1, 4, 5, 3, 0};//Перекодировка датчиков Холла в шаг BW
+//const uint8_t hallPosTable_FWD[8] = {0, 3, 5, 4, 1, 2, 6, 0};//Перекодировка датчиков Холла в шаг FW
+//const uint8_t hallPosTable_BWD[8] = {0, 6, 2, 1, 4, 5, 3, 0};//Перекодировка датчиков Холла в шаг BW
+const uint8_t hallPosTable_FWD[8] = {0, 4, 6, 5, 2, 3, 1, 0};//Перекодировка датчиков Холла в шаг FW
+const uint8_t hallPosTable_BWD[8] = {0, 1, 3, 2, 5, 6, 4, 0};//Перекодировка датчиков Холла в шаг BW
+
+
 
 uint8_t   MC_SixStep_GetCurrentPosition(void) //Текущее положение ротора
 {

@@ -1,4 +1,4 @@
-#define NUM_POLE_PAIRS                       7      /*!< Number of Motor Pole pairs */
+#define NUM_POLE_PAIRS                       2      /*!< Number of Motor Pole pairs */
 #define DIRECTION                         SIXSTEP_DIR_FORWARD      /*!< Set motor direction CW = 0 and CCW = 1*/ 
 #define TARGET_SPEED                      3000      /*!< Target speed in closed loop control when the potentiometer is disabled */  
 

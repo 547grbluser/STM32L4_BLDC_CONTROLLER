@@ -539,7 +539,7 @@ void new_line_handler(microrl_t * pThis){
 	char const * tkn_arr [_COMMAND_TOKEN_NMB];
 	int status;
 
-	terminal_newline (pThis);
+//	terminal_newline (pThis);
 #ifdef _USE_HISTORY
 	if (pThis->cmdlen > 0)
 		hist_save_line (&pThis->ring_hist, pThis->cmdline, pThis->cmdlen);
