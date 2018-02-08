@@ -269,6 +269,7 @@ void 		MC_SixStep_StartMotor(enSIXSTEP_Direction dir)
 			SIXSTEP_parameters.direction = dir;
 			SIXSTEP_parameters.status = SIXSTEP_STATUS_INIT;
 			SIXSTEP_parameters.faultCnt = 0;
+			SIXSTEP_parameters.phaseCounter = 0;
 			SIXSTEP_parameters.mode	=	SIXSTEP_MODE_MOTOR;
 		}
 }
@@ -546,6 +547,11 @@ uint16_t MC_SixStep_GetVoltage(void)
 		return SIXSTEP_parameters.voltageFdbk;
 }
 
+uint32_t MC_SixStep_GetPhaseCounter(void)
+{
+	 return 	SIXSTEP_parameters.phaseCounter;
+}
+
 enSIXSTEP_SystStatus MC_SixStep_GetStatus(void)
 {
 		return SIXSTEP_parameters.status;
@@ -706,6 +712,7 @@ void 			MC_SixStep_Handler(void)
 			{								
 					MC_SixStep_Reset();
 					SIXSTEP_parameters.status=SIXSTEP_STATUS_STOP;
+					SIXSTEP_parameters.phaseCounter = 0;
 			}
 			break;
 			
@@ -821,6 +828,7 @@ void HAL_TIMEx_CommutationCallback(TIM_HandleTypeDef *htim) //
 			MC_SixStep_NextStep();
 			SIXSTEP_parameters.flagIsSpeedNotZero = TRUE;
 			hallSensorPulse = TRUE;	
+			SIXSTEP_parameters.phaseCounter++;
 		}
 	}
 }

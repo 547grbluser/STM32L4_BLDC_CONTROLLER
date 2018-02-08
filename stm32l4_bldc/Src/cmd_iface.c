@@ -217,7 +217,7 @@ int execute (int argc, const char * const * argv)
 				uint16_t voltage = MC_SixStep_GetVoltage();
 			  uint16_t rpm = (uint16_t)MC_SixStep_GetMechSpeedRPM();
 				
-				uint16_t phase = 0;
+				uint16_t phase = (uint16_t)MC_SixStep_GetPhaseCounter();
 			
 				sprintf(str, "OK %02X %d %d %d %d\n", err, voltage, current, rpm, phase);			
 				print(str);			

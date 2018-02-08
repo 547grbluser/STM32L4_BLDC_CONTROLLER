@@ -65,7 +65,7 @@ typedef struct
 {
 	enSIXSTEP_SystStatus status;      			/*!< Status variable for SixStep algorithm*/ 
 	enSIXSTEP_Error			 error;							/*!< Error variable for SixStep algorithm*/ 
-	uint8_t							 faultCnt;
+	uint8_t					faultCnt;
 
 
 	uint16_t 	speedFdbk;
@@ -73,6 +73,7 @@ typedef struct
 	uint16_t 	currentFdbk;
 	uint16_t 	voltageFdbk;
 	uint8_t 	positionFdbk;
+	uint32_t 	phaseCounter;
 	
 
 	uint8_t 	prevStep;
@@ -94,6 +95,7 @@ void MC_SixStep_StartMotor(enSIXSTEP_Direction dir);
 void MC_SixStep_StopMotor(void);
 uint16_t MC_SixStep_GetCurrent(void);
 uint16_t MC_SixStep_GetVoltage(void); 
+uint32_t MC_SixStep_GetPhaseCounter(void);
 uint32_t MC_SixStep_GetMechSpeedRPM(void);
 enSIXSTEP_SystStatus MC_SixStep_GetStatus(void); 
 void MC_SixStep_SetSpeed(uint16_t);
