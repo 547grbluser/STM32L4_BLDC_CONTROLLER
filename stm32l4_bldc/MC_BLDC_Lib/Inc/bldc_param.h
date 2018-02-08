@@ -1,4 +1,7 @@
 #define NUM_POLE_PAIRS                       2      /*!< Number of Motor Pole pairs */
+#define	PAIR								 2
+#define BLDC_SIX_STEP						 6
+
 #define DIRECTION                         SIXSTEP_DIR_FORWARD      /*!< Set motor direction CW = 0 and CCW = 1*/ 
 #define TARGET_SPEED                      3000      /*!< Target speed in closed loop control when the potentiometer is disabled */  
 
@@ -21,7 +24,13 @@
 
 #define BLDC_FAULT_RESTART_N												5
 
+/*
+	Коэффициенты аналоговых каналов
+*/
 
+#define MC_CURRENT_COEF 		5/2
+#define MC_VOLTAGE_COEF 		100
+#define MC_VOLTAGE_MULTIPLIER	20//для совместимости
 
 
 #define DUTY_CYCLE_INIT_VALUE                 1     /*!< Initial duty cycle value during startup */          

@@ -374,7 +374,7 @@ uint32_t MC_SixStep_GetElSpeedHz(void) //Частота импульсов с датчиков Холла
 
 uint32_t MC_SixStep_GetMechSpeedRPM(void) //Частота вращения ротора двигателя в RPM
 {  	
-		SIXSTEP_parameters.speedFdbk=(uint32_t)(MC_SixStep_GetElSpeedHz() *  60 / NUM_POLE_PAIRS/2/6);
+		SIXSTEP_parameters.speedFdbk=(uint32_t)(MC_SixStep_GetElSpeedHz() *  60 / NUM_POLE_PAIRS/PAIR/BLDC_SIX_STEP);
 		return SIXSTEP_parameters.speedFdbk;
 }
 
@@ -511,7 +511,7 @@ void	MC_SixStep_HallFdbkVerify(void)
 		 }
 }
 
-#define MC_CURRENT_COEF 5/2
+
 uint16_t MC_SixStep_GetCurrent(void) 
 {
 		uint32_t adcVoltage;
@@ -537,12 +537,12 @@ uint16_t MC_SixStep_GetCurrent(void)
 		return SIXSTEP_parameters.currentFdbk;
 }
 
-#define MC_VOLTAGE_COEF 100
+
 uint16_t MC_SixStep_GetVoltage(void)
 {
 		uint32_t adcVoltage;
 		adcVoltage = adcIntGetVoltage(ADC_MC_VOLTAGE);		
-		SIXSTEP_parameters.voltageFdbk = (uint16_t)(( adcVoltage* MC_VOLTAGE_COEF)/1000);
+		SIXSTEP_parameters.voltageFdbk = (uint16_t)(( adcVoltage* MC_VOLTAGE_COEF*MC_VOLTAGE_MULTIPLIER)/1000);
 		return SIXSTEP_parameters.voltageFdbk;
 }
 
