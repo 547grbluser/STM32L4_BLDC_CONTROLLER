@@ -662,11 +662,11 @@ ARM Macro Assembler    Page 11
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
 erwork --depend=stm32l4_bldc\startup_stm32l452xx.d -ostm32l4_bldc\startup_stm32
-l452xx.o -I..\Inc -I.\RTE\_stm32l4_bldc -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\C
-MSIS\Include -IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\1.4.0\Device\Include --pr
-edefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 524" --predefin
-e="_RTE_ SETA 1" --predefine="STM32L452xx SETA 1" --list=startup_stm32l452xx.ls
-t startup_stm32l452xx.s
+l452xx.o -I..\Inc -I.\RTE\_stm32l4_bldc -I"C:\Program Files\Keil\ARM\PACK\ARM\C
+MSIS\5.0.1\CMSIS\Include" -I"C:\Program Files\Keil\ARM\PACK\Keil\STM32L4xx_DFP\
+1.4.0\Device\Include" --predefine="__MICROLIB SETA 1" --predefine="__UVISION_VE
+RSION SETA 524" --predefine="_RTE_ SETA 1" --predefine="STM32L452xx SETA 1" --l
+ist=startup_stm32l452xx.lst startup_stm32l452xx.s
 
 
 

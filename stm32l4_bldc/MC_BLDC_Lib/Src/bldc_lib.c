@@ -238,7 +238,7 @@ void 		MC_SixStep_Reset(void) //Останов и сброс
 		SIXSTEP_parameters.prevStep = FALSE;
 //		SIXSTEP_parameters.mode	=	SIXSTEP_MODE_MOTOR;
 	
-//		MC_SixStep_Set_PI_Param(&SIXSTEP_parameters.PI_Param); 
+		MC_SixStep_Set_PI_Param(&SIXSTEP_parameters.PI_Param); 
 }
 
 /*
@@ -271,6 +271,7 @@ void 		MC_SixStep_StartMotor(enSIXSTEP_Direction dir)
 			SIXSTEP_parameters.faultCnt = 0;
 			SIXSTEP_parameters.phaseCounter = 0;
 			SIXSTEP_parameters.mode	=	SIXSTEP_MODE_MOTOR;
+			MC_SixStep_SetSpeed(MC_TARGET_SPEED);
 		}
 }
 
@@ -697,7 +698,7 @@ void 			MC_SixStep_Handler(void)
 						
 			case SIXSTEP_STATUS_RUN:
 			{
-					//SIXSTEP_parameters.PWM_Value = MC_PI_Controller(&SIXSTEP_parameters.PI_Parameters, SIXSTEP_parameters.speedFdbk);
+					SIXSTEP_parameters.PWM_Value = MC_SixStep_PI_Controller(&SIXSTEP_parameters.PI_Param, SIXSTEP_parameters.speedFdbk);
 
 					
 					if(SIXSTEP_parameters.flagIsSpeedNotZero == FALSE)//неожиданная остановка двигателя
