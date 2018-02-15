@@ -54,7 +54,7 @@ uint8_t 	MC_SixStep_TimeoutDelay(void);
 /*
 *********************Static variables*****************************
 */
-#define BLDC_EL_SPEED_BUF_SIZE		48
+#define BLDC_EL_SPEED_BUF_SIZE		1//48
 static uint8_t hallSensorPulse=FALSE;
 static uint16_t ElSpeedBuf[BLDC_EL_SPEED_BUF_SIZE] = {0};//буфер усреднения RPM
 /*
@@ -179,11 +179,11 @@ void MC_SixStep_PrevStep(void)
 		 
 	  if(SIXSTEP_parameters.direction == SIXSTEP_DIR_FORWARD)
 	  {			
-				prevStep = (int8_t)SIXSTEP_parameters.positionStep - 1;//+ 2;	
+				prevStep = (int8_t)SIXSTEP_parameters.positionStep - 2;//- 1;//+ 2;	
 	  }
 		else
 		{
-				prevStep = (int8_t)SIXSTEP_parameters.positionStep + 1;//+ 4;	
+				prevStep = (int8_t)SIXSTEP_parameters.positionStep + 2;//+1//+ 4;	
 		}
 	 
 	 
@@ -271,6 +271,7 @@ void 		MC_SixStep_StartMotor(enSIXSTEP_Direction dir)
 			SIXSTEP_parameters.faultCnt = 0;
 			SIXSTEP_parameters.phaseCounter = 0;
 			SIXSTEP_parameters.mode	=	SIXSTEP_MODE_MOTOR;
+			MC_SixStep_Set_PI_Param(&SIXSTEP_parameters.PI_Param); 
 			MC_SixStep_SetSpeed(MC_TARGET_SPEED);
 		}
 }
@@ -665,14 +666,14 @@ void 			MC_SixStep_Handler(void)
 							
 							htim1.Instance->EGR|=TIM_EGR_COMG; //генерим событие коммутации															
 							SIXSTEP_parameters.status = SIXSTEP_STATUS_PREV_STEP;
-							MC_SixStep_SetDelay(100);
+							MC_SixStep_SetDelay(200);
 					}	
 			}
 			break;	
 
 			case SIXSTEP_STATUS_PREV_STEP:
 			{			
-					if(MC_SixStep_TimeoutDelay() && MC_SixStep_Ramp(BLDC_PWM_RAMP_MAX, 5))
+					if(MC_SixStep_TimeoutDelay() && MC_SixStep_Ramp(BLDC_PWM_PREV_STEP_MAX, 5))
 					{	
 							SIXSTEP_parameters.PWM_Value = BLDC_PWM_START;	
 							//SIXSTEP_parameters.prevStep = FALSE;
@@ -688,7 +689,7 @@ void 			MC_SixStep_Handler(void)
 			
 			case SIXSTEP_STATUS_RAMP://Плавное увеличение тока двигателя при старте
 			{					
-					if(MC_SixStep_Ramp(BLDC_PWM_RAMP_MAX, 1) && MC_SixStep_TimeoutDelay())
+					if(MC_SixStep_Ramp(BLDC_PWM_RAMP_MAX, 1)/* && MC_SixStep_TimeoutDelay()*/)
 					{	
 							SIXSTEP_parameters.status=SIXSTEP_STATUS_RUN;
 					}
@@ -698,7 +699,17 @@ void 			MC_SixStep_Handler(void)
 						
 			case SIXSTEP_STATUS_RUN:
 			{
-					SIXSTEP_parameters.PWM_Value = MC_SixStep_PI_Controller(&SIXSTEP_parameters.PI_Param, SIXSTEP_parameters.speedFdbk);
+//					static uint8_t cnt = 10;
+//					
+//					if(cnt < 10)
+//					{
+//							cnt++;
+//					}
+//					else
+//					{
+							SIXSTEP_parameters.PWM_Value = MC_SixStep_PI_Controller(&SIXSTEP_parameters.PI_Param, SIXSTEP_parameters.speedFdbk);
+//							cnt = 0;
+//					}		
 
 					
 					if(SIXSTEP_parameters.flagIsSpeedNotZero == FALSE)//неожиданная остановка двигателя
@@ -844,8 +855,10 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 	//				{
 							htim1.Instance->EGR|=TIM_EGR_COMG; //commutation signal
 	//				}
-					
-					MC_SixStep_ElSpeedHzToBuf(htim->Instance->CCR1);
+					if(SIXSTEP_parameters.positionStep == 6)
+					{					
+						MC_SixStep_ElSpeedHzToBuf(htim->Instance->CCR1);
+					}
 			 }
 		}
 }

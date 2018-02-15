@@ -1,9 +1,10 @@
 #include "bldc_pid.h"
+#include "bldc_param.h"
 #include "main.h"
 
 void MC_SixStep_Set_PI_Param(stSIXSTEP_PI_Param *PI_Param)
 {
-		PI_Param->ReferenceSpeed = 0;   
+		PI_Param->ReferenceSpeed = MC_TARGET_SPEED;   
 		PI_Param->integralTermSum = 0;
 			
 		PI_Param->Kp_Gain = KP_GAIN;   

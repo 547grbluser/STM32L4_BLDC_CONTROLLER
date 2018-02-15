@@ -2,12 +2,13 @@
 #define BLDC_PID_H
 
 #include "stm32l4xx_hal.h"
+#include "bldc_param.h"
 
-#define KP_GAIN		                          	1//100     /*!< Kp parameter for PI regulator */
-#define KI_GAIN		                           	0//30     /*!< Ki parameter for PI regulator */   
-#define KP_DIV  	                         		8192     /*!< Kp parameter divider for PI regulator */
-#define KI_DIV	                           		8192     /*!< Ki parameter divider for PI regulator */   
-#define LOWER_OUT_LIMIT		                 		1     /*!< Low Out value of PI regulator */      
+#define KP_GAIN		                          	1//12//100     /*!< Kp parameter for PI regulator */
+#define KI_GAIN		                           	10 //30     /*!< Ki parameter for PI regulator */   
+#define KP_DIV  	                         		512     /*!< Kp parameter divider for PI regulator */
+#define KI_DIV	                           		65536     /*!< Ki parameter divider for PI regulator */   
+#define LOWER_OUT_LIMIT		                 		BLDC_PWM_RAMP_MAX     /*!< Low Out value of PI regulator */      
 #define UPPER_OUT_LIMIT		                 	 	63     /*!< High Out value of PI regulator */   
 
 typedef struct
@@ -25,4 +26,4 @@ typedef struct
 uint16_t 	MC_SixStep_PI_Controller(stSIXSTEP_PI_Param *, uint16_t);
 void 			MC_SixStep_Set_PI_Param(stSIXSTEP_PI_Param *);
 
-#endif
+#endif 

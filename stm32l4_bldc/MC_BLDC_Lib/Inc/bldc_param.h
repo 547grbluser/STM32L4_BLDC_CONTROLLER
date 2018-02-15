@@ -20,7 +20,9 @@
 
 
 #define BLDC_PWM_START															0
-#define BLDC_PWM_RAMP_MAX														60	
+#define BLDC_PWM_RAMP_MAX														16	
+#define BLDC_PWM_PREV_STEP_MAX											48	
+
 
 #define BLDC_FAULT_RESTART_N												5
 
