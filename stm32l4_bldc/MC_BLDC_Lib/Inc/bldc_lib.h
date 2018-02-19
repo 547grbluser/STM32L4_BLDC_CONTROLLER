@@ -17,6 +17,8 @@
 
 #define HALL_TIM_FREQ						80000 //Hz
 
+#define TEST_PIN_OFF 	HAL_GPIO_WritePin(TEST_PIN_GPIO_Port, TEST_PIN_Pin, GPIO_PIN_RESET)
+#define TEST_PIN_ON 	HAL_GPIO_WritePin(TEST_PIN_GPIO_Port, TEST_PIN_Pin, GPIO_PIN_SET)
 
 typedef enum 
 {

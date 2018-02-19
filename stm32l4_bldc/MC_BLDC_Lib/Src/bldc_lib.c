@@ -378,6 +378,17 @@ uint32_t MC_SixStep_GetElSpeedHz(void) //Частота импульсов с датчиков Холла
 uint32_t MC_SixStep_GetMechSpeedRPM(void) //Частота вращения ротора двигателя в RPM
 {  	
 		SIXSTEP_parameters.speedFdbk=(uint16_t)(MC_SixStep_GetElSpeedHz() *  60 / NUM_POLE_PAIRS/PAIR/BLDC_SIX_STEP);
+	
+		if(SIXSTEP_parameters.speedFdbk > MC_TARGET_SPEED)
+		{
+				TEST_PIN_ON;
+		}
+		else
+		{
+				TEST_PIN_OFF;
+		}
+		
+	
 		return SIXSTEP_parameters.speedFdbk;
 }
 
@@ -709,19 +720,8 @@ void 			MC_SixStep_Handler(void)
 						
 			case SIXSTEP_STATUS_RUN:
 			{
-//					static uint8_t cnt = 10;
-//					
-//					if(cnt < 10)
-//					{
-//							cnt++;
-//					}
-//					else
-//					{
-							SIXSTEP_parameters.PWM_Value = MC_SixStep_PI_Controller(&SIXSTEP_parameters.PI_Param, SIXSTEP_parameters.speedFdbk);//48
-//							cnt = 0;
-//					}		
+					SIXSTEP_parameters.PWM_Value = MC_SixStep_PI_Controller(&SIXSTEP_parameters.PI_Param, SIXSTEP_parameters.speedFdbk);//48
 
-					
 					if(SIXSTEP_parameters.flagIsSpeedNotZero == FALSE)//неожиданная остановка двигателя
 					{
 							SIXSTEP_parameters.status=SIXSTEP_STATUS_FAULT;

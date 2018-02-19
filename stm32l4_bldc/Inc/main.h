@@ -67,6 +67,8 @@
 #define HALL_2_GPIO_Port GPIOA
 #define HALL_3_Pin GPIO_PIN_2
 #define HALL_3_GPIO_Port GPIOA
+#define TEST_PIN_Pin GPIO_PIN_3
+#define TEST_PIN_GPIO_Port GPIOA
 #define LIN_3_Pin GPIO_PIN_13
 #define LIN_3_GPIO_Port GPIOB
 #define LIN_2_Pin GPIO_PIN_14
