@@ -54,7 +54,7 @@ uint8_t 	MC_SixStep_TimeoutDelay(void);
 /*
 *********************Static variables*****************************
 */
-#define BLDC_EL_SPEED_BUF_SIZE		1//48
+#define BLDC_EL_SPEED_BUF_SIZE		12//48//1//48
 static uint8_t hallSensorPulse=FALSE;
 static uint16_t ElSpeedBuf[BLDC_EL_SPEED_BUF_SIZE] = {0};//буфер усреднения RPM
 /*
@@ -179,11 +179,11 @@ void MC_SixStep_PrevStep(void)
 		 
 	  if(SIXSTEP_parameters.direction == SIXSTEP_DIR_FORWARD)
 	  {			
-				prevStep = (int8_t)SIXSTEP_parameters.positionStep - 2;//- 1;//+ 2;	
+				prevStep = (int8_t)SIXSTEP_parameters.positionStep - 1;//- 2;//- 1;//+ 2;	
 	  }
 		else
 		{
-				prevStep = (int8_t)SIXSTEP_parameters.positionStep + 2;//+1//+ 4;	
+				prevStep = (int8_t)SIXSTEP_parameters.positionStep + 1;//+ 2;//+1//+ 4;	
 		}
 	 
 	 
@@ -377,18 +377,30 @@ uint32_t MC_SixStep_GetElSpeedHz(void) //Частота импульсов с датчиков Холла
 
 uint32_t MC_SixStep_GetMechSpeedRPM(void) //Частота вращения ротора двигателя в RPM
 {  	
-		SIXSTEP_parameters.speedFdbk=(uint32_t)(MC_SixStep_GetElSpeedHz() *  60 / NUM_POLE_PAIRS/PAIR/BLDC_SIX_STEP);
+		SIXSTEP_parameters.speedFdbk=(uint16_t)(MC_SixStep_GetElSpeedHz() *  60 / NUM_POLE_PAIRS/PAIR/BLDC_SIX_STEP);
 		return SIXSTEP_parameters.speedFdbk;
 }
 
 
 
-//const uint8_t hallPosTable_FWD[8] = {0, 3, 5, 4, 1, 2, 6, 0};//Перекодировка датчиков Холла в шаг FW
-//const uint8_t hallPosTable_BWD[8] = {0, 6, 2, 1, 4, 5, 3, 0};//Перекодировка датчиков Холла в шаг BW
-const uint8_t hallPosTable_FWD[8] = {0, 4, 6, 5, 2, 3, 1, 0};//Перекодировка датчиков Холла в шаг FW
+
+const uint8_t hallPosTable_FWD[8] = {0, 4, 6, 5, 2, 3, 1, 0};//Перекодировка датчиков Холла в шаг FW ok
 const uint8_t hallPosTable_BWD[8] = {0, 1, 3, 2, 5, 6, 4, 0};//Перекодировка датчиков Холла в шаг BW
 
+//const uint8_t hallPosTable_FWD[8] = {0, 5, 1, 6, 3, 4, 2, 0};//Перекодировка датчиков Холла в шаг FW bad
+//const uint8_t hallPosTable_BWD[8] = {0, 2, 4, 3, 6, 1, 5, 0};//Перекодировка датчиков Холла в шаг BW
 
+//const uint8_t hallPosTable_FWD[8] = {0, 6, 2, 1, 4, 5, 3, 0};//Перекодировка датчиков Холла в шаг FW bad
+//const uint8_t hallPosTable_BWD[8] = {0, 3, 5, 4, 1, 2, 6, 0};//Перекодировка датчиков Холла в шаг BW
+
+//const uint8_t hallPosTable_FWD[8] = {0, 1, 3, 2, 5, 6, 4, 0};//Перекодировка датчиков Холла в шаг FW bad
+//const uint8_t hallPosTable_BWD[8] = {0, 4, 6, 5, 2, 3, 1, 0};//Перекодировка датчиков Холла в шаг BW
+
+//const uint8_t hallPosTable_FWD[8] = {0, 2, 4, 3, 6, 1, 5, 0};//Перекодировка датчиков Холла в шаг FW bad
+//const uint8_t hallPosTable_BWD[8] = {0, 5, 1, 6, 3, 4, 2, 0};//Перекодировка датчиков Холла в шаг BW
+
+//const uint8_t hallPosTable_FWD[8] =  {0, 3, 5, 4, 1, 2, 6, 0};//Перекодировка датчиков Холла в шаг FW bad
+//const uint8_t hallPosTable_BWD[8] =  {0, 6, 2, 1, 4, 5, 3, 0}; //Перекодировка датчиков Холла в шаг BW
 
 uint8_t   MC_SixStep_GetCurrentPosition(void) //Текущее положение ротора
 {
@@ -661,35 +673,33 @@ void 			MC_SixStep_Handler(void)
 							SIXSTEP_parameters.PWM_Value = BLDC_PWM_START;		
 							MC_SixStep_ChargeCap(BLDC_CHARGE_CAP_TIME);
 							MC_SixStep_PrevStep();
-							//SIXSTEP_parameters.prevStep = TRUE;
 							HAL_TIMEx_HallSensor_Stop_IT(&HALL_TIM); 
 							
 							htim1.Instance->EGR|=TIM_EGR_COMG; //генерим событие коммутации															
 							SIXSTEP_parameters.status = SIXSTEP_STATUS_PREV_STEP;
-							MC_SixStep_SetDelay(200);
+							MC_SixStep_SetDelay(100);
 					}	
 			}
 			break;	
 
 			case SIXSTEP_STATUS_PREV_STEP:
 			{			
-					if(MC_SixStep_TimeoutDelay() && MC_SixStep_Ramp(BLDC_PWM_PREV_STEP_MAX, 5))
+					if(MC_SixStep_TimeoutDelay() && MC_SixStep_Ramp(BLDC_PWM_PREV_STEP_MAX, 1))
 					{	
 							SIXSTEP_parameters.PWM_Value = BLDC_PWM_START;	
-							//SIXSTEP_parameters.prevStep = FALSE;
 							HAL_TIMEx_HallSensor_Start_IT(&HALL_TIM); 
 							MC_SixStep_GetCurrentPosition();
 							MC_SixStep_Table(SIXSTEP_parameters.positionStep);	
 							htim1.Instance->EGR|=TIM_EGR_COMG; 
 							SIXSTEP_parameters.status=SIXSTEP_STATUS_RAMP;
-							MC_SixStep_SetDelay(200);
+							MC_SixStep_SetDelay(100);
 					}					
 			}
 			break;
 			
 			case SIXSTEP_STATUS_RAMP://Плавное увеличение тока двигателя при старте
 			{					
-					if(MC_SixStep_Ramp(BLDC_PWM_RAMP_MAX, 1)/* && MC_SixStep_TimeoutDelay()*/)
+					if(MC_SixStep_Ramp(BLDC_PWM_RAMP_MAX, 1) && MC_SixStep_TimeoutDelay())
 					{	
 							SIXSTEP_parameters.status=SIXSTEP_STATUS_RUN;
 					}
@@ -707,7 +717,7 @@ void 			MC_SixStep_Handler(void)
 //					}
 //					else
 //					{
-							SIXSTEP_parameters.PWM_Value = MC_SixStep_PI_Controller(&SIXSTEP_parameters.PI_Param, SIXSTEP_parameters.speedFdbk);
+							SIXSTEP_parameters.PWM_Value = MC_SixStep_PI_Controller(&SIXSTEP_parameters.PI_Param, SIXSTEP_parameters.speedFdbk);//48
 //							cnt = 0;
 //					}		
 
@@ -855,7 +865,7 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 	//				{
 							htim1.Instance->EGR|=TIM_EGR_COMG; //commutation signal
 	//				}
-					if(SIXSTEP_parameters.positionStep == 6)
+//					if(SIXSTEP_parameters.positionStep == 6)
 					{					
 						MC_SixStep_ElSpeedHzToBuf(htim->Instance->CCR1);
 					}

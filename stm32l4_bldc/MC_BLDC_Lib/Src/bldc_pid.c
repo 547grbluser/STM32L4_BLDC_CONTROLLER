@@ -5,7 +5,7 @@
 void MC_SixStep_Set_PI_Param(stSIXSTEP_PI_Param *PI_Param)
 {
 		PI_Param->ReferenceSpeed = MC_TARGET_SPEED;   
-		PI_Param->integralTermSum = 0;
+		PI_Param->integralTermSum = ISUM_INIT;
 			
 		PI_Param->Kp_Gain = KP_GAIN;   
 		PI_Param->Ki_Gain = KI_GAIN;      
@@ -21,12 +21,11 @@ void MC_SixStep_Set_PI_Param(stSIXSTEP_PI_Param *PI_Param)
 uint16_t MC_SixStep_PI_Controller(stSIXSTEP_PI_Param *PI_Param, uint16_t speedFdbk)
 {
 		int32_t wProportional_Term=0, wIntegral_Term=0, wOutput_32=0,wIntegral_sum_temp=0;
-		int32_t Error =0;
 			
-		Error = (PI_Param->ReferenceSpeed - speedFdbk);
+		PI_Param->Error = (PI_Param->ReferenceSpeed - speedFdbk);
 		
 		/* Proportional term computation*/
-		wProportional_Term = PI_Param->Kp_Gain * Error;
+		wProportional_Term = PI_Param->Kp_Gain * PI_Param->Error;
 			
 		/* Integral term computation */
 		if (PI_Param->Ki_Gain == 0)
@@ -35,7 +34,7 @@ uint16_t MC_SixStep_PI_Controller(stSIXSTEP_PI_Param *PI_Param, uint16_t speedFd
 		}
 		else
 		{ 
-				wIntegral_Term = PI_Param->Ki_Gain * Error;
+				wIntegral_Term = PI_Param->Ki_Gain * PI_Param->Error;
 				wIntegral_sum_temp = PI_Param->integralTermSum + wIntegral_Term;
 				PI_Param->integralTermSum = wIntegral_sum_temp;
 		}
