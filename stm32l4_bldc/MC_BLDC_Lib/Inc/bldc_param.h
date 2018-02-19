@@ -3,7 +3,7 @@
 #define BLDC_SIX_STEP						 6
 
 #define DIRECTION                         SIXSTEP_DIR_FORWARD      /*!< Set motor direction CW = 0 and CCW = 1*/ 
-#define MC_TARGET_SPEED                    2000      /*!< Target speed in closed loop control when the potentiometer is disabled */  
+#define MC_TARGET_SPEED                    1500      /*!< Target speed in closed loop control when the potentiometer is disabled */  
 
 #define BLDC_CURRENT_MIN												0					//mA
 #define BLDC_CURRENT_MAX												4000			//mA
@@ -20,8 +20,8 @@
 
 
 #define BLDC_PWM_START															0
-#define BLDC_PWM_RAMP_MAX														127	
-#define BLDC_PWM_PREV_STEP_MAX											192	
+#define BLDC_PWM_RAMP_MAX														64//127	
+#define BLDC_PWM_PREV_STEP_MAX											64//192	
 
 
 #define BLDC_FAULT_RESTART_N												5
