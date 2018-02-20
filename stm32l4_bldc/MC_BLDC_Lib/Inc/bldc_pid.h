@@ -5,7 +5,7 @@
 #include "bldc_param.h"
 
 #define KP_GAIN		                          	0//16//12//100     /*!< Kp parameter for PI regulator */
-#define KI_GAIN		                           	100//10  //30     /*!< Ki parameter for PI regulator */   
+#define KI_GAIN		                           	70//10  //30     /*!< Ki parameter for PI regulator */   
 #define KP_DIV  	                         		512     /*!< Kp parameter divider for PI regulator */
 #define KI_DIV	                           		65536     /*!< Ki parameter divider for PI regulator */ 
 #define ISUM_INIT															(KI_DIV * BLDC_PWM_RAMP_MAX)
