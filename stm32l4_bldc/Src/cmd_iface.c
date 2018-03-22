@@ -212,10 +212,18 @@ int execute (int argc, const char * const * argv)
 		else if(strcmp (argv[i], _CMD_BLDC_GET_PARAMS) == 0) 
 		{
 				
+#ifdef OLD_REG
+				uint16_t err = MC_SixStep_GetErrorCode();	
+				uint16_t current = (uint16_t)(MC_SixStep_GetCurrent()*MC_CURRENT_MULTIPLIER);
+				uint16_t voltage = (uint16_t)(MC_SixStep_GetVoltage()*MC_VOLTAGE_MULTIPLIER);
+			  uint16_t rpm = (uint16_t)(MC_RPM_MULTIPLIER/MC_SixStep_GetMechSpeedRPM());
+#else
 				uint16_t err = MC_SixStep_GetErrorCode();	
 				uint16_t current = MC_SixStep_GetCurrent();
 				uint16_t voltage = MC_SixStep_GetVoltage();
 			  uint16_t rpm = (uint16_t)MC_SixStep_GetMechSpeedRPM();
+#endif
+
 				
 				uint16_t phase = (uint16_t)MC_SixStep_GetPhaseCounter();
 			

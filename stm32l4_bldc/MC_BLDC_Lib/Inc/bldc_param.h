@@ -32,7 +32,21 @@
 
 #define MC_CURRENT_COEF 		5/2
 #define MC_VOLTAGE_COEF 		100
-#define MC_VOLTAGE_MULTIPLIER	20//для совместимости
+
+/*
+Обеспечение совместимости со старым регистратором
+*/
+
+#define OLD_REG
+
+#ifdef OLD_REG
+	#define MC_VOLTAGE_MULTIPLIER	1.0 //для совместимости
+	#define MC_CURRENT_MULTIPLIER 1.0
+	#define MC_RPM_MULTIPLIER			11520737 //MC_RPM_MULTIPLIER/RPM
+#else
+	#define MC_VOLTAGE_MULTIPLIER	1.0 
+	#define MC_CURRENT_MULTIPLIER 1.0
+#endif
 
 
 #define DUTY_CYCLE_INIT_VALUE                 1     /*!< Initial duty cycle value during startup */          

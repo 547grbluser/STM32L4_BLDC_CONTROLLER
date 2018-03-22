@@ -568,7 +568,7 @@ uint16_t MC_SixStep_GetVoltage(void)
 {
 		uint32_t adcVoltage;
 		adcVoltage = adcIntGetVoltage(ADC_MC_VOLTAGE);		
-		SIXSTEP_parameters.voltageFdbk = (uint16_t)(( adcVoltage* MC_VOLTAGE_COEF*MC_VOLTAGE_MULTIPLIER)/1000);
+		SIXSTEP_parameters.voltageFdbk = (uint16_t)(( adcVoltage* MC_VOLTAGE_COEF)/1000);
 		return SIXSTEP_parameters.voltageFdbk;
 }
 
